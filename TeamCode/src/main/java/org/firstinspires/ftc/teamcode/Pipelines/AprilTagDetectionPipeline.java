@@ -21,6 +21,7 @@
 
 package org.firstinspires.ftc.teamcode.Pipelines;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.opencv.calib3d.Calib3d;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -38,8 +39,10 @@ import org.openftc.easyopencv.OpenCvPipeline;
 
 import java.util.ArrayList;
 
-public class AprilTagDetectionPipeline extends OpenCvPipeline
-{
+public class AprilTagDetectionPipeline extends OpenCvPipeline  {
+
+    Telemetry telemetry;
+
     private long nativeApriltagPtr;
     private Mat grey = new Mat();
     private ArrayList<AprilTagDetection> detections = new ArrayList<>();
@@ -67,6 +70,8 @@ public class AprilTagDetectionPipeline extends OpenCvPipeline
     private float decimation;
     private boolean needToSetDecimation;
     private final Object decimationSync = new Object();
+
+    public AprilTagDetectionPipeline(Telemetry t){telemetry=t;}
 
     public AprilTagDetectionPipeline(double tagsize, double fx, double fy, double cx, double cy)
     {
