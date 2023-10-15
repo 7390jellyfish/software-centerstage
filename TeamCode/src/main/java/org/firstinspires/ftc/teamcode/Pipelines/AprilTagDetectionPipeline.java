@@ -71,8 +71,6 @@ public class AprilTagDetectionPipeline extends OpenCvPipeline  {
     private boolean needToSetDecimation;
     private final Object decimationSync = new Object();
 
-    public AprilTagDetectionPipeline(Telemetry t){telemetry=t;}
-
     public AprilTagDetectionPipeline(double tagsize, double fx, double fy, double cx, double cy)
     {
         this.tagsize = tagsize;
@@ -88,6 +86,8 @@ public class AprilTagDetectionPipeline extends OpenCvPipeline  {
         // Allocate a native context object. See the corresponding deletion in the finalizer
         nativeApriltagPtr = AprilTagDetectorJNI.createApriltagDetector(AprilTagDetectorJNI.TagFamily.TAG_36h11.string, 3, 3);
     }
+
+    public AprilTagDetectionPipeline(Telemetry t){telemetry=t;}
 
     @Override
     public void finalize()
