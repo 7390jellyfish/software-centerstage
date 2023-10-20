@@ -4,8 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-@TeleOp(name="Lift", group="Linear Opmode")
-public class Lift  extends LinearOpMode {
+@TeleOp(name="JellyLift", group="Linear Opmode")
+public class JellyLift  extends LinearOpMode {
     private DcMotor leftLift = null;
     private DcMotor rightLift = null;
 
