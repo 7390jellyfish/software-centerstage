@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp
+@Autonomous
 public class Testauton extends LinearOpMode {
     private DcMotor motors = null;
     private ElapsedTime runtime = new ElapsedTime();
