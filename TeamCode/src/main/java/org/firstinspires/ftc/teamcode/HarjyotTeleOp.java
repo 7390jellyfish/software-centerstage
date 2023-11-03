@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
-public class TeleOP extends LinearOpMode {
+public class HarjyotTeleOp extends LinearOpMode {
     @Override 
     public void runOpMode() throws InterruptedException {
         // Declare our motors
@@ -39,9 +39,9 @@ public class TeleOP extends LinearOpMode {
             // but only if at least one is out of the range [-1, 1]
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
             double frontLeftPower = (y + x + rx) / denominator;
-            double backLeftPower = (y - x + rx) / denominator;
-            double frontRightPower = (y - x - rx) / denominator;
-            double backRightPower = (y + x - rx) / denominator;
+            double backLeftPower = (y + x - rx) / denominator;
+            double frontRightPower = (y - x + rx) / denominator;
+            double backRightPower = (y - x - rx) / denominator;
 
             frontLeftMotor.setPower(frontLeftPower);
             backLeftMotor.setPower(backLeftPower);
