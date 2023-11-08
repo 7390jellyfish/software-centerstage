@@ -54,7 +54,7 @@ public class TeleOP extends LinearOpMode {
         DcMotor frontRightMotor = hardwareMap.dcMotor.get("fr");
         DcMotor backRightMotor = hardwareMap.dcMotor.get("br");
         DcMotor intake = hardwareMap.dcMotor.get("intake");
-        DcMotor transfer = hardwareMap.dcMotor.get("transfer");
+        DcMotor transfer = hardwareMap.dcMotor.get("transit");
         Servo claw = hardwareMap.servo.get("claw");
         Servo ramp = hardwareMap.servo.get("ramp");
 
@@ -78,11 +78,12 @@ public class TeleOP extends LinearOpMode {
         System.out.println("Set reset motor");
 
         if (isStopRequested()) return;
+        double claws = 0;
 
         while (opModeIsActive()) {
-            double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
-            double x = -gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
-            double rx = gamepad1.right_stick_x;
+            double y = -gamepad2.left_stick_y; // Remember, Y stick value is reversed
+            double x = -gamepad2.left_stick_x * 1.1; // Counteract imperfect strafing
+            double rx = gamepad2.right_stick_x;
 
             // Denominator is the largest motor power (absolute value) or 1
             // This ensures all the powers maintain the same ratio,
@@ -129,7 +130,7 @@ public class TeleOP extends LinearOpMode {
             while (gamepad1.right_bumper && leftLift.getCurrentPosition() >= liftMax) {
                 leftLift.setPower(lifttower);
             }
-            if(gamepad1.a){
+            if(gamepad1.right_bumper){
                 transfer.setPower(0.812);
                 intake.setPower(1);
             }
@@ -138,7 +139,16 @@ public class TeleOP extends LinearOpMode {
                 intake.setPower(0);
             }
             if(gamepad1.x){
-                claw.setPosition(1);
+                claw.setPosition(0.45);
+                System.out.println("Triggered.");
+            }
+            if(gamepad1.y){
+                System.out.println("triggered y");
+                claw.setPosition(0.6);
+            }
+            if(gamepad1.left_bumper){
+                transfer.setPower(-1);
+                intake.setPower(-1);
             }
 //            // Closing the claw
 //            if (gamepad1.a && clawDone == true && clawClosed == false) {

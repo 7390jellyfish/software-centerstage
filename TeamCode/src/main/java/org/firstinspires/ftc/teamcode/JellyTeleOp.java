@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
-public class HarjyotTeleOp extends LinearOpMode {
+public class JellyTeleOp extends LinearOpMode {
     @Override 
     public void runOpMode() throws InterruptedException {
         // Declare our motors
