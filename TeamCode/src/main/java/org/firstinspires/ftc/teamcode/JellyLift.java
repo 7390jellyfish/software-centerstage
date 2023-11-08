@@ -9,6 +9,7 @@ public class JellyLift  extends LinearOpMode {
     private DcMotor leftLift = null;
     private DcMotor rightLift = null;
 
+
     private double liftMax;
 
     private double liftPower = 0.5;
@@ -39,13 +40,10 @@ public class JellyLift  extends LinearOpMode {
     public void runOpMode() {
 
         leftLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         leftLift = hardwareMap.get(DcMotor.class, "leftLift");
-        rightLift = hardwareMap.get(DcMotor.class, "rightLift");
 
         leftLift.setDirection(DcMotor.Direction.FORWARD);
         rightLift.setDirection(DcMotor.Direction.REVERSE);
