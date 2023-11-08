@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -11,15 +10,15 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @Autonomous
-public class JellyAuton extends LinearOpMode {
+public class JellyAutonCloseRed extends LinearOpMode {
 
-    int prop;
+    int prop = 1;
+    Trajectory spikeMarkRight;
     Trajectory spikeMarkMiddle;
     Trajectory spikeMarkLeft;
-    Trajectory spikeMarkRight;
-    Trajectory backdropLeft;
-    Trajectory backdropMiddle;
     Trajectory backdropRight;
+    Trajectory backdropMiddle;
+    Trajectory backdropLeft;
     Trajectory load1;
     Trajectory load2;
     Trajectory load3;
@@ -34,17 +33,18 @@ public class JellyAuton extends LinearOpMode {
     static final double     DRIVE_SPEED             = 0.6;
     static final double     TURN_SPEED              = 0.5;
 
-    DcMotor frontLeftMotor = hardwareMap.dcMotor.get("fl");
-    DcMotor backLeftMotor = hardwareMap.dcMotor.get("bl");
-    DcMotor frontRightMotor = hardwareMap.dcMotor.get("fr");
-    DcMotor backRightMotor = hardwareMap.dcMotor.get("br");
-    DcMotor lift = hardwareMap.dcMotor.get("lift");
-    DcMotor intake = hardwareMap.dcMotor.get("intake");
-    Servo claw = hardwareMap.servo.get("claw");
-
-     public double inchToTick (double inches) {
+    public double inchToTick (double inches) {
         return inches/0.0233749453;
     }
+
+    DcMotor frontLeftMotor = null;
+    DcMotor backLeftMotor = null;
+    DcMotor frontRightMotor = null;
+    DcMotor backRightMotor = null;
+    DcMotor lift = null;
+    DcMotor intake = null;
+    DcMotor transit = null;
+    Servo claw = null;
 
     public void moveLift(double inches) {
         int liftTicks = (int)(inchToTick(inches));
@@ -63,16 +63,37 @@ public class JellyAuton extends LinearOpMode {
         moveLift(0);
     }
 
+    public void intakePixel() {
+        intake.setPower(1);
+        transit.setPower(1);
+        sleep(1000);
+        intake.setPower(0);
+        transit.setPower(0);
+    }
+
     public void outtakePixel() {
         intake.setPower(-1);
+        transit.setPower(-1);
         sleep(1000);
+        intake.setPower(0);
+        transit.setPower(0);
     }
     public void runOpMode() {
+        frontLeftMotor = hardwareMap.dcMotor.get("fl");
+        backLeftMotor = hardwareMap.dcMotor.get("bl");
+        frontRightMotor = hardwareMap.dcMotor.get("fr");
+        backRightMotor = hardwareMap.dcMotor.get("br");
+        lift = hardwareMap.dcMotor.get("lift");
+        intake = hardwareMap.dcMotor.get("intake");
+        transit = hardwareMap.dcMotor.get("transit");
+        claw = hardwareMap.servo.get("claw");
+
         frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        transit.setDirection(DcMotorSimple.Direction.REVERSE);
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
 
         frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -80,95 +101,96 @@ public class JellyAuton extends LinearOpMode {
         frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        transit.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        transit.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(-38, 61, Math.toRadians(180));
+        Pose2d startPose = new Pose2d(12, -61, Math.toRadians(180));
         drive.setPoseEstimate(startPose);
 
-        spikeMarkLeft = drive.trajectoryBuilder(startPose)
-                .lineToSplineHeading(new Pose2d(-36, 34, Math.toRadians(180)))
+        spikeMarkRight = drive.trajectoryBuilder(startPose)
+                .lineToSplineHeading(new Pose2d(12, -34, Math.toRadians(180)))
                 .build();
         spikeMarkMiddle = drive.trajectoryBuilder(startPose)
-                .lineToSplineHeading(new Pose2d(-35, 34, Math.toRadians(270)))
+                .lineToSplineHeading(new Pose2d(12, -34, Math.toRadians(270)))
                 .build();
-        spikeMarkRight = drive.trajectoryBuilder(startPose)
-                .lineToSplineHeading(new Pose2d(-34, 34, Math.toRadians(0)))
+        spikeMarkLeft = drive.trajectoryBuilder(startPose)
+                .lineToSplineHeading(new Pose2d(12, -34, Math.toRadians(0)))
                 .build();
-        backdropLeft = drive.trajectoryBuilder(spikeMarkLeft.end())
-                .lineToSplineHeading(new Pose2d(49, 34, Math.toRadians(180)))
-                .lineToSplineHeading(new Pose2d(49, 41, Math.toRadians(180)))
+        backdropRight = drive.trajectoryBuilder(spikeMarkLeft.end())
+                .lineToSplineHeading(new Pose2d(49, -38, Math.toRadians(180)))
                 .build();
         backdropMiddle = drive.trajectoryBuilder(spikeMarkMiddle.end())
-                .lineToSplineHeading(new Pose2d(2, 35, Math.toRadians(270)))
-                .lineToSplineHeading(new Pose2d(49, 35, Math.toRadians(180)))
+                .lineToSplineHeading(new Pose2d(49, -34, Math.toRadians(180)))
+                .lineToSplineHeading(new Pose2d(49, -10, Math.toRadians(180)))
                 .build();
-        backdropRight = drive.trajectoryBuilder(spikeMarkRight.end())
-                .lineToSplineHeading(new Pose2d(10, 34, Math.toRadians(0)))
-                .lineToSplineHeading(new Pose2d(49, 29, Math.toRadians(180)))
+        backdropLeft = drive.trajectoryBuilder(spikeMarkRight.end())
+                .lineToSplineHeading(new Pose2d(12, -61, Math.toRadians(180)))
+                .lineToSplineHeading(new Pose2d(49, -29, Math.toRadians(180)))
                 .build();
         //cycle functions
-        load1 = drive.trajectoryBuilder(backdropLeft.end())
-                .lineToSplineHeading(new Pose2d(49, 35, Math.toRadians(180)))
-                .lineToSplineHeading(new Pose2d(-60, 35, Math.toRadians(180)))
+        load1 = drive.trajectoryBuilder(backdropRight.end())
+                .lineToSplineHeading(new Pose2d(14, -10, Math.toRadians(180)))
+                .lineToSplineHeading(new Pose2d(-60, -10, Math.toRadians(180)))
                 .build();
         load2 = drive.trajectoryBuilder(backdropMiddle.end())
-                .lineToSplineHeading(new Pose2d(-60, 35, Math.toRadians(180)))
+                .lineToSplineHeading(new Pose2d(-60, -10, Math.toRadians(180)))
                 .build();
-        load3 = drive.trajectoryBuilder(backdropRight.end())
-                .lineToSplineHeading(new Pose2d(49, 34, Math.toRadians(180)))
-                .lineToSplineHeading(new Pose2d(-60, 35, Math.toRadians(180)))
+        load3 = drive.trajectoryBuilder(backdropLeft.end())
+                .lineToSplineHeading(new Pose2d(49, -10, Math.toRadians(180)))
+                .lineToSplineHeading(new Pose2d(-60, -10, Math.toRadians(180)))
                 .build();
         deposit1 = drive.trajectoryBuilder(load1.end())
-                .lineToSplineHeading(new Pose2d(49, 35, Math.toRadians(180)))
+                .lineToSplineHeading(new Pose2d(14, -10, Math.toRadians(180)))
+                .lineToSplineHeading(new Pose2d(49, -38, Math.toRadians(180)))
                 .build();
         deposit2 = drive.trajectoryBuilder(load2.end())
-                .lineToSplineHeading(new Pose2d(49, 35, Math.toRadians(180)))
+                .lineToSplineHeading(new Pose2d(49, -10, Math.toRadians(180)))
+                .lineToSplineHeading(new Pose2d(49, -34, Math.toRadians(180)))
                 .build();
         deposit3 = drive.trajectoryBuilder(load3.end())
-                .lineToSplineHeading(new Pose2d(49, 35, Math.toRadians(180)))
+                .lineToSplineHeading(new Pose2d(49, -10, Math.toRadians(180)))
+                .lineToSplineHeading(new Pose2d(49, -29, Math.toRadians(180)))
                 .build();
 
         waitForStart();
 
         if(isStopRequested()) return;
 
+        // 1 = right, 2 = middle, 3 = left
         if (prop == 1) {
-            drive.followTrajectory(spikeMarkLeft);
+            drive.followTrajectory(spikeMarkRight);
             outtakePixel();
-            drive.followTrajectory(backdropLeft);
+            drive.followTrajectory(backdropRight);
         } else if (prop == 2) {
             drive.followTrajectory(spikeMarkMiddle);
             outtakePixel();
             drive.followTrajectory(backdropMiddle);
         } else if (prop == 3) {
-            drive.followTrajectory(spikeMarkRight);
+            drive.followTrajectory(spikeMarkLeft);
             outtakePixel();
-            drive.followTrajectory(backdropRight);
+            drive.followTrajectory(backdropLeft);
         }
         depositPixel();
         for (int i = 0; i < 2; i++) { // # cycles
             if (prop == 1) {
                 drive.followTrajectory(load1);
-            } else if (prop == 2) {
-                drive.followTrajectory(load2);
-            } else if (prop == 3) {
-                drive.followTrajectory(load3);
-            }
-            intake.setPower(1);
-            sleep(1000);
-            intake.setPower(0);
-            if (prop == 1) {
+                intakePixel();
                 drive.followTrajectory(deposit1);
             } else if (prop == 2) {
+                drive.followTrajectory(load2);
+                intakePixel();
                 drive.followTrajectory(deposit2);
             } else if (prop == 3) {
+                drive.followTrajectory(load3);
+                intakePixel();
                 drive.followTrajectory(deposit3);
             }
             depositPixel();
