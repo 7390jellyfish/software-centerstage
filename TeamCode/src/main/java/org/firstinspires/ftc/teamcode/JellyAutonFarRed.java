@@ -16,15 +16,28 @@ public class JellyAutonFarRed extends LinearOpMode {
     Trajectory spikeMarkRight;
     Trajectory spikeMarkMiddle;
     Trajectory spikeMarkLeft;
-    Trajectory backdropRight;
-    Trajectory backdropMiddle;
-    Trajectory backdropLeft;
-    Trajectory load1;
-    Trajectory load2;
-    Trajectory load3;
-    Trajectory deposit1;
-    Trajectory deposit2;
-    Trajectory deposit3;
+    Trajectory backdropRightA;
+    Trajectory backdropRightB;
+    Trajectory backdropRightC;
+    Trajectory backdropMiddleA;
+    Trajectory backdropMiddleB;
+    Trajectory backdropMiddleC;
+    Trajectory backdropMiddleD;
+    Trajectory backdropLeftA;
+    Trajectory backdropLeftB;
+    Trajectory backdropLeftC;
+    Trajectory load1A;
+    Trajectory load1B;
+    Trajectory load2A;
+    Trajectory load2B;
+    Trajectory load3A;
+    Trajectory load3B;
+    Trajectory deposit1A;
+    Trajectory deposit1B;
+    Trajectory deposit2A;
+    Trajectory deposit2B;
+    Trajectory deposit3A;
+    Trajectory deposit3B;
     static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // No External Gearing.
     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
@@ -124,45 +137,71 @@ public class JellyAutonFarRed extends LinearOpMode {
         spikeMarkLeft = drive.trajectoryBuilder(startPose)
                 .lineToSplineHeading(new Pose2d(-34, -34, Math.toRadians(0)))
                 .build();
-        backdropRight = drive.trajectoryBuilder(spikeMarkRight.end())
+        backdropRightA = drive.trajectoryBuilder(spikeMarkRight.end())
                 .lineToSplineHeading(new Pose2d(-36, -10, Math.toRadians(0)))
+                .build();
+        backdropRightB = drive.trajectoryBuilder(backdropRightA.end())
                 .lineToSplineHeading(new Pose2d(49, -10, Math.toRadians(180)))
+                .build();
+        backdropRightC = drive.trajectoryBuilder(backdropRightB.end())
                 .lineToSplineHeading(new Pose2d(49, -28, Math.toRadians(180)))
                 .build();
-        backdropMiddle = drive.trajectoryBuilder(spikeMarkMiddle.end())
+        backdropMiddleA = drive.trajectoryBuilder(spikeMarkMiddle.end())
                 .lineToSplineHeading(new Pose2d(-35, -58, Math.toRadians(270)))
+                .build();
+        backdropMiddleB = drive.trajectoryBuilder(backdropMiddleA.end())
                 .lineToSplineHeading(new Pose2d(0, -58, Math.toRadians(270)))
+                .build();
+        backdropMiddleC = drive.trajectoryBuilder(backdropMiddleB.end())
                 .lineToSplineHeading(new Pose2d(49, -58, Math.toRadians(180)))
+                .build();
+        backdropMiddleD = drive.trajectoryBuilder(backdropMiddleC.end())
                 .lineToSplineHeading(new Pose2d(49, -28, Math.toRadians(180)))
                 .build();
-        backdropLeft = drive.trajectoryBuilder(spikeMarkLeft.end())
+        backdropLeftA = drive.trajectoryBuilder(spikeMarkLeft.end())
                 .lineToSplineHeading(new Pose2d(-34, -10, Math.toRadians(0)))
+                .build();
+        backdropLeftB = drive.trajectoryBuilder(backdropLeftA.end())
                 .lineToSplineHeading(new Pose2d(49, -10, Math.toRadians(180)))
+                .build();
+        backdropLeftC = drive.trajectoryBuilder(backdropLeftB.end())
                 .lineToSplineHeading(new Pose2d(49, -41, Math.toRadians(180)))
                 .build();
         //cycle functions
-        load1 = drive.trajectoryBuilder(backdropRight.end())
+        load1A = drive.trajectoryBuilder(backdropRightC.end())
                 .lineToSplineHeading(new Pose2d(49, -11, Math.toRadians(180)))
+                .build();
+        load1B = drive.trajectoryBuilder(load1A.end())
                 .lineToSplineHeading(new Pose2d(-58, -11, Math.toRadians(180)))
                 .build();
-        load2 = drive.trajectoryBuilder(backdropMiddle.end())
+        load2A = drive.trajectoryBuilder(backdropMiddleD.end())
                 .lineToSplineHeading(new Pose2d(49, -11, Math.toRadians(180)))
+                .build();
+        load2B = drive.trajectoryBuilder(load2A.end())
                 .lineToSplineHeading(new Pose2d(-58, -11, Math.toRadians(180)))
                 .build();
-        load3 = drive.trajectoryBuilder(backdropLeft.end())
+        load3A = drive.trajectoryBuilder(backdropLeftC.end())
                 .lineToSplineHeading(new Pose2d(49, -11, Math.toRadians(180)))
+                .build();
+        load3B = drive.trajectoryBuilder(load3A.end())
                 .lineToSplineHeading(new Pose2d(-58, -11, Math.toRadians(180)))
                 .build();
-        deposit1 = drive.trajectoryBuilder(load1.end())
+        deposit1A = drive.trajectoryBuilder(load1B.end())
                 .lineToSplineHeading(new Pose2d(49, -11, Math.toRadians(180)))
+                .build();
+        deposit1B = drive.trajectoryBuilder(deposit1A.end())
                 .lineToSplineHeading(new Pose2d(49, -29, Math.toRadians(180)))
                 .build();
-        deposit2 = drive.trajectoryBuilder(load2.end())
+        deposit2A = drive.trajectoryBuilder(load2B.end())
                 .lineToSplineHeading(new Pose2d(49, -11, Math.toRadians(180)))
+                .build();
+        deposit2B = drive.trajectoryBuilder(deposit2A.end())
                 .lineToSplineHeading(new Pose2d(49, -29, Math.toRadians(180)))
                 .build();
-        deposit3 = drive.trajectoryBuilder(load3.end())
+        deposit3A = drive.trajectoryBuilder(load3B.end())
                 .lineToSplineHeading(new Pose2d(49, -11, Math.toRadians(180)))
+                .build();
+        deposit3B = drive.trajectoryBuilder(deposit3A.end())
                 .lineToSplineHeading(new Pose2d(49, -29, Math.toRadians(180)))
                 .build();
 
@@ -174,30 +213,43 @@ public class JellyAutonFarRed extends LinearOpMode {
         if (prop == 1) {
             drive.followTrajectory(spikeMarkRight);
             outtakePixel();
-            drive.followTrajectory(backdropRight);
+            drive.followTrajectory(backdropRightA);
+            drive.followTrajectory(backdropRightB);
+            drive.followTrajectory(backdropRightC);
         } else if (prop == 2) {
             drive.followTrajectory(spikeMarkMiddle);
             outtakePixel();
-            drive.followTrajectory(backdropMiddle);
+            drive.followTrajectory(backdropMiddleA);
+            drive.followTrajectory(backdropMiddleB);
+            drive.followTrajectory(backdropMiddleC);
+            drive.followTrajectory(backdropMiddleD);
         } else if (prop == 3) {
             drive.followTrajectory(spikeMarkLeft);
             outtakePixel();
-            drive.followTrajectory(backdropLeft);
+            drive.followTrajectory(backdropLeftA);
+            drive.followTrajectory(backdropLeftB);
+            drive.followTrajectory(backdropLeftC);
         }
         depositPixel();
         for (int i = 0; i < 2; i++) { // # cycles
             if (prop == 1) {
-                drive.followTrajectory(load1);
+                drive.followTrajectory(load1A);
+                drive.followTrajectory(load1B);
                 intakePixel();
-                drive.followTrajectory(deposit1);
+                drive.followTrajectory(deposit1A);
+                drive.followTrajectory(deposit1B);
             } else if (prop == 2) {
-                drive.followTrajectory(load2);
+                drive.followTrajectory(load2A);
+                drive.followTrajectory(load2B);
                 intakePixel();
-                drive.followTrajectory(deposit2);
+                drive.followTrajectory(deposit2A);
+                drive.followTrajectory(deposit2B);
             } else if (prop == 3) {
-                drive.followTrajectory(load3);
+                drive.followTrajectory(load3A);
+                drive.followTrajectory(load3B);
                 intakePixel();
-                drive.followTrajectory(deposit3);
+                drive.followTrajectory(deposit3A);
+                drive.followTrajectory(deposit3B);
             }
             depositPixel();
         }
