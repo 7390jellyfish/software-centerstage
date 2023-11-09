@@ -124,14 +124,14 @@ public class JellyAutonCloseRed extends LinearOpMode {
         spikeMarkLeft = drive.trajectoryBuilder(startPose)
                 .lineToSplineHeading(new Pose2d(12, -34, Math.toRadians(0)))
                 .build();
-        backdropRight = drive.trajectoryBuilder(spikeMarkLeft.end())
+        backdropRight = drive.trajectoryBuilder(spikeMarkRight.end())
                 .lineToSplineHeading(new Pose2d(49, -38, Math.toRadians(180)))
                 .build();
         backdropMiddle = drive.trajectoryBuilder(spikeMarkMiddle.end())
                 .lineToSplineHeading(new Pose2d(49, -34, Math.toRadians(180)))
                 .lineToSplineHeading(new Pose2d(49, -10, Math.toRadians(180)))
                 .build();
-        backdropLeft = drive.trajectoryBuilder(spikeMarkRight.end())
+        backdropLeft = drive.trajectoryBuilder(spikeMarkLeft.end())
                 .lineToSplineHeading(new Pose2d(12, -61, Math.toRadians(180)))
                 .lineToSplineHeading(new Pose2d(49, -29, Math.toRadians(180)))
                 .build();

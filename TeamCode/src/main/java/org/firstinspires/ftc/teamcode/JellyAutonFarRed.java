@@ -124,7 +124,7 @@ public class JellyAutonFarRed extends LinearOpMode {
         spikeMarkLeft = drive.trajectoryBuilder(startPose)
                 .lineToSplineHeading(new Pose2d(-34, -34, Math.toRadians(0)))
                 .build();
-        backdropRight = drive.trajectoryBuilder(spikeMarkLeft.end())
+        backdropRight = drive.trajectoryBuilder(spikeMarkRight.end())
                 .lineToSplineHeading(new Pose2d(-36, -10, Math.toRadians(0)))
                 .lineToSplineHeading(new Pose2d(49, -10, Math.toRadians(180)))
                 .lineToSplineHeading(new Pose2d(49, -28, Math.toRadians(180)))
@@ -135,7 +135,7 @@ public class JellyAutonFarRed extends LinearOpMode {
                 .lineToSplineHeading(new Pose2d(49, -58, Math.toRadians(180)))
                 .lineToSplineHeading(new Pose2d(49, -28, Math.toRadians(180)))
                 .build();
-        backdropLeft = drive.trajectoryBuilder(spikeMarkRight.end())
+        backdropLeft = drive.trajectoryBuilder(spikeMarkLeft.end())
                 .lineToSplineHeading(new Pose2d(-34, -10, Math.toRadians(0)))
                 .lineToSplineHeading(new Pose2d(49, -10, Math.toRadians(180)))
                 .lineToSplineHeading(new Pose2d(49, -41, Math.toRadians(180)))
