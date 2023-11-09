@@ -64,14 +64,16 @@ public class TeleOP extends LinearOpMode {
         // See the note about this earlier on this page.
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        transfer.setDirection(DcMotorSimple.Direction.FORWARD);
+        intake.setDirection(DcMotorSimple.Direction.REVERSE);
+
 
         // lift motors
         leftLift = hardwareMap.get(DcMotor.class, "lift");
 
 
         leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        transfer.setDirection(DcMotor.Direction.REVERSE);
-        leftLift.setDirection(DcMotor.Direction.FORWARD);
+
 
         waitForStart();
 //        leftLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -81,9 +83,9 @@ public class TeleOP extends LinearOpMode {
         double claws = 0;
 
         while (opModeIsActive()) {
-            double y =  gamepad2.left_stick_y; // Remember, Y stick value is reversed
+            double y =  -gamepad2.left_stick_y; // Remember, Y stick value is reversed
             double x =  gamepad2.left_stick_x * 1.1; // Counteract imperfect strafing
-            double rx = gamepad2.right_stick_x;
+            double rx = -gamepad2.right_stick_x;
 
             // Denominator is the largest motor power (absolute value) or 1
             // This ensures all the powers maintain the same ratio,
@@ -133,10 +135,14 @@ public class TeleOP extends LinearOpMode {
             if(gamepad1.right_bumper){
                 transfer.setPower(0.812);
                 intake.setPower(1);
-            }
-            if(gamepad1.b){
+            } else if (!gamepad1.left_bumper) {
                 transfer.setPower(0);
                 intake.setPower(0);
+            }
+
+            if(gamepad1.left_bumper){
+                transfer.setPower(-1);
+                intake.setPower(-1);
             }
             if(gamepad1.x){
                 claw.setPosition(0.45);
@@ -145,10 +151,6 @@ public class TeleOP extends LinearOpMode {
             if(gamepad1.y){
                 System.out.println("triggered y");
                 claw.setPosition(0.6);
-            }
-            if(gamepad1.left_bumper){
-                transfer.setPower(-1);
-                intake.setPower(-1);
             }
 //            // Closing the claw
 //            if (gamepad1.a && clawDone == true && clawClosed == false) {
