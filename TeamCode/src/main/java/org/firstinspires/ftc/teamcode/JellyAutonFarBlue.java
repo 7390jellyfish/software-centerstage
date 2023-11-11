@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -54,6 +55,7 @@ public class JellyAutonFarBlue extends LinearOpMode {
     DcMotor intake = null;
     DcMotor transit = null;
     Servo claw = null;
+    Servo ramp = null;
 
     public double inchToTick (double inches) {
         return inches/0.0233749453;
@@ -92,6 +94,8 @@ public class JellyAutonFarBlue extends LinearOpMode {
         transit.setPower(0);
     }
     public void runOpMode() {
+        // Declare our motors
+        // Make sure your ID's match your configuration
         frontLeftMotor = hardwareMap.dcMotor.get("fl");
         backLeftMotor = hardwareMap.dcMotor.get("bl");
         frontRightMotor = hardwareMap.dcMotor.get("fr");
@@ -100,28 +104,27 @@ public class JellyAutonFarBlue extends LinearOpMode {
         intake = hardwareMap.dcMotor.get("intake");
         transit = hardwareMap.dcMotor.get("transit");
         claw = hardwareMap.servo.get("claw");
+        ramp = hardwareMap.servo.get("ramp");
 
+        // Reverse the right side motors. This may be wrong for your setup.
+        // If your robot moves backwards when commanded to go forwards,
+        // reverse the left side instead.
+        // See the note about this earlier on this page.
         frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
-        transit.setDirection(DcMotorSimple.Direction.REVERSE);
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
+        transit.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        transit.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        transit.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        ramp.setPosition(-1.1);
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
@@ -129,7 +132,12 @@ public class JellyAutonFarBlue extends LinearOpMode {
         drive.setPoseEstimate(startPose);
 
         spikeMarkRight = drive.trajectoryBuilder(startPose)
-                .lineToSplineHeading(new Pose2d(-36, 34, Math.toRadians(180)))
+//                .strafeLeft(30)
+//                .lineToSplineHeading(new Pose2d(-36, 34, Math.toRadians(180)))
+                .lineTo(new Vector2d(-36, 34))
+                .addDisplacementMarker(() -> {
+                    drive.turn(Math.toRadians(90));
+                })
                 .build();
         spikeMarkMiddle = drive.trajectoryBuilder(startPose)
                 .lineToSplineHeading(new Pose2d(-35, 34, Math.toRadians(270)))
@@ -156,7 +164,7 @@ public class JellyAutonFarBlue extends LinearOpMode {
                 .lineToSplineHeading(new Pose2d(49, 58, Math.toRadians(180)))
                 .build();
         backdropMiddleD = drive.trajectoryBuilder(backdropMiddleC.end())
-                .lineToSplineHeading(new Pose2d(49, 28, Math.toRadians(180)))
+                .lineToSplineHeading(new Pose2d(49, 36, Math.toRadians(180)))
                 .build();
         backdropLeftA = drive.trajectoryBuilder(spikeMarkLeft.end())
                 .lineToSplineHeading(new Pose2d(-34, 10, Math.toRadians(0)))
@@ -213,45 +221,45 @@ public class JellyAutonFarBlue extends LinearOpMode {
         if (prop == 1) {
             drive.followTrajectory(spikeMarkRight);
             outtakePixel();
-            drive.followTrajectory(backdropRightA);
-            drive.followTrajectory(backdropRightB);
-            drive.followTrajectory(backdropRightC);
+//            drive.followTrajectory(backdropRightA);
+//            drive.followTrajectory(backdropRightB);
+//            drive.followTrajectory(backdropRightC);
         } else if (prop == 2) {
             drive.followTrajectory(spikeMarkMiddle);
             outtakePixel();
-            drive.followTrajectory(backdropMiddleA);
-            drive.followTrajectory(backdropMiddleB);
-            drive.followTrajectory(backdropMiddleC);
-            drive.followTrajectory(backdropMiddleD);
+//            drive.followTrajectory(backdropMiddleA);
+//            drive.followTrajectory(backdropMiddleB);
+//            drive.followTrajectory(backdropMiddleC);
+//            drive.followTrajectory(backdropMiddleD);
         } else if (prop == 3) {
             drive.followTrajectory(spikeMarkLeft);
             outtakePixel();
-            drive.followTrajectory(backdropLeftA);
-            drive.followTrajectory(backdropLeftB);
-            drive.followTrajectory(backdropLeftC);
+//            drive.followTrajectory(backdropLeftA);
+//            drive.followTrajectory(backdropLeftB);
+//            drive.followTrajectory(backdropLeftC);
         }
-        depositPixel();
-        for (int i = 0; i < 2; i++) { // # cycles
-            if (prop == 1) {
-                drive.followTrajectory(load1A);
-                drive.followTrajectory(load1B);
-                intakePixel();
-                drive.followTrajectory(deposit1A);
-                drive.followTrajectory(deposit1B);
-            } else if (prop == 2) {
-                drive.followTrajectory(load2A);
-                drive.followTrajectory(load2B);
-                intakePixel();
-                drive.followTrajectory(deposit2A);
-                drive.followTrajectory(deposit2B);
-            } else if (prop == 3) {
-                drive.followTrajectory(load3A);
-                drive.followTrajectory(load3B);
-                intakePixel();
-                drive.followTrajectory(deposit3A);
-                drive.followTrajectory(deposit3B);
-            }
-            depositPixel();
-        }
+//        depositPixel();
+//        for (int i = 0; i < 2; i++) { // # cycles
+//            if (prop == 1) {
+//                drive.followTrajectory(load1A);
+//                drive.followTrajectory(load1B);
+//                intakePixel();
+//                drive.followTrajectory(deposit1A);
+//                drive.followTrajectory(deposit1B);
+//            } else if (prop == 2) {
+//                drive.followTrajectory(load2A);
+//                drive.followTrajectory(load2B);
+//                intakePixel();
+//                drive.followTrajectory(deposit2A);
+//                drive.followTrajectory(deposit2B);
+//            } else if (prop == 3) {
+//                drive.followTrajectory(load3A);
+//                drive.followTrajectory(load3B);
+//                intakePixel();
+//                drive.followTrajectory(deposit3A);
+//                drive.followTrajectory(deposit3B);
+//            }
+//            depositPixel();
+//        }
     }
 }

@@ -54,6 +54,7 @@ public class JellyAutonFarRed extends LinearOpMode {
     DcMotor intake = null;
     DcMotor transit = null;
     Servo claw = null;
+    Servo ramp = null;
 
     public double inchToTick (double inches) {
         return inches/0.0233749453;
@@ -92,6 +93,8 @@ public class JellyAutonFarRed extends LinearOpMode {
         transit.setPower(0);
     }
     public void runOpMode() {
+        // Declare our motors
+        // Make sure your ID's match your configuration
         frontLeftMotor = hardwareMap.dcMotor.get("fl");
         backLeftMotor = hardwareMap.dcMotor.get("bl");
         frontRightMotor = hardwareMap.dcMotor.get("fr");
@@ -100,50 +103,49 @@ public class JellyAutonFarRed extends LinearOpMode {
         intake = hardwareMap.dcMotor.get("intake");
         transit = hardwareMap.dcMotor.get("transit");
         claw = hardwareMap.servo.get("claw");
+        ramp = hardwareMap.servo.get("ramp");
 
+        // Reverse the right side motors. This may be wrong for your setup.
+        // If your robot moves backwards when commanded to go forwards,
+        // reverse the left side instead.
+        // See the note about this earlier on this page.
         frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
-        transit.setDirection(DcMotorSimple.Direction.REVERSE);
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
+        transit.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        transit.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        transit.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        ramp.setPosition(-1.1);
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(-38, -61, Math.toRadians(180));
+        Pose2d startPose = new Pose2d(-38, -61, Math.toRadians(0));
         drive.setPoseEstimate(startPose);
 
-        spikeMarkRight = drive.trajectoryBuilder(startPose)
+        spikeMarkLeft = drive.trajectoryBuilder(startPose)
                 .lineToSplineHeading(new Pose2d(-36, -34, Math.toRadians(180)))
                 .build();
         spikeMarkMiddle = drive.trajectoryBuilder(startPose)
                 .lineToSplineHeading(new Pose2d(-35, -34, Math.toRadians(270)))
                 .build();
-        spikeMarkLeft = drive.trajectoryBuilder(startPose)
+        spikeMarkRight = drive.trajectoryBuilder(startPose)
                 .lineToSplineHeading(new Pose2d(-34, -34, Math.toRadians(0)))
                 .build();
-        backdropRightA = drive.trajectoryBuilder(spikeMarkRight.end())
-                .lineToSplineHeading(new Pose2d(-36, -10, Math.toRadians(0)))
+        backdropLeftA = drive.trajectoryBuilder(spikeMarkLeft.end())
+                .lineToSplineHeading(new Pose2d(-36, -11, Math.toRadians(180)))
                 .build();
-        backdropRightB = drive.trajectoryBuilder(backdropRightA.end())
-                .lineToSplineHeading(new Pose2d(49, -10, Math.toRadians(180)))
+        backdropLeftB = drive.trajectoryBuilder(backdropLeftA.end())
+                .lineToSplineHeading(new Pose2d(49, -11, Math.toRadians(180)))
                 .build();
-        backdropRightC = drive.trajectoryBuilder(backdropRightB.end())
+        backdropLeftC = drive.trajectoryBuilder(backdropLeftB.end())
                 .lineToSplineHeading(new Pose2d(49, -28, Math.toRadians(180)))
                 .build();
         backdropMiddleA = drive.trajectoryBuilder(spikeMarkMiddle.end())
@@ -156,19 +158,19 @@ public class JellyAutonFarRed extends LinearOpMode {
                 .lineToSplineHeading(new Pose2d(49, -58, Math.toRadians(180)))
                 .build();
         backdropMiddleD = drive.trajectoryBuilder(backdropMiddleC.end())
-                .lineToSplineHeading(new Pose2d(49, -28, Math.toRadians(180)))
+                .lineToSplineHeading(new Pose2d(49, -36, Math.toRadians(180)))
                 .build();
-        backdropLeftA = drive.trajectoryBuilder(spikeMarkLeft.end())
+        backdropRightA = drive.trajectoryBuilder(spikeMarkRight.end())
                 .lineToSplineHeading(new Pose2d(-34, -10, Math.toRadians(0)))
                 .build();
-        backdropLeftB = drive.trajectoryBuilder(backdropLeftA.end())
+        backdropRightB = drive.trajectoryBuilder(backdropRightA.end())
                 .lineToSplineHeading(new Pose2d(49, -10, Math.toRadians(180)))
                 .build();
-        backdropLeftC = drive.trajectoryBuilder(backdropLeftB.end())
+        backdropRightC = drive.trajectoryBuilder(backdropRightB.end())
                 .lineToSplineHeading(new Pose2d(49, -41, Math.toRadians(180)))
                 .build();
         //cycle functions
-        load1A = drive.trajectoryBuilder(backdropRightC.end())
+        load1A = drive.trajectoryBuilder(backdropLeftC.end())
                 .lineToSplineHeading(new Pose2d(49, -11, Math.toRadians(180)))
                 .build();
         load1B = drive.trajectoryBuilder(load1A.end())
@@ -180,7 +182,7 @@ public class JellyAutonFarRed extends LinearOpMode {
         load2B = drive.trajectoryBuilder(load2A.end())
                 .lineToSplineHeading(new Pose2d(-58, -11, Math.toRadians(180)))
                 .build();
-        load3A = drive.trajectoryBuilder(backdropLeftC.end())
+        load3A = drive.trajectoryBuilder(backdropRightC.end())
                 .lineToSplineHeading(new Pose2d(49, -11, Math.toRadians(180)))
                 .build();
         load3B = drive.trajectoryBuilder(load3A.end())

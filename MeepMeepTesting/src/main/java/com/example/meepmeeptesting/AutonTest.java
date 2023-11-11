@@ -15,15 +15,8 @@ public class AutonTest {
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(-38, 61, Math.toRadians(180)))
-                                .lineToSplineHeading(new Pose2d(-36, 34, Math.toRadians(180)))
-                                .lineToSplineHeading(new Pose2d(-36, 11, Math.toRadians(180)))
-                                .lineToSplineHeading(new Pose2d(49, 11, Math.toRadians(180)))
-                                .lineToSplineHeading(new Pose2d(49, 28, Math.toRadians(180)))
-                                .lineToSplineHeading(new Pose2d(49, 11, Math.toRadians(180)))
-                                .lineToSplineHeading(new Pose2d(-58, 11, Math.toRadians(180)))
-                                .lineToSplineHeading(new Pose2d(49, 11, Math.toRadians(180)))
-                                .lineToSplineHeading(new Pose2d(49, 29, Math.toRadians(180)))
+                        drive.trajectorySequenceBuilder(new Pose2d(14, -61, Math.toRadians(0)))
+                                .strafeLeft(36)
                                 .build()
                 );
 
