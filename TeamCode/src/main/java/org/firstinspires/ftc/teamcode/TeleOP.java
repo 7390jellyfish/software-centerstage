@@ -23,16 +23,16 @@ public class TeleOP extends LinearOpMode {
     // lift func
     public void lift (double ticks) {
 
+        leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftLift.setTargetPosition((int) ticks);
         leftLift.setPower(liftPower);
-        leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
-        while (leftLift.isBusy())
-        {
-            telemetry.addData("Left is lifting", leftLift.isBusy());
-            telemetry.update();
-        }
+//        while (leftLift.isBusy())
+//        {
+//            telemetry.addData("Left is lifting", leftLift.isBusy());
+//            telemetry.update();
+//        }
     }
 
     // Declare our motors
@@ -64,8 +64,8 @@ public class TeleOP extends LinearOpMode {
         // See the note about this earlier on this page.
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        transfer.setDirection(DcMotorSimple.Direction.FORWARD);
-        intake.setDirection(DcMotorSimple.Direction.REVERSE);
+        transfer.setDirection(DcMotorSimple.Direction.REVERSE);
+        intake.setDirection(DcMotorSimple.Direction.FORWARD);
 
 
         // lift motors
@@ -83,17 +83,16 @@ public class TeleOP extends LinearOpMode {
         double claws = 0;
 
         while (opModeIsActive()) {
-            double y =  -gamepad2.left_stick_y; // Remember, Y stick value is reversed
-            double x =  gamepad2.left_stick_x * 1.1; // Counteract imperfect strafing
-            double rx = -gamepad2.right_stick_x;
+            double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
+            double x = -gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
+            double rx = -gamepad1.right_stick_x;
 
             // Denominator is the largest motor power (absolute value) or 1
             // This ensures all the powers maintain the same ratio,
-            // but only if at least one is out o
-
+            // but only if at least one is out of the range [-1, 1]
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-            double frontLeftPower = (y + x + rx) / denominator;
-            double backLeftPower = (y - x + rx) / denominator;
+            double frontLeftPower = (y - x + rx) / denominator;
+            double backLeftPower = (y + x + rx) / denominator;
             double frontRightPower = (y - x - rx) / denominator;
             double backRightPower = (y + x - rx) / denominator;
 
@@ -103,7 +102,7 @@ public class TeleOP extends LinearOpMode {
             backRightMotor.setPower(backRightPower);
 
 
-            double lifttower = gamepad1.right_trigger - gamepad1.left_trigger;
+            double lifttower = gamepad2.right_trigger - gamepad2.left_trigger;
             telemetry.addData("Liftpower", lifttower);
             telemetry.addData("Liftpos", leftLift.getCurrentPosition());
             leftLift.setPower(lifttower);
@@ -116,50 +115,49 @@ public class TeleOP extends LinearOpMode {
                 System.out.println("MET REQS!");
             }
 
-            if (gamepad1.dpad_left) {
-                lift(700);
-            } else if (gamepad1.dpad_up) {
-                lift(1420);
-            } else if (gamepad1.dpad_right) {
-                lift(350);
-            } else if (gamepad1.dpad_down) {
-                lift(20
-                );
-            }
-            while (gamepad1.left_bumper && leftLift.getCurrentPosition() <= liftMax) {
-                leftLift.setPower(lifttower);
-            }
-            while (gamepad1.right_bumper && leftLift.getCurrentPosition() >= liftMax) {
-                leftLift.setPower(lifttower);
-            }
-            if(gamepad1.right_bumper){
-                transfer.setPower(0.812);
+//            if (gamepad2.dpad_left) {
+//                lift(700);
+//            } else if (gamepad2.dpad_up) {
+//                lift(1420);
+//            } else if (gamepad2.dpad_right) {
+//                lift(350);
+//            } else if (gamepad2.dpad_down) {
+//                lift(20);
+//            }
+
+//            while (gamepad2.left_trigger && leftLift.getCurrentPosition() <= liftMax) {
+//                leftLift.setPower(lifttower);
+//            }
+//            while (gamepad2.right_trigger && leftLift.getCurrentPosition() >= liftMax) {
+//                leftLift.setPower(lifttower);
+//            }
+
+            if (gamepad2.right_bumper){
+                transfer.setPower(1);
                 intake.setPower(1);
-            } else if (!gamepad1.left_bumper) {
+            } else if (gamepad2.left_bumper) {
+                transfer.setPower(1);
+                intake.setPower(-1);
+            } else {
                 transfer.setPower(0);
                 intake.setPower(0);
             }
-
-            if(gamepad1.left_bumper){
-                transfer.setPower(-1);
-                intake.setPower(-1);
-            }
-            if(gamepad1.x){
+            if (gamepad2.x){
                 claw.setPosition(0.45);
                 System.out.println("Triggered.");
-            }
-            if(gamepad1.y){
+            } else if(gamepad2.y){
                 System.out.println("triggered y");
                 claw.setPosition(0.6);
             }
+
 //            // Closing the claw
-//            if (gamepad1.a && clawDone == true && clawClosed == false) {
+//            if (gamepad2.a && clawDone == true && clawClosed == false) {
 //                clawDone = false;
 //                claw.setPosition(CLAW_HOLD);
 //                clawDone = true;
 //            }
 //            // Opening the claw
-//            else if (gamepad1.a && clawDone == true && clawClosed == true) {
+//            else if (gamepad2.a && clawDone == true && clawClosed == true) {
 //                clawDone = false;
 //                claw.setPosition(CLAW_OPEN);
 //                clawDone = true;
