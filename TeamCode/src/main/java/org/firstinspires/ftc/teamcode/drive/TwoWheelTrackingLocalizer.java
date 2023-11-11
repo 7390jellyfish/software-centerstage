@@ -44,8 +44,8 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
     public static double PERPENDICULAR_X = -5.90551;
     public static double PERPENDICULAR_Y = 0.393701;
 
-    public static double X_MULT = 1.016949;
-    public static double Y_MULT = 1.05;
+    public static double X_MULT = 1.017;
+    public static double Y_MULT = 1.034;
     // Parallel/Perpendicular to the forward axis
     // Parallel wheel is parallel to the forward axis
     // Perpendicular is perpendicular to the forward axis
@@ -61,8 +61,10 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
 
         this.drive = drive;
 
-        parallelEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "fl"));
-        perpendicularEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "fr"));
+        parallelEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "bl"));
+        parallelEncoder.setDirection(Encoder.Direction.REVERSE);
+        perpendicularEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "fl"));
+        perpendicularEncoder.setDirection(Encoder.Direction.REVERSE);
 
         // TODO: reverse any encoders using Encoder.setDirection(Encoder.Direction.REVERSE)
     }
@@ -85,8 +87,8 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
     @Override
     public List<Double> getWheelPositions() {
         return Arrays.asList(
-                encoderTicksToInches(parallelEncoder.getCurrentPosition()),
-                encoderTicksToInches(perpendicularEncoder.getCurrentPosition())
+                encoderTicksToInches(parallelEncoder.getCurrentPosition()) * X_MULT,
+                encoderTicksToInches(perpendicularEncoder.getCurrentPosition()) * Y_MULT
         );
     }
 
@@ -98,8 +100,8 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
         //  compensation method
 
         return Arrays.asList(
-                encoderTicksToInches(parallelEncoder.getCorrectedVelocity()),
-                encoderTicksToInches(perpendicularEncoder.getCorrectedVelocity())
+                encoderTicksToInches(parallelEncoder.getCorrectedVelocity()) * X_MULT,
+                encoderTicksToInches(perpendicularEncoder.getCorrectedVelocity())*Y_MULT
         );
     }
 }
