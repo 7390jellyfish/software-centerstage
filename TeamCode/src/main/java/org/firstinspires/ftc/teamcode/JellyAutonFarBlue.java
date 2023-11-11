@@ -138,10 +138,10 @@ public class JellyAutonFarBlue extends LinearOpMode {
                 .lineToSplineHeading(new Pose2d(-34, 34, Math.toRadians(0)))
                 .build();
         backdropRightA = drive.trajectoryBuilder(spikeMarkRight.end())
-                .lineToSplineHeading(new Pose2d(-36, 10, Math.toRadians(0)))
+                .lineToSplineHeading(new Pose2d(-36, 11, Math.toRadians(180)))
                 .build();
         backdropRightB = drive.trajectoryBuilder(backdropRightA.end())
-                .lineToSplineHeading(new Pose2d(49, 10, Math.toRadians(180)))
+                .lineToSplineHeading(new Pose2d(49, 11, Math.toRadians(180)))
                 .build();
         backdropRightC = drive.trajectoryBuilder(backdropRightB.end())
                 .lineToSplineHeading(new Pose2d(49, 28, Math.toRadians(180)))
