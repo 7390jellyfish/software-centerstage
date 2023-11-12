@@ -133,11 +133,11 @@ public class JellyAutonFarBlue extends LinearOpMode {
 
         spikeMarkRight = drive.trajectoryBuilder(startPose)
 //                .strafeLeft(30)
-//                .lineToSplineHeading(new Pose2d(-36, 34, Math.toRadians(180)))
-                .lineTo(new Vector2d(-36, 34))
-                .addDisplacementMarker(() -> {
-                    drive.turn(Math.toRadians(90));
-                })
+                .lineToSplineHeading(new Pose2d(-36, 34, Math.toRadians(180)))
+//                .lineTo(new Vector2d(-36, 34))
+//                .addDisplacementMarker(() -> {
+//                    drive.turn(Math.toRadians(90));
+//                })
                 .build();
         spikeMarkMiddle = drive.trajectoryBuilder(startPose)
                 .lineToSplineHeading(new Pose2d(-35, 34, Math.toRadians(270)))
