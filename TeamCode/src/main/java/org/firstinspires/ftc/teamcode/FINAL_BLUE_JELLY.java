@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous
 
-public class JellyAutonMainRed extends LinearOpMode{
+public class FINAL_BLUE_JELLY extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         DcMotor frontLeftMotor = hardwareMap.dcMotor.get("fl");
         DcMotor backLeftMotor = hardwareMap.dcMotor.get("bl");
@@ -36,10 +36,10 @@ public class JellyAutonMainRed extends LinearOpMode{
 
         waitForStart();
 
-        frontLeftMotor.setPower(1);
-        frontRightMotor.setPower(1);
-        backRightMotor.setPower(1);
-        backLeftMotor.setPower(1);
+        frontLeftMotor.setPower(-1);
+        frontRightMotor.setPower(-1);
+        backRightMotor.setPower(-1);
+        backLeftMotor.setPower(-1);
 
         sleep(2000);
 
