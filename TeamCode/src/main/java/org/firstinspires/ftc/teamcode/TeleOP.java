@@ -57,6 +57,7 @@ public class TeleOP extends LinearOpMode {
         DcMotor transfer = hardwareMap.dcMotor.get("transit");
         Servo claw = hardwareMap.servo.get("claw");
         Servo ramp = hardwareMap.servo.get("ramp");
+        Servo drone = hardwareMap.servo.get("drone");
 
         // Reverse the right side motors. This may be wrong for your setup.
         // If your robot moves backwards when commanded to go forwards,
@@ -64,9 +65,19 @@ public class TeleOP extends LinearOpMode {
         // See the note about this earlier on this page.
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+<<<<<<< Updated upstream
         transfer.setDirection(DcMotorSimple.Direction.FORWARD);
         intake.setDirection(DcMotorSimple.Direction.REVERSE);
 
+=======
+        transit.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+>>>>>>> Stashed changes
 
         // lift motors
         leftLift = hardwareMap.get(DcMotor.class, "lift");
@@ -103,12 +114,31 @@ public class TeleOP extends LinearOpMode {
             backRightMotor.setPower(backRightPower);
 
 
+<<<<<<< Updated upstream
             double lifttower = gamepad1.right_trigger - gamepad1.left_trigger;
             telemetry.addData("Liftpower", lifttower);
             telemetry.addData("Liftpos", leftLift.getCurrentPosition());
             leftLift.setPower(lifttower);
             telemetry.addData("claw", claw.getPosition());
             telemetry.addData("Ramo", ramp.getPosition());
+=======
+            if (gamepad2.right_trigger != 0 || gamepad2.left_trigger != 0) {
+                lift.setPower(liftPower);
+            } else {
+                lift.setPower(0);
+            }
+
+            telemetry.addData("front right", frontRightMotor.getCurrentPosition());
+            telemetry.addData("front left", frontLeftMotor.getCurrentPosition());
+            telemetry.addData("back right", backRightMotor.getCurrentPosition());
+            telemetry.addData("back left", backLeftMotor.getCurrentPosition());
+            telemetry.addData("lift", lift.getCurrentPosition());
+            telemetry.addData("intake", intake.getCurrentPosition());
+            telemetry.addData("transit", transit.getCurrentPosition());
+            telemetry.addData("claw", claw.getPosition());
+            telemetry.addData("ramp", ramp.getPosition());
+            telemetry.addData("drone", drone.getPosition());
+>>>>>>> Stashed changes
             telemetry.update();
 
             if(Math.abs(leftLift.getCurrentPosition()-leftLift.getTargetPosition())<15){
@@ -146,6 +176,7 @@ public class TeleOP extends LinearOpMode {
             }
             if(gamepad1.x){
                 claw.setPosition(0.45);
+<<<<<<< Updated upstream
                 System.out.println("Triggered.");
             }
             if(gamepad1.y){
@@ -164,6 +195,19 @@ public class TeleOP extends LinearOpMode {
 //                claw.setPosition(CLAW_OPEN);
 //                clawDone = true;
 //            }
+=======
+            } else if(gamepad2.y){
+                claw.setPosition(0.6);
+            }
+            if (gamepad2.dpad_right) {
+                drone.setDirection(Servo.Direction.REVERSE);
+                drone.setPosition(5);
+            }
+            if (gamepad2.dpad_left) {
+                drone.setDirection(Servo.Direction.FORWARD);
+                drone.setPosition(3);
+            }
+>>>>>>> Stashed changes
         }
     }
 }
