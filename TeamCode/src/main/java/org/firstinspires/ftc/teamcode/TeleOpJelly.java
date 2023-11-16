@@ -64,13 +64,29 @@ public class TeleOpJelly extends LinearOpMode {
             backRightMotor.setPower(backRightPower);
 
             double liftPower = gamepad2.right_trigger - gamepad2.left_trigger;
-
             if (gamepad2.right_trigger != 0 || gamepad2.left_trigger != 0) {
                 lift.setPower(liftPower);
             } else {
                 lift.setPower(0);
             }
 
+            double intakePower = (gamepad2.right_bumper ? 1 : 0) - (gamepad2.left_bumper ? 1 : 0);
+            intake.setPower(intakePower);
+            transit.setPower(intakePower);
+
+            if (gamepad2.x){
+                claw.setPosition(0.45);
+            } else if (gamepad2.y){
+                claw.setPosition(0.6);
+            }
+
+            if (gamepad2.dpad_right) {
+                drone.setDirection(Servo.Direction.REVERSE);
+                drone.setPosition(5);
+            } else if (gamepad2.dpad_left) {
+                drone.setDirection(Servo.Direction.FORWARD);
+                drone.setPosition(3);
+            }
 
             telemetry.addData("front right", frontRightMotor.getCurrentPosition());
             telemetry.addData("front left", frontLeftMotor.getCurrentPosition());
@@ -81,31 +97,6 @@ public class TeleOpJelly extends LinearOpMode {
             telemetry.addData("ramp", ramp.getPosition());
             telemetry.addData("drone", drone.getPosition());
             telemetry.update();
-
-            if (gamepad2.right_bumper){
-                transit.setPower(1);
-                intake.setPower(1);
-            } else if (gamepad2.left_bumper) {
-                transit.setPower(-1);
-                intake.setPower(-1);
-            } else {
-                transit.setPower(0);
-                intake.setPower(0);
-            }
-            
-            if (gamepad2.x){
-                claw.setPosition(0.45);
-            } else if(gamepad2.y){
-                claw.setPosition(0.6);
-            }
-            if (gamepad2.dpad_right) {
-                drone.setDirection(Servo.Direction.REVERSE);
-                drone.setPosition(5);
-            }
-            if (gamepad2.dpad_left) {
-                drone.setDirection(Servo.Direction.FORWARD);
-                drone.setPosition(3);
-            }
         }
     }
 }
