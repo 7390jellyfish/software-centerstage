@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
-public class TeleOP extends LinearOpMode {
+public class TeleOpJelly extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -31,7 +31,6 @@ public class TeleOP extends LinearOpMode {
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         transit.setDirection(DcMotorSimple.Direction.REVERSE);
-        intake.setDirection(DcMotorSimple.Direction.FORWARD);
 
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -72,14 +71,15 @@ public class TeleOP extends LinearOpMode {
                 lift.setPower(0);
             }
 
-            telemetry.addData("lift power", liftPower);
-            telemetry.addData("lift position", lift.getCurrentPosition());
-            telemetry.addData("claw", claw.getPosition());
-            telemetry.addData("ramp", ramp.getPosition());
+
             telemetry.addData("front right", frontRightMotor.getCurrentPosition());
             telemetry.addData("front left", frontLeftMotor.getCurrentPosition());
             telemetry.addData("back right", backRightMotor.getCurrentPosition());
             telemetry.addData("back left", backLeftMotor.getCurrentPosition());
+            telemetry.addData("lift", lift.getCurrentPosition());
+            telemetry.addData("claw", claw.getPosition());
+            telemetry.addData("ramp", ramp.getPosition());
+            telemetry.addData("drone", drone.getPosition());
             telemetry.update();
 
             if (gamepad2.right_bumper){
@@ -92,11 +92,10 @@ public class TeleOP extends LinearOpMode {
                 transit.setPower(0);
                 intake.setPower(0);
             }
+            
             if (gamepad2.x){
                 claw.setPosition(0.45);
-                System.out.println("Triggered.");
             } else if(gamepad2.y){
-                System.out.println("triggered y");
                 claw.setPosition(0.6);
             }
             if (gamepad2.dpad_right) {

@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous
 
-public class FINAL_BLUE_JELLY extends LinearOpMode {
+public class OuttakeBlueAutonJelly extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         DcMotor frontLeftMotor = hardwareMap.dcMotor.get("fl");
         DcMotor backLeftMotor = hardwareMap.dcMotor.get("bl");
@@ -24,7 +24,6 @@ public class FINAL_BLUE_JELLY extends LinearOpMode {
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         transit.setDirection(DcMotorSimple.Direction.REVERSE);
-        intake.setDirection(DcMotorSimple.Direction.FORWARD);
 
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -41,11 +40,18 @@ public class FINAL_BLUE_JELLY extends LinearOpMode {
         backRightMotor.setPower(-1);
         backLeftMotor.setPower(-1);
 
-        sleep(2000);
+        sleep(3000);
 
         frontLeftMotor.setPower(0);
         frontRightMotor.setPower(0);
         backRightMotor.setPower(0);
         backLeftMotor.setPower(0);
+
+        intake.setPower(-1);
+        sleep(3000);
+        transit.setPower(-1);
+        sleep(22000);
+        intake.setPower(0);
+        transit.setPower(0);
     }
 }
