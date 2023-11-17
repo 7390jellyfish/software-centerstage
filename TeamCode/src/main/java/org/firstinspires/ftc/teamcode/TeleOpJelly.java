@@ -8,11 +8,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
 public class TeleOpJelly extends LinearOpMode {
-
     @Override
     public void runOpMode() throws InterruptedException {
-        // Declare our motors
-        // Make sure your ID's match your configuration
         DcMotor frontLeftMotor = hardwareMap.dcMotor.get("fl");
         DcMotor backLeftMotor = hardwareMap.dcMotor.get("bl");
         DcMotor frontRightMotor = hardwareMap.dcMotor.get("fr");
@@ -24,19 +21,25 @@ public class TeleOpJelly extends LinearOpMode {
         Servo ramp = hardwareMap.servo.get("ramp");
         Servo drone = hardwareMap.servo.get("drone");
 
-        // Reverse the right side motors. This may be wrong for your setup.
-        // If your robot moves backwards when commanded to go forwards,
-        // reverse the left side instead.
-        // See the note about this earlier on this page.
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        intake.setDirection(DcMotorSimple.Direction.FORWARD);
         transit.setDirection(DcMotorSimple.Direction.REVERSE);
+        claw.setDirection(Servo.Direction.FORWARD);
+        ramp.setDirection(Servo.Direction.FORWARD);
+        drone.setDirection(Servo.Direction.FORWARD);
 
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.UNKNOWN);
+        transit.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.UNKNOWN);
+
 
         ramp.setPosition(-1.1);
 
@@ -74,9 +77,9 @@ public class TeleOpJelly extends LinearOpMode {
             intake.setPower(intakePower);
             transit.setPower(intakePower);
 
-            if (gamepad2.x){
+            if (gamepad2.x) {
                 claw.setPosition(0.45);
-            } else if (gamepad2.y){
+            } else if (gamepad2.y) {
                 claw.setPosition(0.6);
             }
 
