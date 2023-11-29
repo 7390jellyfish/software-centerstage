@@ -14,7 +14,8 @@ public class TeleOpJelly extends LinearOpMode {
         DcMotor backLeftMotor = hardwareMap.dcMotor.get("bl");
         DcMotor frontRightMotor = hardwareMap.dcMotor.get("fr");
         DcMotor backRightMotor = hardwareMap.dcMotor.get("br");
-        DcMotor lift = hardwareMap.dcMotor.get("lift");
+        DcMotor liftLeft = hardwareMap.dcMotor.get("ll");
+        DcMotor liftRight = hardwareMap.dcMotor.get("lr");
         DcMotor intake = hardwareMap.dcMotor.get("intake");
         DcMotor transit = hardwareMap.dcMotor.get("transit");
         Servo claw = hardwareMap.servo.get("claw");
@@ -25,7 +26,8 @@ public class TeleOpJelly extends LinearOpMode {
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        liftLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+        liftRight.setDirection(DcMotorSimple.Direction.FORWARD);
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         transit.setDirection(DcMotorSimple.Direction.REVERSE);
         claw.setDirection(Servo.Direction.FORWARD);
@@ -36,7 +38,8 @@ public class TeleOpJelly extends LinearOpMode {
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.UNKNOWN);
         transit.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.UNKNOWN);
 
@@ -64,9 +67,11 @@ public class TeleOpJelly extends LinearOpMode {
             // lift
             double liftPower = gamepad2.right_trigger - gamepad2.left_trigger;
             if (gamepad2.right_trigger != 0 || gamepad2.left_trigger != 0) {
-                lift.setPower(liftPower);
+                liftLeft.setPower(liftPower);
+                liftRight.setPower(liftPower);
             } else {
-                lift.setPower(0);
+                liftLeft.setPower(0);
+                liftRight.setPower(0);
             }
 
             // intake
@@ -99,7 +104,8 @@ public class TeleOpJelly extends LinearOpMode {
             telemetry.addData("back left", backLeftMotor.getCurrentPosition());
             telemetry.addData("back right", backRightMotor.getCurrentPosition());
             telemetry.addData("front right", frontRightMotor.getCurrentPosition());
-            telemetry.addData("lift", lift.getCurrentPosition());
+            telemetry.addData("lift left", liftLeft.getCurrentPosition());
+            telemetry.addData("lift right", liftRight.getCurrentPosition());
             telemetry.addData("intake", intake.getCurrentPosition());
             telemetry.addData("transit", transit.getCurrentPosition());
             telemetry.addData("claw", claw.getPosition());
