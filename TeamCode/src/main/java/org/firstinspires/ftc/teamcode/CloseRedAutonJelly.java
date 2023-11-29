@@ -54,6 +54,14 @@ public class CloseRedAutonJelly extends LinearOpMode {
         return inches/0.0233749453;
     }
 
+    public void outtakePixel() {
+        intake.setPower(-1);
+        transit.setPower(-1);
+        sleep(1000);
+        intake.setPower(0);
+        transit.setPower(0);
+    }
+
     public void moveLift(double inches) {
         int liftTicks = (int)(inchToTick(inches));
         lift.setTargetPosition(liftTicks);
@@ -74,14 +82,6 @@ public class CloseRedAutonJelly extends LinearOpMode {
     public void intakePixel() {
         intake.setPower(1);
         transit.setPower(1);
-        sleep(1000);
-        intake.setPower(0);
-        transit.setPower(0);
-    }
-
-    public void outtakePixel() {
-        intake.setPower(-1);
-        transit.setPower(-1);
         sleep(1000);
         intake.setPower(0);
         transit.setPower(0);
@@ -145,7 +145,7 @@ public class CloseRedAutonJelly extends LinearOpMode {
         backdropLeftB = drive.trajectoryBuilder(backdropLeftA.end())
                 .lineToSplineHeading(new Pose2d(49, 29, Math.toRadians(180)))
                 .build();
-        //cycle functions
+        //cycle
         load1A = drive.trajectoryBuilder(backdropRight.end())
                 .lineToSplineHeading(new Pose2d(49, 11, Math.toRadians(180)))
                 .build();
@@ -203,7 +203,7 @@ public class CloseRedAutonJelly extends LinearOpMode {
             drive.followTrajectory(backdropLeftB);
         }
         depositPixel();
-        for (int i = 0; i < 2; i++) { // # cycles
+        for (int i = 0; i < 2; i++) { // # of cycles
             if (prop == 1) {
                 drive.followTrajectory(load1A);
                 drive.followTrajectory(load1B);

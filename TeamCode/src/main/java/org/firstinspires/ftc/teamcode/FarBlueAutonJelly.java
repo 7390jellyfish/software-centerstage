@@ -60,6 +60,14 @@ public class FarBlueAutonJelly extends LinearOpMode {
         return inches/0.0233749453;
     }
 
+    public void outtakePixel() {
+        intake.setPower(-1);
+        transit.setPower(-1);
+        sleep(1000);
+        intake.setPower(0);
+        transit.setPower(0);
+    }
+
     public void moveLift(double inches) {
         int liftTicks = (int)(inchToTick(inches));
         lift.setTargetPosition(liftTicks);
@@ -80,14 +88,6 @@ public class FarBlueAutonJelly extends LinearOpMode {
     public void intakePixel() {
         intake.setPower(1);
         transit.setPower(1);
-        sleep(1000);
-        intake.setPower(0);
-        transit.setPower(0);
-    }
-
-    public void outtakePixel() {
-        intake.setPower(-1);
-        transit.setPower(-1);
         sleep(1000);
         intake.setPower(0);
         transit.setPower(0);
@@ -127,30 +127,25 @@ public class FarBlueAutonJelly extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(-38, 61, Math.toRadians(180));
+        Pose2d startPose = new Pose2d(-38, -61, Math.toRadians(180));
         drive.setPoseEstimate(startPose);
 
-        spikeMarkRight = drive.trajectoryBuilder(startPose)
-//                .strafeLeft(30)
+        spikeMarkLeft = drive.trajectoryBuilder(startPose)
                 .lineToSplineHeading(new Pose2d(-36, 34, Math.toRadians(180)))
-//                .lineTo(new Vector2d(-36, 34))
-//                .addDisplacementMarker(() -> {
-//                    drive.turn(Math.toRadians(90));
-//                })
                 .build();
         spikeMarkMiddle = drive.trajectoryBuilder(startPose)
                 .lineToSplineHeading(new Pose2d(-35, 34, Math.toRadians(270)))
                 .build();
-        spikeMarkLeft = drive.trajectoryBuilder(startPose)
+        spikeMarkRight = drive.trajectoryBuilder(startPose)
                 .lineToSplineHeading(new Pose2d(-34, 34, Math.toRadians(0)))
                 .build();
-        backdropRightA = drive.trajectoryBuilder(spikeMarkRight.end())
+        backdropLeftA = drive.trajectoryBuilder(spikeMarkLeft.end())
                 .lineToSplineHeading(new Pose2d(-36, 11, Math.toRadians(180)))
                 .build();
-        backdropRightB = drive.trajectoryBuilder(backdropRightA.end())
+        backdropLeftB = drive.trajectoryBuilder(backdropLeftA.end())
                 .lineToSplineHeading(new Pose2d(49, 11, Math.toRadians(180)))
                 .build();
-        backdropRightC = drive.trajectoryBuilder(backdropRightB.end())
+        backdropLeftC = drive.trajectoryBuilder(backdropLeftB.end())
                 .lineToSplineHeading(new Pose2d(49, 28, Math.toRadians(180)))
                 .build();
         backdropMiddleA = drive.trajectoryBuilder(spikeMarkMiddle.end())
@@ -165,17 +160,17 @@ public class FarBlueAutonJelly extends LinearOpMode {
         backdropMiddleD = drive.trajectoryBuilder(backdropMiddleC.end())
                 .lineToSplineHeading(new Pose2d(49, 36, Math.toRadians(180)))
                 .build();
-        backdropLeftA = drive.trajectoryBuilder(spikeMarkLeft.end())
+        backdropRightA = drive.trajectoryBuilder(spikeMarkRight.end())
                 .lineToSplineHeading(new Pose2d(-34, 10, Math.toRadians(0)))
                 .build();
-        backdropLeftB = drive.trajectoryBuilder(backdropLeftA.end())
+        backdropRightB = drive.trajectoryBuilder(backdropRightA.end())
                 .lineToSplineHeading(new Pose2d(49, 10, Math.toRadians(180)))
                 .build();
-        backdropLeftC = drive.trajectoryBuilder(backdropLeftB.end())
+        backdropRightC = drive.trajectoryBuilder(backdropRightB.end())
                 .lineToSplineHeading(new Pose2d(49, 41, Math.toRadians(180)))
                 .build();
-        //cycle functions
-        load1A = drive.trajectoryBuilder(backdropRightC.end())
+        // cycle
+        load1A = drive.trajectoryBuilder(backdropLeftC.end())
                 .lineToSplineHeading(new Pose2d(49, 11, Math.toRadians(180)))
                 .build();
         load1B = drive.trajectoryBuilder(load1A.end())
@@ -187,7 +182,7 @@ public class FarBlueAutonJelly extends LinearOpMode {
         load2B = drive.trajectoryBuilder(load2A.end())
                 .lineToSplineHeading(new Pose2d(-58, 11, Math.toRadians(180)))
                 .build();
-        load3A = drive.trajectoryBuilder(backdropLeftC.end())
+        load3A = drive.trajectoryBuilder(backdropRightC.end())
                 .lineToSplineHeading(new Pose2d(49, 11, Math.toRadians(180)))
                 .build();
         load3B = drive.trajectoryBuilder(load3A.end())
@@ -220,45 +215,45 @@ public class FarBlueAutonJelly extends LinearOpMode {
         if (prop == 1) {
             drive.followTrajectory(spikeMarkRight);
             outtakePixel();
-//            drive.followTrajectory(backdropRightA);
-//            drive.followTrajectory(backdropRightB);
-//            drive.followTrajectory(backdropRightC);
+            drive.followTrajectory(backdropRightA);
+            drive.followTrajectory(backdropRightB);
+            drive.followTrajectory(backdropRightC);
         } else if (prop == 2) {
             drive.followTrajectory(spikeMarkMiddle);
             outtakePixel();
-//            drive.followTrajectory(backdropMiddleA);
-//            drive.followTrajectory(backdropMiddleB);
-//            drive.followTrajectory(backdropMiddleC);
-//            drive.followTrajectory(backdropMiddleD);
+            drive.followTrajectory(backdropMiddleA);
+            drive.followTrajectory(backdropMiddleB);
+            drive.followTrajectory(backdropMiddleC);
+            drive.followTrajectory(backdropMiddleD);
         } else if (prop == 3) {
             drive.followTrajectory(spikeMarkLeft);
             outtakePixel();
-//            drive.followTrajectory(backdropLeftA);
-//            drive.followTrajectory(backdropLeftB);
-//            drive.followTrajectory(backdropLeftC);
+            drive.followTrajectory(backdropLeftA);
+            drive.followTrajectory(backdropLeftB);
+            drive.followTrajectory(backdropLeftC);
         }
-//        depositPixel();
-//        for (int i = 0; i < 2; i++) { // # cycles
-//            if (prop == 1) {
-//                drive.followTrajectory(load1A);
-//                drive.followTrajectory(load1B);
-//                intakePixel();
-//                drive.followTrajectory(deposit1A);
-//                drive.followTrajectory(deposit1B);
-//            } else if (prop == 2) {
-//                drive.followTrajectory(load2A);
-//                drive.followTrajectory(load2B);
-//                intakePixel();
-//                drive.followTrajectory(deposit2A);
-//                drive.followTrajectory(deposit2B);
-//            } else if (prop == 3) {
-//                drive.followTrajectory(load3A);
-//                drive.followTrajectory(load3B);
-//                intakePixel();
-//                drive.followTrajectory(deposit3A);
-//                drive.followTrajectory(deposit3B);
-//            }
-//            depositPixel();
-//        }
+        depositPixel();
+        for (int i = 0; i < 2; i++) { // # of cycles
+            if (prop == 1) {
+                drive.followTrajectory(load1A);
+                drive.followTrajectory(load1B);
+                intakePixel();
+                drive.followTrajectory(deposit1A);
+                drive.followTrajectory(deposit1B);
+            } else if (prop == 2) {
+                drive.followTrajectory(load2A);
+                drive.followTrajectory(load2B);
+                intakePixel();
+                drive.followTrajectory(deposit2A);
+                drive.followTrajectory(deposit2B);
+            } else if (prop == 3) {
+                drive.followTrajectory(load3A);
+                drive.followTrajectory(load3B);
+                intakePixel();
+                drive.followTrajectory(deposit3A);
+                drive.followTrajectory(deposit3B);
+            }
+            depositPixel();
+        }
     }
 }

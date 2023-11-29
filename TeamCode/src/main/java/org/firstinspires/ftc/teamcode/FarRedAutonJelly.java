@@ -60,6 +60,14 @@ public class FarRedAutonJelly extends LinearOpMode {
         return inches/0.0233749453;
     }
 
+    public void outtakePixel() {
+        intake.setPower(-1);
+        transit.setPower(-1);
+        sleep(1000);
+        intake.setPower(0);
+        transit.setPower(0);
+    }
+
     public void moveLift(double inches) {
         int liftTicks = (int)(inchToTick(inches));
         lift.setTargetPosition(liftTicks);
@@ -80,14 +88,6 @@ public class FarRedAutonJelly extends LinearOpMode {
     public void intakePixel() {
         intake.setPower(1);
         transit.setPower(1);
-        sleep(1000);
-        intake.setPower(0);
-        transit.setPower(0);
-    }
-
-    public void outtakePixel() {
-        intake.setPower(-1);
-        transit.setPower(-1);
         sleep(1000);
         intake.setPower(0);
         transit.setPower(0);
@@ -169,7 +169,7 @@ public class FarRedAutonJelly extends LinearOpMode {
         backdropRightC = drive.trajectoryBuilder(backdropRightB.end())
                 .lineToSplineHeading(new Pose2d(49, -41, Math.toRadians(180)))
                 .build();
-        //cycle functions
+        // cycle
         load1A = drive.trajectoryBuilder(backdropLeftC.end())
                 .lineToSplineHeading(new Pose2d(49, -11, Math.toRadians(180)))
                 .build();
@@ -233,7 +233,7 @@ public class FarRedAutonJelly extends LinearOpMode {
             drive.followTrajectory(backdropLeftC);
         }
         depositPixel();
-        for (int i = 0; i < 2; i++) { // # cycles
+        for (int i = 0; i < 2; i++) { // # of cycles
             if (prop == 1) {
                 drive.followTrajectory(load1A);
                 drive.followTrajectory(load1B);
