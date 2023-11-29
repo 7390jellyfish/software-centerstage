@@ -40,7 +40,6 @@ public class TeleOpJelly extends LinearOpMode {
         intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.UNKNOWN);
         transit.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.UNKNOWN);
 
-
         ramp.setPosition(-1.1);
 
         waitForStart();
@@ -91,11 +90,13 @@ public class TeleOpJelly extends LinearOpMode {
                 drone.setPosition(3);
             }
 
-            telemetry.addData("front right", frontRightMotor.getCurrentPosition());
             telemetry.addData("front left", frontLeftMotor.getCurrentPosition());
-            telemetry.addData("back right", backRightMotor.getCurrentPosition());
             telemetry.addData("back left", backLeftMotor.getCurrentPosition());
+            telemetry.addData("back right", backRightMotor.getCurrentPosition());
+            telemetry.addData("front right", frontRightMotor.getCurrentPosition());
             telemetry.addData("lift", lift.getCurrentPosition());
+            telemetry.addData("intake", intake.getCurrentPosition());
+            telemetry.addData("transit", transit.getCurrentPosition());
             telemetry.addData("claw", claw.getPosition());
             telemetry.addData("ramp", ramp.getPosition());
             telemetry.addData("drone", drone.getPosition());
