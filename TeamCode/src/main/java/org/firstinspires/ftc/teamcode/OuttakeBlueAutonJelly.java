@@ -31,9 +31,9 @@ public class OuttakeBlueAutonJelly extends LinearOpMode {
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        ramp.setPosition(-1.1);
-
         waitForStart();
+
+        ramp.setPosition(-1.1);
 
         frontLeftMotor.setPower(-1);
         frontRightMotor.setPower(-1);
