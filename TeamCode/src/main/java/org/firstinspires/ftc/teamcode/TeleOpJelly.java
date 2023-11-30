@@ -19,20 +19,20 @@ public class TeleOpJelly extends LinearOpMode {
         DcMotor intake = hardwareMap.dcMotor.get("intake");
         DcMotor transit = hardwareMap.dcMotor.get("transit");
         Servo claw = hardwareMap.servo.get("claw");
-        Servo ramp = hardwareMap.servo.get("ramp");
-        Servo drone = hardwareMap.servo.get("drone");
+//        Servo ramp = hardwareMap.servo.get("ramp");
+//        Servo drone = hardwareMap.servo.get("drone");
 
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         liftLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-        liftRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        liftRight.setDirection(DcMotorSimple.Direction.REVERSE);
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         transit.setDirection(DcMotorSimple.Direction.REVERSE);
         claw.setDirection(Servo.Direction.FORWARD);
-        ramp.setDirection(Servo.Direction.FORWARD);
-        drone.setDirection(Servo.Direction.FORWARD);
+//        ramp.setDirection(Servo.Direction.FORWARD);
+//        drone.setDirection(Servo.Direction.FORWARD);
 
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -40,8 +40,6 @@ public class TeleOpJelly extends LinearOpMode {
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.UNKNOWN);
-        transit.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.UNKNOWN);
 
         waitForStart();
 
@@ -88,17 +86,17 @@ public class TeleOpJelly extends LinearOpMode {
             }
 
             // drone
-            if (gamepad2.dpad_right && !gamepad2.dpad_left) {
-                drone.setDirection(Servo.Direction.REVERSE);
-                drone.setPosition(5);
-            }
-            if (gamepad2.dpad_left && !gamepad2.dpad_right) {
-                drone.setDirection(Servo.Direction.FORWARD);
-                drone.setPosition(3);
-            }
+//            if (gamepad2.dpad_right && !gamepad2.dpad_left) {
+//                drone.setDirection(Servo.Direction.REVERSE);
+//                drone.setPosition(5);
+//            }
+//            if (gamepad2.dpad_left && !gamepad2.dpad_right) {
+//                drone.setDirection(Servo.Direction.FORWARD);
+//                drone.setPosition(3);
+//            }
 
             // ramp
-            ramp.setPosition(-1.1);
+//            ramp.setPosition(-1.1);
 
             telemetry.addData("front left", frontLeftMotor.getCurrentPosition());
             telemetry.addData("back left", backLeftMotor.getCurrentPosition());
@@ -109,8 +107,8 @@ public class TeleOpJelly extends LinearOpMode {
             telemetry.addData("intake", intake.getCurrentPosition());
             telemetry.addData("transit", transit.getCurrentPosition());
             telemetry.addData("claw", claw.getPosition());
-            telemetry.addData("ramp", ramp.getPosition());
-            telemetry.addData("drone", drone.getPosition());
+//            telemetry.addData("ramp", ramp.getPosition());
+//            telemetry.addData("drone", drone.getPosition());
             telemetry.update();
         }
     }
