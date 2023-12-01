@@ -50,11 +50,13 @@ public class FarBlueAutonJelly extends LinearOpMode {
     DcMotor backLeftMotor = null;
     DcMotor frontRightMotor = null;
     DcMotor backRightMotor = null;
-    DcMotor lift = null;
+    DcMotor liftLeft = null;
+    DcMotor liftRight = null;
     DcMotor intake = null;
     DcMotor transit = null;
     Servo claw = null;
     Servo ramp = null;
+    Servo drone = null;
 
     public double inchToTick (double inches) {
         return inches/0.0233749453;
@@ -70,11 +72,15 @@ public class FarBlueAutonJelly extends LinearOpMode {
 
     public void moveLift(double inches) {
         int liftTicks = (int)(inchToTick(inches));
-        lift.setTargetPosition(liftTicks);
-        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        lift.setPower(1);
-        while(lift.isBusy()) {}
-        lift.setPower(0);
+        liftLeft.setTargetPosition(liftTicks);
+        liftRight.setTargetPosition(liftTicks);
+        liftLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        liftRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        liftLeft.setPower(1);
+        liftRight.setPower(1);
+        while(liftLeft.isBusy() || liftRight.isBusy()) {}
+        liftLeft.setPower(0);
+        liftRight.setPower(0);
     }
 
     public void depositPixel() {
@@ -93,35 +99,36 @@ public class FarBlueAutonJelly extends LinearOpMode {
         transit.setPower(0);
     }
     public void runOpMode() {
-        // Declare our motors
-        // Make sure your ID's match your configuration
         frontLeftMotor = hardwareMap.dcMotor.get("fl");
         backLeftMotor = hardwareMap.dcMotor.get("bl");
         frontRightMotor = hardwareMap.dcMotor.get("fr");
         backRightMotor = hardwareMap.dcMotor.get("br");
-        lift = hardwareMap.dcMotor.get("lift");
+        liftLeft = hardwareMap.dcMotor.get("ll");
+        liftRight = hardwareMap.dcMotor.get("lr");
         intake = hardwareMap.dcMotor.get("intake");
         transit = hardwareMap.dcMotor.get("transit");
         claw = hardwareMap.servo.get("claw");
         ramp = hardwareMap.servo.get("ramp");
+        drone = hardwareMap.servo.get("drone");
 
-        // Reverse the right side motors. This may be wrong for your setup.
-        // If your robot moves backwards when commanded to go forwards,
-        // reverse the left side instead.
-        // See the note about this earlier on this page.
-        frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        liftLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+        liftRight.setDirection(DcMotorSimple.Direction.REVERSE);
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         transit.setDirection(DcMotorSimple.Direction.REVERSE);
+        claw.setDirection(Servo.Direction.FORWARD);
+        ramp.setDirection(Servo.Direction.FORWARD);
+        drone.setDirection(Servo.Direction.FORWARD);
 
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         ramp.setPosition(-1.1);
 
