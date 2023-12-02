@@ -55,8 +55,8 @@ public class FarBlueAutonJelly extends LinearOpMode {
     DcMotor intake = null;
     DcMotor transit = null;
     Servo claw = null;
-    Servo ramp = null;
-    Servo drone = null;
+//    Servo ramp = null;
+//    Servo drone = null;
 
     public double inchToTick (double inches) {
         return inches/0.0233749453;
@@ -108,8 +108,8 @@ public class FarBlueAutonJelly extends LinearOpMode {
         intake = hardwareMap.dcMotor.get("intake");
         transit = hardwareMap.dcMotor.get("transit");
         claw = hardwareMap.servo.get("claw");
-        ramp = hardwareMap.servo.get("ramp");
-        drone = hardwareMap.servo.get("drone");
+//        ramp = hardwareMap.servo.get("ramp");
+//        drone = hardwareMap.servo.get("drone");
 
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -120,8 +120,8 @@ public class FarBlueAutonJelly extends LinearOpMode {
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         transit.setDirection(DcMotorSimple.Direction.REVERSE);
         claw.setDirection(Servo.Direction.FORWARD);
-        ramp.setDirection(Servo.Direction.FORWARD);
-        drone.setDirection(Servo.Direction.FORWARD);
+//        ramp.setDirection(Servo.Direction.FORWARD);
+//        drone.setDirection(Servo.Direction.FORWARD);
 
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -130,11 +130,11 @@ public class FarBlueAutonJelly extends LinearOpMode {
         liftLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        ramp.setPosition(-1.1);
+//        ramp.setPosition(-1.1);
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(-38, -61, Math.toRadians(180));
+        Pose2d startPose = new Pose2d(-38, 61, Math.toRadians(180));
         drive.setPoseEstimate(startPose);
 
         spikeMarkLeft = drive.trajectoryBuilder(startPose)
