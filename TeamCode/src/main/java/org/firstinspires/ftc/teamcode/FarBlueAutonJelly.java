@@ -138,13 +138,13 @@ public class FarBlueAutonJelly extends LinearOpMode {
         drive.setPoseEstimate(startPose);
 
         spikeMarkLeft = drive.trajectoryBuilder(startPose)
-                .lineToSplineHeading(new Pose2d(-36, 34, Math.toRadians(180)))
+                .lineToSplineHeading(new Pose2d(-36, 34, Math.toRadians(0)))
                 .build();
         spikeMarkMiddle = drive.trajectoryBuilder(startPose)
                 .lineToSplineHeading(new Pose2d(-35, 34, Math.toRadians(270)))
                 .build();
         spikeMarkRight = drive.trajectoryBuilder(startPose)
-                .lineToSplineHeading(new Pose2d(-34, 34, Math.toRadians(0)))
+                .lineToSplineHeading(new Pose2d(-34, 34, Math.toRadians(180)))
                 .build();
         backdropLeftA = drive.trajectoryBuilder(spikeMarkLeft.end())
                 .lineToSplineHeading(new Pose2d(-36, 11, Math.toRadians(180)))

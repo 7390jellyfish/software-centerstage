@@ -16,10 +16,8 @@ public class AutonTest {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(-38, 61, Math.toRadians(180)))
-                                .lineToSplineHeading(new Pose2d(-36, 34, Math.toRadians(180)))
-                                .lineToSplineHeading(new Pose2d(-36, 11, Math.toRadians(180)))
-                                .lineToSplineHeading(new Pose2d(49, 11, Math.toRadians(180)))
-                                .lineToSplineHeading(new Pose2d(49, 28, Math.toRadians(180)))
+                                .strafeLeft(27)
+                                .back(4)
                                 .build()
                 );
 

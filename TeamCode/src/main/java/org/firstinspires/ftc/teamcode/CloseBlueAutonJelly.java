@@ -133,13 +133,13 @@ public class CloseBlueAutonJelly extends LinearOpMode {
         drive.setPoseEstimate(startPose);
 
         spikeMarkRight = drive.trajectoryBuilder(startPose)
-                .lineToSplineHeading(new Pose2d(11, -34, Math.toRadians(180)))
+                .lineToSplineHeading(new Pose2d(11, -34, Math.toRadians(0)))
                 .build();
         spikeMarkMiddle = drive.trajectoryBuilder(startPose)
                 .lineToSplineHeading(new Pose2d(12, -34, Math.toRadians(270)))
                 .build();
         spikeMarkLeft = drive.trajectoryBuilder(startPose)
-                .lineToSplineHeading(new Pose2d(13, -34, Math.toRadians(0)))
+                .lineToSplineHeading(new Pose2d(13, -34, Math.toRadians(180)))
                 .build();
         backdropRight = drive.trajectoryBuilder(spikeMarkRight.end())
                 .lineToSplineHeading(new Pose2d(49, -41, Math.toRadians(180)))
