@@ -15,30 +15,39 @@ public class OuttakeRedAutonJelly extends LinearOpMode {
         DcMotor backLeftMotor = hardwareMap.dcMotor.get("bl");
         DcMotor frontRightMotor = hardwareMap.dcMotor.get("fr");
         DcMotor backRightMotor = hardwareMap.dcMotor.get("br");
-        DcMotor lift = hardwareMap.dcMotor.get("lift");
+        DcMotor liftLeft = hardwareMap.dcMotor.get("ll");
+        DcMotor liftRight = hardwareMap.dcMotor.get("lr");
         DcMotor intake = hardwareMap.dcMotor.get("intake");
         DcMotor transit = hardwareMap.dcMotor.get("transit");
         Servo claw = hardwareMap.servo.get("claw");
-        Servo ramp = hardwareMap.servo.get("ramp");
-        Servo drone = hardwareMap.servo.get("drone");
+//        Servo ramp = hardwareMap.servo.get("ramp");
+//        Servo drone = hardwareMap.servo.get("drone");
+
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        liftLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+        liftRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        intake.setDirection(DcMotorSimple.Direction.FORWARD);
         transit.setDirection(DcMotorSimple.Direction.REVERSE);
+        claw.setDirection(Servo.Direction.FORWARD);
+//        ramp.setDirection(Servo.Direction.FORWARD);
+//        drone.setDirection(Servo.Direction.FORWARD);
 
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         waitForStart();
 
-        ramp.setPosition(-1.1);
-
-        frontLeftMotor.setPower(1);
-        frontRightMotor.setPower(1);
-        backRightMotor.setPower(1);
-        backLeftMotor.setPower(1);
+        frontLeftMotor.setPower(-1);
+        frontRightMotor.setPower(-1);
+        backRightMotor.setPower(-1);
+        backLeftMotor.setPower(-1);
 
         sleep(3000);
 
@@ -48,9 +57,9 @@ public class OuttakeRedAutonJelly extends LinearOpMode {
         backLeftMotor.setPower(0);
 
         intake.setPower(-1);
-        sleep(3000);
+        sleep(5000);
         transit.setPower(-1);
-        sleep(22000);
+        sleep(20000);
         intake.setPower(0);
         transit.setPower(0);
     }
