@@ -79,10 +79,10 @@ public class TeleOpJelly extends LinearOpMode {
 
             // claw
             if (gamepad2.x && !gamepad2.y) {
-                claw.setPosition(0.45);
+                claw.setPosition(-1);
             }
             if (gamepad2.y && !gamepad2.x) {
-                claw.setPosition(0.6);
+                claw.setPosition(2);
             }
 
             // drone
