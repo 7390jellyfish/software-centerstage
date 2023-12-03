@@ -33,6 +33,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuild
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceRunner;
 import org.firstinspires.ftc.teamcode.util.LynxModuleUtil;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -122,9 +123,11 @@ public class SampleTankDrive extends TankDrive {
 
         // TODO: if desired, use setLocalizer() to change the localization method
         // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));
-//        setLocalizer(new TwoWheelTrackingLocalizer(hardwareMap, this));
+
         trajectorySequenceRunner = new TrajectorySequenceRunner(
-                follower, HEADING_PID);
+                follower, HEADING_PID, batteryVoltageSensor,
+                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()
+        );
     }
 
     public TrajectoryBuilder trajectoryBuilder(Pose2d startPose) {
