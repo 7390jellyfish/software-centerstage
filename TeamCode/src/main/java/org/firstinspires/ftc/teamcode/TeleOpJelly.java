@@ -15,22 +15,22 @@ public class TeleOpJelly extends LinearOpMode {
         DcMotor frontRightMotor = hardwareMap.dcMotor.get("fr");
         DcMotor backRightMotor = hardwareMap.dcMotor.get("br");
         DcMotor liftLeft = hardwareMap.dcMotor.get("ll");
-        DcMotor liftRight = hardwareMap.dcMotor.get("lr");
+        DcMotor liftRight = hardwareMap.dcMotor.get("rl");
         DcMotor intake = hardwareMap.dcMotor.get("intake");
         DcMotor transit = hardwareMap.dcMotor.get("transit");
         Servo claw = hardwareMap.servo.get("claw");
 //        Servo ramp = hardwareMap.servo.get("ramp");
-//        Servo drone = hardwareMap.servo.get("drone");
+        Servo drone = hardwareMap.servo.get("drone");
 
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         liftLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-        liftRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        liftRight.setDirection(DcMotorSimple.Direction.FORWARD);
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         transit.setDirection(DcMotorSimple.Direction.REVERSE);
-        claw.setDirection(Servo.Direction.FORWARD);
+//        claw.setDirection(Servo.Direction.FORWARD);
 //        ramp.setDirection(Servo.Direction.FORWARD);
 //        drone.setDirection(Servo.Direction.FORWARD);
 
@@ -78,22 +78,24 @@ public class TeleOpJelly extends LinearOpMode {
             transit.setPower(intakeTransitPower);
 
             // claw
-            if (gamepad2.x && !gamepad2.y) {
-                claw.setPosition(-1);
+            if (gamepad2.a && !gamepad2.b) {
+                claw.setDirection(Servo.Direction.REVERSE);
+                claw.setPosition(5);
             }
-            if (gamepad2.y && !gamepad2.x) {
-                claw.setPosition(2);
+            if (gamepad2.b && !gamepad2.a) {
+                claw.setDirection(Servo.Direction.FORWARD);
+                claw.setPosition(3);
             }
 
             // drone
-//            if (gamepad2.dpad_right && !gamepad2.dpad_left) {
-//                drone.setDirection(Servo.Direction.REVERSE);
-//                drone.setPosition(5);
-//            }
-//            if (gamepad2.dpad_left && !gamepad2.dpad_right) {
-//                drone.setDirection(Servo.Direction.FORWARD);
-//                drone.setPosition(3);
-//            }
+            if (gamepad2.dpad_right && !gamepad2.dpad_left) {
+                drone.setDirection(Servo.Direction.REVERSE);
+                drone.setPosition(5);
+            }
+            if (gamepad2.dpad_left && !gamepad2.dpad_right) {
+                drone.setDirection(Servo.Direction.FORWARD);
+                drone.setPosition(3);
+            }
 
             // ramp
 //            ramp.setPosition(-1.1);
@@ -108,7 +110,7 @@ public class TeleOpJelly extends LinearOpMode {
             telemetry.addData("transit", transit.getCurrentPosition());
             telemetry.addData("claw", claw.getPosition());
 //            telemetry.addData("ramp", ramp.getPosition());
-//            telemetry.addData("drone", drone.getPosition());
+            telemetry.addData("drone", drone.getPosition());
             telemetry.update();
         }
     }
