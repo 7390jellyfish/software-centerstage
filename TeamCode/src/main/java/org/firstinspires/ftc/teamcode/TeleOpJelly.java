@@ -64,7 +64,10 @@ public class TeleOpJelly extends LinearOpMode {
 
             // lift
             double liftPower = gamepad2.right_trigger - gamepad2.left_trigger;
-            if (gamepad2.right_trigger != 0 || gamepad2.left_trigger != 0) {
+            if ((gamepad2.right_trigger != 0) || (gamepad2.left_trigger != 0)) {
+                if ((gamepad2.right_trigger == 0) && (liftRight.getCurrentPosition() <= 1200)) {
+                    claw.setPosition(0.9);
+                }
                 liftLeft.setPower(liftPower);
                 liftRight.setPower(liftPower);
             } else {
@@ -79,11 +82,11 @@ public class TeleOpJelly extends LinearOpMode {
             transit.setPower(transitPower);
 
             // claw
-            if (gamepad2.a && !gamepad2.b) {
-                claw.setPosition(0.45);
-            }
             if (gamepad2.b && !gamepad2.a) {
-                claw.setPosition(0.6);
+                claw.setPosition(0);
+            }
+            if (gamepad2.a && !gamepad2.b) {
+                claw.setPosition(0.8);
             }
 
             // drone
