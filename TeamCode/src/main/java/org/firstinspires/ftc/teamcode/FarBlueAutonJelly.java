@@ -68,9 +68,10 @@ public class FarBlueAutonJelly extends LinearOpMode {
 
         waitForStart();
 
-//        encoderDrive(driveSpeed,  48,  48, 5.0);
-//        encoderDrive(turnSpeed,   12, -12, 4.0);
-//        encoderDrive(driveSpeed, -24, -24, 4.0);
+        encoderDrive(driveSpeed,  48,  48, 5.0);
+        encoderDrive(driveSpeed, -24, -24, 4.0);
+        depositPixel();
+        outtakePixel();
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
@@ -136,5 +137,28 @@ public class FarBlueAutonJelly extends LinearOpMode {
 
             sleep(250);   // optional pause after each move.
         }
+    }
+    public void outtakePixel() {
+        intake.setPower(-1);
+        transit.setPower(-1);
+        sleep(20000);
+        intake.setPower(0);
+        transit.setPower(0);
+    }
+
+    public void moveLift() {
+        liftLeft.setPower(1);
+        liftRight.setPower(1);
+        sleep(1000);
+        liftLeft.setPower(0);
+        liftRight.setPower(0);
+    }
+
+    public void depositPixel() {
+        moveLift();
+        claw.setPosition(180);
+        sleep(1000);
+        claw.setPosition(0);
+        moveLift();
     }
 }
