@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @Autonomous
-public class CloseRedAutonJelly extends LinearOpMode {
+public class RRCloseRedAutonJelly extends LinearOpMode {
 
     int prop = 1;
     Trajectory spikeMarkRight;
