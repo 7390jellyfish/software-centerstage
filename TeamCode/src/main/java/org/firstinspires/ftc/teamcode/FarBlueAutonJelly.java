@@ -20,13 +20,16 @@ public class FarBlueAutonJelly extends LinearOpMode {
     private Servo claw = null;
     private Servo drone = null;
     private ElapsedTime runtime = new ElapsedTime();
-    static final double     COUNTS_PER_MOTOR_REV    = 8192 ;
-    static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;
-    static final double     WHEEL_DIAMETER_INCHES   = 1.375 ;
-    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-            (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double     DRIVE_SPEED             = 0.6;
-    static final double     TURN_SPEED              = 0.5;
+    static final double     driveCountsPerMotorRev    = 8192 ;
+    static final double     driveGearReduction    = 1.0 ;
+    static final double     wheelDiameterInches   = 1.375 ;
+    static final double     driveCountsPerInch         = (driveCountsPerMotorRev * driveGearReduction) / (wheelDiameterInches * 3.1415);
+    static final double     driveSpeed             = 0.6;
+    static final double     turnSpeed              = 0.5;
+    static final double     liftCountsPerMotorRev    = 28 ;
+    static final double     liftGearReduction    = 0.05 ;
+    static final double     spoolDiameterInches   = 3 ;
+    static final double     liftCountsPerInch         = (liftCountsPerMotorRev * liftGearReduction) / (spoolDiameterInches * 3.1415);
     @Override
     public void runOpMode() throws InterruptedException {
         frontLeftMotor = hardwareMap.dcMotor.get("fl");
@@ -60,24 +63,20 @@ public class FarBlueAutonJelly extends LinearOpMode {
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        telemetry.addData("Starting at",  "%7d :%7d",
-                backRightMotor.getCurrentPosition(),
-                frontLeftMotor.getCurrentPosition());
+        telemetry.addData("Starting at",  "%7d :%7d", backRightMotor.getCurrentPosition(), frontLeftMotor.getCurrentPosition());
         telemetry.update();
 
         waitForStart();
 
-//        encoderDrive(DRIVE_SPEED,  48,  48, 5.0);
-//        encoderDrive(TURN_SPEED,   12, -12, 4.0);
-//        encoderDrive(DRIVE_SPEED, -24, -24, 4.0);
+//        encoderDrive(driveSpeed,  48,  48, 5.0);
+//        encoderDrive(turnSpeed,   12, -12, 4.0);
+//        encoderDrive(driveSpeed, -24, -24, 4.0);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);
     }
-    public void encoderDrive(double speed,
-                             double leftInches, double rightInches,
-                             double timeoutS) {
+    public void encoderDrive(double speed, double leftInches, double rightInches, double timeoutS) {
         int newLeftTarget;
         int newRightTarget;
 
@@ -85,10 +84,10 @@ public class FarBlueAutonJelly extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftTarget = frontLeftMotor.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newLeftTarget = backLeftMotor.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newRightTarget = frontRightMotor.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-            newRightTarget = backRightMotor.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+            newLeftTarget = frontLeftMotor.getCurrentPosition() + (int)(leftInches * driveCountsPerInch);
+            newLeftTarget = backLeftMotor.getCurrentPosition() + (int)(leftInches * driveCountsPerInch);
+            newRightTarget = frontRightMotor.getCurrentPosition() + (int)(rightInches * driveCountsPerInch);
+            newRightTarget = backRightMotor.getCurrentPosition() + (int)(rightInches * driveCountsPerInch);
             frontLeftMotor.setTargetPosition(newLeftTarget);
             backLeftMotor.setTargetPosition(newLeftTarget);
             frontRightMotor.setTargetPosition(newRightTarget);
@@ -119,8 +118,7 @@ public class FarBlueAutonJelly extends LinearOpMode {
 
                 // Display it for the driver.
                 telemetry.addData("Running to",  " %7d :%7d", newLeftTarget,  newRightTarget);
-                telemetry.addData("Currently at",  " at %7d :%7d",
-                        frontLeftMotor.getCurrentPosition(), backLeftMotor.getCurrentPosition(), frontRightMotor.getCurrentPosition(), backRightMotor.getCurrentPosition());
+                telemetry.addData("Currently at",  " at %7d :%7d", frontLeftMotor.getCurrentPosition(), backLeftMotor.getCurrentPosition(), frontRightMotor.getCurrentPosition(), backRightMotor.getCurrentPosition());
                 telemetry.update();
             }
 

@@ -74,7 +74,7 @@ public class TeleOpJelly extends LinearOpMode {
 
             // intake
             double intakePower = (gamepad2.left_bumper ? 1 : 0) - (gamepad2.right_bumper ? 1 : 0);
-            double transitPower = ((gamepad2.left_bumper ? 1 : 0) - (gamepad2.right_bumper ? 1 : 0)) * 0.7;
+            double transitPower = ((gamepad2.left_bumper ? 1 : 0) - (gamepad2.right_bumper ? 1 : 0)) * 0.6;
             intake.setPower(intakePower);
             transit.setPower(transitPower);
 
