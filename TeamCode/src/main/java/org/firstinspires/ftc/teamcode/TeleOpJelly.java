@@ -62,7 +62,7 @@ public class TeleOpJelly extends LinearOpMode {
             // lift
             double liftPower = gamepad2.right_trigger - gamepad2.left_trigger;
             if ((gamepad2.right_trigger != 0) || (gamepad2.left_trigger != 0)) {
-                if ((gamepad2.right_trigger == 0) && (liftRight.getCurrentPosition() <= 1200)) {
+                if (gamepad2.right_trigger == 0) {
                     claw.setPosition(0.9);
                 }
                 liftLeft.setPower(liftPower);
