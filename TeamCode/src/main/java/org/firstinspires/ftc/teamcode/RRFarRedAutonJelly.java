@@ -55,6 +55,7 @@ public class RRFarRedAutonJelly extends LinearOpMode {
     DcMotor intake = null;
     DcMotor transit = null;
     Servo claw = null;
+    Servo ramp = null;
     Servo drone = null;
 
     public double inchToTick (double inches) {
@@ -107,10 +108,7 @@ public class RRFarRedAutonJelly extends LinearOpMode {
         intake = hardwareMap.dcMotor.get("intake");
         transit = hardwareMap.dcMotor.get("transit");
         claw = hardwareMap.servo.get("claw");
-<<<<<<< HEAD
-=======
 //        ramp = hardwareMap.servo.get("ramp");
->>>>>>> 7a44f9691e7f532dc7e84cb8de60ea04cfe90a26
         drone = hardwareMap.servo.get("drone");
 
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -122,10 +120,7 @@ public class RRFarRedAutonJelly extends LinearOpMode {
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         transit.setDirection(DcMotorSimple.Direction.REVERSE);
         claw.setDirection(Servo.Direction.FORWARD);
-<<<<<<< HEAD
-=======
 //        ramp.setDirection(Servo.Direction.FORWARD);
->>>>>>> 7a44f9691e7f532dc7e84cb8de60ea04cfe90a26
         drone.setDirection(Servo.Direction.FORWARD);
 
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -135,11 +130,8 @@ public class RRFarRedAutonJelly extends LinearOpMode {
         liftLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-<<<<<<< HEAD
-=======
 //        ramp.setPosition(-1.1);
 
->>>>>>> 7a44f9691e7f532dc7e84cb8de60ea04cfe90a26
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         Pose2d startPose = new Pose2d(-38, -61, Math.toRadians(0));
