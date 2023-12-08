@@ -104,11 +104,11 @@ public class RRFarRedAutonJelly extends LinearOpMode {
         frontRightMotor = hardwareMap.dcMotor.get("fr");
         backRightMotor = hardwareMap.dcMotor.get("br");
         liftLeft = hardwareMap.dcMotor.get("ll");
-        liftRight = hardwareMap.dcMotor.get("lr");
+        liftRight = hardwareMap.dcMotor.get("rl");
         intake = hardwareMap.dcMotor.get("intake");
         transit = hardwareMap.dcMotor.get("transit");
         claw = hardwareMap.servo.get("claw");
-        ramp = hardwareMap.servo.get("ramp");
+//        ramp = hardwareMap.servo.get("ramp");
         drone = hardwareMap.servo.get("drone");
 
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -120,7 +120,7 @@ public class RRFarRedAutonJelly extends LinearOpMode {
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         transit.setDirection(DcMotorSimple.Direction.REVERSE);
         claw.setDirection(Servo.Direction.FORWARD);
-        ramp.setDirection(Servo.Direction.FORWARD);
+//        ramp.setDirection(Servo.Direction.FORWARD);
         drone.setDirection(Servo.Direction.FORWARD);
 
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -130,7 +130,7 @@ public class RRFarRedAutonJelly extends LinearOpMode {
         liftLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        ramp.setPosition(-1.1);
+//        ramp.setPosition(-1.1);
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
