@@ -87,11 +87,11 @@ public class TeleOpJelly extends LinearOpMode {
             }
 
             // drone
-            if (gamepad2.dpad_right && !gamepad2.dpad_left) {
+            if (gamepad2.y && !gamepad2.x) {
                 drone.setDirection(Servo.Direction.REVERSE);
                 drone.setPosition(1);
             }
-            if (gamepad2.dpad_left && !gamepad2.dpad_right) {
+            if (gamepad2.x && !gamepad2.y) {
                 drone.setDirection(Servo.Direction.FORWARD);
                 drone.setPosition(1);
             }
