@@ -24,7 +24,7 @@ public class CloseRedAutonJelly extends LinearOpMode {
     static final double     driveGearReduction    = 1.0 ;
     static final double     wheelDiameterInches   = 1.375 ;
     static final double     driveCountsPerInch         = (driveCountsPerMotorRev * driveGearReduction) / (wheelDiameterInches * 3.1415);
-    static final double     driveSpeed             = 0.6;
+    static final double     driveSpeed             = 0.3;
     static final double     turnSpeed              = 0.5;
     static final double     liftCountsPerMotorRev    = 28 ;
     static final double     liftGearReduction    = 0.05 ;
@@ -68,9 +68,7 @@ public class CloseRedAutonJelly extends LinearOpMode {
 
         waitForStart();
 
-        encoderDrive(driveSpeed,  48,  48, 5.0);
-        encoderDrive(driveSpeed, -24, -24, 4.0);
-        depositPixel();
+        encoderDrive(driveSpeed,  -24,  -24, 5.0);
         outtakePixel();
 
         telemetry.addData("Path", "Complete");
