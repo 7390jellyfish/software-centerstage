@@ -9,19 +9,18 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous
 
-public class OuttakeBlueAutonJelly extends LinearOpMode {
+public class EmergencyBlueAutonJelly extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         DcMotor frontLeftMotor = hardwareMap.dcMotor.get("fl");
         DcMotor backLeftMotor = hardwareMap.dcMotor.get("bl");
         DcMotor frontRightMotor = hardwareMap.dcMotor.get("fr");
         DcMotor backRightMotor = hardwareMap.dcMotor.get("br");
         DcMotor liftLeft = hardwareMap.dcMotor.get("ll");
-        DcMotor liftRight = hardwareMap.dcMotor.get("lr");
+        DcMotor liftRight = hardwareMap.dcMotor.get("rl");
         DcMotor intake = hardwareMap.dcMotor.get("intake");
         DcMotor transit = hardwareMap.dcMotor.get("transit");
         Servo claw = hardwareMap.servo.get("claw");
-//        Servo ramp = hardwareMap.servo.get("ramp");
-//        Servo drone = hardwareMap.servo.get("drone");
+        Servo drone = hardwareMap.servo.get("drone");
 
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -32,8 +31,7 @@ public class OuttakeBlueAutonJelly extends LinearOpMode {
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         transit.setDirection(DcMotorSimple.Direction.REVERSE);
         claw.setDirection(Servo.Direction.FORWARD);
-//        ramp.setDirection(Servo.Direction.FORWARD);
-//        drone.setDirection(Servo.Direction.FORWARD);
+        drone.setDirection(Servo.Direction.FORWARD);
 
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

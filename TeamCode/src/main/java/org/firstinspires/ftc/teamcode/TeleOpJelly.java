@@ -19,7 +19,6 @@ public class TeleOpJelly extends LinearOpMode {
         DcMotor intake = hardwareMap.dcMotor.get("intake");
         DcMotor transit = hardwareMap.dcMotor.get("transit");
         Servo claw = hardwareMap.servo.get("claw");
-//        Servo ramp = hardwareMap.servo.get("ramp");
         Servo drone = hardwareMap.servo.get("drone");
 
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -31,8 +30,6 @@ public class TeleOpJelly extends LinearOpMode {
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         transit.setDirection(DcMotorSimple.Direction.REVERSE);
         claw.setDirection(Servo.Direction.FORWARD);
-//        ramp.setDirection(Servo.Direction.FORWARD);
-//        drone.setDirection(Servo.Direction.FORWARD);
 
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -47,8 +44,8 @@ public class TeleOpJelly extends LinearOpMode {
 
         while (opModeIsActive()) {
             // dt
-            double y = -gamepad1.left_stick_y;
-            double x = gamepad1.left_stick_x * 1.1;
+            double y = gamepad1.left_stick_y;
+            double x = -gamepad1.left_stick_x * 1.1;
             double rx = -gamepad1.right_stick_x;
 
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
@@ -64,7 +61,10 @@ public class TeleOpJelly extends LinearOpMode {
 
             // lift
             double liftPower = gamepad2.right_trigger - gamepad2.left_trigger;
-            if (gamepad2.right_trigger != 0 || gamepad2.left_trigger != 0) {
+            if ((gamepad2.right_trigger != 0) || (gamepad2.left_trigger != 0)) {
+                if (gamepad2.right_trigger == 0) {
+                    claw.setPosition(0.9);
+                }
                 liftLeft.setPower(liftPower);
                 liftRight.setPower(liftPower);
             } else {
@@ -74,16 +74,16 @@ public class TeleOpJelly extends LinearOpMode {
 
             // intake
             double intakePower = (gamepad2.left_bumper ? 1 : 0) - (gamepad2.right_bumper ? 1 : 0);
-            double transitPower = ((gamepad2.left_bumper ? 1 : 0) - (gamepad2.right_bumper ? 1 : 0)) * 0.7;
+            double transitPower = ((gamepad2.left_bumper ? 1 : 0) - (gamepad2.right_bumper ? 1 : 0)) * 0.6;
             intake.setPower(intakePower);
             transit.setPower(transitPower);
 
             // claw
-            if (gamepad2.a && !gamepad2.b) {
-                claw.setPosition(0.45);
-            }
             if (gamepad2.b && !gamepad2.a) {
-                claw.setPosition(0.6);
+                claw.setPosition(0);
+            }
+            if (gamepad2.a && !gamepad2.b) {
+                claw.setPosition(0.8);
             }
 
             // drone
@@ -96,9 +96,6 @@ public class TeleOpJelly extends LinearOpMode {
                 drone.setPosition(1);
             }
 
-            // ramp
-//            ramp.setPosition(-1.1);
-
             telemetry.addData("front left", frontLeftMotor.getCurrentPosition());
             telemetry.addData("back left", backLeftMotor.getCurrentPosition());
             telemetry.addData("back right", backRightMotor.getCurrentPosition());
@@ -108,7 +105,6 @@ public class TeleOpJelly extends LinearOpMode {
             telemetry.addData("intake", intake.getCurrentPosition());
             telemetry.addData("transit", transit.getCurrentPosition());
             telemetry.addData("claw", claw.getPosition());
-//            telemetry.addData("ramp", ramp.getPosition());
             telemetry.addData("drone", drone.getPosition());
             telemetry.update();
         }
