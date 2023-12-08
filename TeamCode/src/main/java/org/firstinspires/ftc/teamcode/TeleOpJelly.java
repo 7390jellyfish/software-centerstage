@@ -71,6 +71,18 @@ public class TeleOpJelly extends LinearOpMode {
                 liftLeft.setPower(0);
                 liftRight.setPower(0);
             }
+            if (gamepad2.dpad_up && !gamepad2.dpad_right && !gamepad2.dpad_down && !gamepad2.dpad_left) {
+                
+            }
+            if (gamepad2.dpad_right && !gamepad2.dpad_up && !gamepad2.dpad_down && !gamepad2.dpad_left) {
+
+            }
+            if (gamepad2.dpad_down && !gamepad2.dpad_up && !gamepad2.dpad_right && !gamepad2.dpad_left) {
+
+            }
+            if (gamepad2.dpad_left && !gamepad2.dpad_up && !gamepad2.dpad_right && !gamepad2.dpad_down) {
+
+            }
 
             // intake
             double intakePower = (gamepad2.left_bumper ? 1 : 0) - (gamepad2.right_bumper ? 1 : 0);
