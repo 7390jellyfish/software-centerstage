@@ -48,25 +48,19 @@ public class FINALBlueAutonJelly extends LinearOpMode {
 
         drive.setPoseEstimate(startPose);
 
-        TrajectorySequence right = drive.trajectorySequenceBuilder(startPose)
+        TrajectorySequence backdrop = drive.trajectorySequenceBuilder(startPose)
                 .strafeLeft(14.7)
                 .back(42)
                 .build();
-
-        TrajectorySequence middle = drive.trajectorySequenceBuilder(startPose)
-                .strafeLeft(34)
-                .back(37)
-                .build();
-
-        TrajectorySequence left = drive.trajectorySequenceBuilder(startPose)
-                .strafeLeft(28)
-                .back(37)
+        TrajectorySequence park = drive.trajectorySequenceBuilder(startPose)
+                .strafeRight(5)
+                .back(5)
                 .build();
 
         waitForStart();
 
         if (!isStopRequested()) {
-            drive.followTrajectorySequence(right);
+            drive.followTrajectorySequence(backdrop);
             claw.setPosition(0);
             sleep(1500);
             liftRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -79,33 +73,33 @@ public class FINALBlueAutonJelly extends LinearOpMode {
             liftRight.setPower(0);
             sleep(500);
             claw.setPosition(0.8);
-            sleep(1500);
+            drive.followTrajectorySequence(park);
 
-            liftRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            liftRight.setTargetPosition(0);
-            liftRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            liftLeft.setPower(1 - 0.03);
-            liftRight.setPower(1);
-            while(opModeIsActive() && liftRight.isBusy()) { }
-            liftLeft.setPower(0);
-            liftRight.setPower(0);
-            transit.setPower(0.7);
-            sleep(5000);
-            transit.setPower(0);
-
-            claw.setPosition(0);
-            sleep(1500);
-            liftRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            liftRight.setTargetPosition(1500);
-            liftRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            liftLeft.setPower(1 - 0.03);
-            liftRight.setPower(1);
-            while(opModeIsActive() && liftRight.isBusy()) { }
-            liftLeft.setPower(0);
-            liftRight.setPower(0);
-            liftRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            sleep(500);
-            claw.setPosition(0.8);
+//            liftRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//            liftRight.setTargetPosition(0);
+//            liftRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//            liftLeft.setPower(1 - 0.03);
+//            liftRight.setPower(1);
+//            while(opModeIsActive() && liftRight.isBusy()) { }
+//            liftLeft.setPower(0);
+//            liftRight.setPower(0);
+//            transit.setPower(0.7);
+//            sleep(5000);
+//            transit.setPower(0);
+//
+//            claw.setPosition(0);
+//            sleep(1500);
+//            liftRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//            liftRight.setTargetPosition(1500);
+//            liftRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//            liftLeft.setPower(1 - 0.03);
+//            liftRight.setPower(1);
+//            while(opModeIsActive() && liftRight.isBusy()) { }
+//            liftLeft.setPower(0);
+//            liftRight.setPower(0);
+//            liftRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//            sleep(500);
+//            claw.setPosition(0.8);
         }
     }
 }

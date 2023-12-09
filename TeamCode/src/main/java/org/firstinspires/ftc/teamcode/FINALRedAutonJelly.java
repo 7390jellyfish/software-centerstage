@@ -65,72 +65,59 @@ public class FINALRedAutonJelly extends LinearOpMode {
 
         drive.setPoseEstimate(startPose);
 
-        TrajectorySequence right = drive.trajectorySequenceBuilder(startPose)
+        TrajectorySequence backdrop = drive.trajectorySequenceBuilder(startPose)
                 .strafeLeft(14.7)
                 .turn(Math.toRadians(180))
                 .back(39)
                 .build();
-
-        TrajectorySequence middle = drive.trajectorySequenceBuilder(startPose)
-                .strafeLeft(34)
-                .turn(Math.toRadians(180))
-                .back(37)
-                .build();
-
-        TrajectorySequence left = drive.trajectorySequenceBuilder(startPose)
-                .strafeLeft(40)
-                .turn(Math.toRadians(180))
-                .back(37)
+        TrajectorySequence park = drive.trajectorySequenceBuilder(startPose)
+                .strafeLeft(5)
+                .back(5)
                 .build();
 
         waitForStart();
 
         if (!isStopRequested()) {
-            drive.followTrajectorySequence(right);
+            drive.followTrajectorySequence(backdrop);
             claw.setPosition(0);
             sleep(1500);
+            liftRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             liftRight.setTargetPosition(1500);
-//            liftRight.setTargetPosition(200);
             liftRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            liftRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             liftLeft.setPower(1 - 0.03);
             liftRight.setPower(1);
-//            while(opModeIsActive() && ((Math.abs(liftLeft.getCurrentPosition()-liftLeft.getTargetPosition())<5))){ }
             while(opModeIsActive() && liftRight.isBusy()) { }
             liftLeft.setPower(0);
             liftRight.setPower(0);
             sleep(500);
             claw.setPosition(0.8);
+            drive.followTrajectorySequence(park);
 
-            sleep(1500);
-            liftRight.setTargetPosition(-1500);
-//            liftRight.setTargetPosition(200);
-            liftRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//            liftRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//            liftRight.setTargetPosition(0);
 //            liftRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            liftLeft.setPower(1 - 0.03);
-            liftRight.setPower(1);
-//            while(opModeIsActive() && ((Math.abs(liftLeft.getCurrentPosition()-liftLeft.getTargetPosition())<5))){ }
-            while(opModeIsActive() && liftRight.isBusy()) { }
-            transit.setPower(0.7);
-            sleep(5000);
-            transit.setPower(0);
-
-            claw.setPosition(0);
-            sleep(1500);
-            liftRight.setTargetPosition(1500);
-//            liftRight.setTargetPosition(200);
-            liftRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//            liftLeft.setPower(1 - 0.03);
+//            liftRight.setPower(1);
+//            while(opModeIsActive() && liftRight.isBusy()) { }
+//            liftLeft.setPower(0);
+//            liftRight.setPower(0);
+//            transit.setPower(0.7);
+//            sleep(5000);
+//            transit.setPower(0);
+//
+//            claw.setPosition(0);
+//            sleep(1500);
+//            liftRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//            liftRight.setTargetPosition(1500);
 //            liftRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            liftLeft.setPower(1 - 0.03);
-            liftRight.setPower(1);
-//            while(opModeIsActive() && ((Math.abs(liftLeft.getCurrentPosition()-liftLeft.getTargetPosition())<5))){ }
-            while(opModeIsActive() && liftRight.isBusy()) { }
-            liftLeft.setPower(0);
-            liftRight.setPower(0);
-            liftLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            liftRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            sleep(500);
-            claw.setPosition(0.8);
+//            liftLeft.setPower(1 - 0.03);
+//            liftRight.setPower(1);
+//            while(opModeIsActive() && liftRight.isBusy()) { }
+//            liftLeft.setPower(0);
+//            liftRight.setPower(0);
+//            liftRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//            sleep(500);
+//            claw.setPosition(0.8);
         }
     }
 }
