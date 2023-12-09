@@ -49,12 +49,14 @@ public class FINALBlueAutonJelly extends LinearOpMode {
         drive.setPoseEstimate(startPose);
 
         TrajectorySequence backdrop = drive.trajectorySequenceBuilder(startPose)
-                .strafeLeft(14.7)
+                .strafeLeft(17)
                 .back(42)
                 .build();
-        TrajectorySequence park = drive.trajectorySequenceBuilder(startPose)
-                .strafeRight(5)
-                .back(5)
+        TrajectorySequence park = drive.trajectorySequenceBuilder(backdrop.end())
+                .forward(15)
+                .turn(Math.toRadians(180))
+                .strafeLeft(21)
+                .forward(15)
                 .build();
 
         waitForStart();
@@ -73,7 +75,13 @@ public class FINALBlueAutonJelly extends LinearOpMode {
             liftRight.setPower(0);
             sleep(500);
             claw.setPosition(0.8);
+            sleep(1500);
             drive.followTrajectorySequence(park);
+            intake.setPower(-1);
+            transit.setPower(-1);
+            sleep(10000);
+            intake.setPower(0);
+            transit.setPower(0);
 
 //            liftRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //            liftRight.setTargetPosition(0);

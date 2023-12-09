@@ -66,13 +66,15 @@ public class FINALRedAutonJelly extends LinearOpMode {
         drive.setPoseEstimate(startPose);
 
         TrajectorySequence backdrop = drive.trajectorySequenceBuilder(startPose)
-                .strafeLeft(14.7)
+                .strafeLeft(19)
                 .turn(Math.toRadians(180))
                 .back(39)
                 .build();
-        TrajectorySequence park = drive.trajectorySequenceBuilder(startPose)
-                .strafeLeft(5)
-                .back(5)
+        TrajectorySequence park = drive.trajectorySequenceBuilder(backdrop.end())
+                .forward(15)
+                .turn(Math.toRadians(180))
+                .strafeRight(21)
+                .forward(15)
                 .build();
 
         waitForStart();
@@ -91,7 +93,13 @@ public class FINALRedAutonJelly extends LinearOpMode {
             liftRight.setPower(0);
             sleep(500);
             claw.setPosition(0.8);
+            sleep(1500);
             drive.followTrajectorySequence(park);
+            intake.setPower(-1);
+            transit.setPower(-1);
+            sleep(10000);
+            intake.setPower(0);
+            transit.setPower(0);
 
 //            liftRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //            liftRight.setTargetPosition(0);
