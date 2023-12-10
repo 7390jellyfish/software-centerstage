@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 @Autonomous
-public class FINALRedAutonJelly extends LinearOpMode {
+public class testred extends LinearOpMode {
     DcMotor liftLeft = null;
     DcMotor liftRight = null;
     DcMotor intake = null;
@@ -32,7 +32,7 @@ public class FINALRedAutonJelly extends LinearOpMode {
         transit.setDirection(DcMotorSimple.Direction.REVERSE);
         claw.setDirection(Servo.Direction.FORWARD);
 
-        liftLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        liftLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         liftRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -52,10 +52,10 @@ public class FINALRedAutonJelly extends LinearOpMode {
                 .back(40)
                 .build();
         TrajectorySequence park = drive.trajectorySequenceBuilder(backdrop.end())
-                .forward(10)
+                .forward(15)
                 .turn(Math.toRadians(180))
-                .strafeRight(20)
-                .forward(10)
+                .strafeRight(25)
+                .forward(15)
                 .build();
 
         waitForStart();
@@ -72,44 +72,41 @@ public class FINALRedAutonJelly extends LinearOpMode {
             liftRight.setPower(0);
             liftLeft.setPower(0);
             liftRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            sleep(500);
+            claw.setPosition(0.8);
+            sleep(1500);
+
+            claw.setPosition(0.9);
+            sleep(1500);
+            liftRight.setTargetPosition(0);
+            liftRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            liftRight.setPower(-1);
+            liftLeft.setPower(-1);
+            while (opModeIsActive() && liftRight.isBusy()) { }
+            liftRight.setPower(0);
+            liftLeft.setPower(0);
+            liftRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            intake.setPower(1);
+            transit.setPower(0.8);
+            sleep(1000);
+            intake.setPower(0);
+            transit.setPower(0);
+            claw.setPosition(0);
+            sleep(1500);
+
+            claw.setPosition(0);
+            sleep(1500);
+            liftRight.setTargetPosition(1500);
+            liftRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            liftRight.setPower(1);
+            liftLeft.setPower(1);
+            while (opModeIsActive() && liftRight.isBusy()) { }
+            liftRight.setPower(0);
+            liftLeft.setPower(0);
+            liftRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             claw.setPosition(0.8);
             sleep(1500);
 
             drive.followTrajectorySequence(park);
-            intake.setPower(-1);
-            transit.setPower(-1);
-            sleep(5000);
-            intake.setPower(0);
-            transit.setPower(0);
-
-//            claw.setPosition(0.8);
-//            sleep(1500);
-//            liftRight.setTargetPosition(0);
-//            liftRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            liftRight.setPower(1);
-//            liftLeft.setPower(1);
-//            while (opModeIsActive() && liftRight.isBusy()) { }
-//            liftRight.setPower(0);
-//            liftLeft.setPower(0);
-//            liftRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//            sleep(500);
-//            claw.setPosition(0);
-//            sleep(1500);
-//
-//            claw.setPosition(0);
-//            sleep(1500);
-//            liftRight.setTargetPosition(1500);
-//            liftRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            liftRight.setPower(1);
-//            liftLeft.setPower(1);
-//            while (opModeIsActive() && liftRight.isBusy()) { }
-//            liftRight.setPower(0);
-//            liftLeft.setPower(0);
-//            liftRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//            sleep(500);
-//            claw.setPosition(0.8);
-//            sleep(1500);
         }
     }
 }

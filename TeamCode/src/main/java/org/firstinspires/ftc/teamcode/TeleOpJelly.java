@@ -46,14 +46,13 @@ public class TeleOpJelly extends LinearOpMode {
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        liftLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        liftLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-//        liftLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        liftRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-//        liftLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        liftRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         waitForStart();
 
@@ -78,43 +77,46 @@ public class TeleOpJelly extends LinearOpMode {
 
             // lift
             double liftPower = gamepad2.right_trigger - gamepad2.left_trigger;
-            if ((gamepad2.right_trigger != 0) || (gamepad2.left_trigger != 0)) {
-                if (gamepad2.right_trigger == 0) {
-                    claw.setPosition(0.9);
-                }
-                liftLeft.setPower(liftPower - 0.03);
-                liftRight.setPower(liftPower);
-            } else {
-                liftLeft.setPower(0);
-                liftRight.setPower(0);
+            liftLeft.setPower(liftPower);
+            liftRight.setPower(liftPower);
+            if (gamepad2.left_trigger != 0 && gamepad2.right_trigger == 0) {
+                claw.setPosition(0.9);
             }
 //            if (gamepad2.dpad_up && !gamepad2.dpad_right && !gamepad2.dpad_down && !gamepad2.dpad_left) {
-//                liftLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//                liftRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//                liftLeft.setTargetPosition(100);
-//                liftRight.setTargetPosition(100);
-//                resetLiftEncoders();
+//                liftRight.setTargetPosition(1500);
+//                liftRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                liftRight.setPower(1);
+//                liftLeft.setPower(1);
+//                while (opModeIsActive() && liftRight.isBusy()) { }
+//                liftRight.setPower(0);
+//                liftLeft.setPower(0);
 //            }
 //            if (gamepad2.dpad_right && !gamepad2.dpad_up && !gamepad2.dpad_down && !gamepad2.dpad_left) {
-//                liftLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//                liftRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//                liftLeft.setTargetPosition(1000);
 //                liftRight.setTargetPosition(1000);
-//                resetLiftEncoders();
+//                liftRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                liftRight.setPower(1);
+//                liftLeft.setPower(1);
+//                while (opModeIsActive() && liftRight.isBusy()) { }
+//                liftRight.setPower(0);
+//                liftLeft.setPower(0);
 //            }
 //            if (gamepad2.dpad_down && !gamepad2.dpad_up && !gamepad2.dpad_right && !gamepad2.dpad_left) {
-//                liftLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//                liftRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//                liftLeft.setTargetPosition(10);
-//                liftRight.setTargetPosition(10);
-//                resetLiftEncoders();
+//                liftRight.setTargetPosition(500);
+//                liftRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                liftRight.setPower(1);
+//                liftLeft.setPower(1);
+//                while (opModeIsActive() && liftRight.isBusy()) { }
+//                liftRight.setPower(0);
+//                liftLeft.setPower(0);
 //            }
 //            if (gamepad2.dpad_left && !gamepad2.dpad_up && !gamepad2.dpad_right && !gamepad2.dpad_down) {
-//                liftLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//                liftRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//                liftLeft.setTargetPosition(10);
-//                liftRight.setTargetPosition(10);
-//                resetLiftEncoders();
+//                liftRight.setTargetPosition(0);
+//                liftRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                liftRight.setPower(1);
+//                liftLeft.setPower(1);
+//                while (opModeIsActive() && liftRight.isBusy()) { }
+//                liftRight.setPower(0);
+//                liftLeft.setPower(0);
 //            }
 
             // intake
@@ -122,6 +124,12 @@ public class TeleOpJelly extends LinearOpMode {
             double transitPower =  (gamepad2.right_bumper ? 1.0 : 0.0) - (gamepad2.left_bumper ? 1.0 : 0.0);
             intake.setPower(intakePower);
             transit.setPower(transitPower * 0.8);
+            if (gamepad2.dpad_up && !gamepad2.dpad_down) {
+                transit.setPower(1);
+            }
+            if (gamepad2.dpad_down && !gamepad2.dpad_up) {
+                transit.setPower(-1);
+            }
 
             // claw
             if (gamepad2.b && !gamepad2.a) {
