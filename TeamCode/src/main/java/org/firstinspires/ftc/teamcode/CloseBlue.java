@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -10,56 +9,51 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-@Autonomous
-public class emergencyred extends LinearOpMode {
-    DcMotor liftLeft = null;
-    DcMotor liftRight = null;
+public class CloseBlue extends LinearOpMode {
+    DcMotor leftLift = null;
+    DcMotor rightLift = null;
     DcMotor intake = null;
     DcMotor transit = null;
     Servo claw = null;
-
     @Override
     public void runOpMode() throws InterruptedException {
-        liftLeft = hardwareMap.dcMotor.get("ll");
-        liftRight = hardwareMap.dcMotor.get("rl");
+        leftLift = hardwareMap.dcMotor.get("ll");
+        rightLift = hardwareMap.dcMotor.get("rl");
         intake = hardwareMap.dcMotor.get("intake");
         transit = hardwareMap.dcMotor.get("transit");
         claw = hardwareMap.servo.get("claw");
 
-        liftLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-        liftRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftLift.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightLift.setDirection(DcMotorSimple.Direction.FORWARD);
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         transit.setDirection(DcMotorSimple.Direction.REVERSE);
         claw.setDirection(Servo.Direction.FORWARD);
 
-//        liftLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        liftRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        liftRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        liftRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        liftLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(0, 0, 180);
+        Pose2d startPose = new Pose2d(0, 0, 0);
 
         drive.setPoseEstimate(startPose);
 
-        TrajectorySequence park = drive.trajectorySequenceBuilder(startPose)
-                .strafeLeft(30)
+        TrajectorySequence spikeMark = drive.trajectorySequenceBuilder(startPose)
+                .forward(10)
+                .build();
+        TrajectorySequence backdrop = drive.trajectorySequenceBuilder(spikeMark.end())
+                .forward(10)
+                .build();
+        TrajectorySequence cycle = drive.trajectorySequenceBuilder(backdrop.end())
+                .forward(10)
                 .build();
 
         waitForStart();
 
         if (!isStopRequested()) {
-            drive.followTrajectorySequence(park);
-            intake.setPower(-1);
-            sleep(5000);
-            transit.setPower(-1);
-            sleep(20000);
-            intake.setPower(0);
-            transit.setPower(0);
+            drive.followTrajectorySequence(spikeMark);
+            drive.followTrajectorySequence(backdrop);
+            drive.followTrajectorySequence(cycle);
         }
     }
 }

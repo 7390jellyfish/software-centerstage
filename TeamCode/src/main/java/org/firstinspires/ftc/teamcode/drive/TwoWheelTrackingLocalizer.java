@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.drive;
 
-import android.util.SparseArray;
-
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -46,7 +44,7 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer {
     public static double PERPENDICULAR_X = -6.5;
     public static double PERPENDICULAR_Y = -2.;
     public static double X_MULT = 1.016;
-        public static double Y_MULT = 1.0787;
+    public static double Y_MULT = 1.0787;
 
     // Parallel/Perpendicular to the forward axis
     // Parallel wheel is parallel to the forward axis
