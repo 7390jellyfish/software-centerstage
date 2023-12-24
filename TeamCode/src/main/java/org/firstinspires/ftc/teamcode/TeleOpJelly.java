@@ -12,8 +12,8 @@ public class TeleOpJelly extends LinearOpMode {
     DcMotor backLeftMotor = null;
     DcMotor frontRightMotor = null;
     DcMotor backRightMotor = null;
-    DcMotor liftLeft = null;
-    DcMotor liftRight = null;
+    DcMotor leftLift = null;
+    DcMotor rightLift = null;
     DcMotor intake = null;
     DcMotor transit = null;
     Servo claw = null;
@@ -25,8 +25,8 @@ public class TeleOpJelly extends LinearOpMode {
         backLeftMotor = hardwareMap.dcMotor.get("bl");
         frontRightMotor = hardwareMap.dcMotor.get("fr");
         backRightMotor = hardwareMap.dcMotor.get("br");
-        liftLeft = hardwareMap.dcMotor.get("ll");
-        liftRight = hardwareMap.dcMotor.get("rl");
+        leftLift = hardwareMap.dcMotor.get("ll");
+        rightLift = hardwareMap.dcMotor.get("rl");
         intake = hardwareMap.dcMotor.get("intake");
         transit = hardwareMap.dcMotor.get("transit");
         claw = hardwareMap.servo.get("claw");
@@ -36,8 +36,8 @@ public class TeleOpJelly extends LinearOpMode {
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        liftLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-        liftRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftLift.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightLift.setDirection(DcMotorSimple.Direction.FORWARD);
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         transit.setDirection(DcMotorSimple.Direction.REVERSE);
         claw.setDirection(Servo.Direction.FORWARD);
@@ -46,13 +46,11 @@ public class TeleOpJelly extends LinearOpMode {
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        liftLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        liftRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        liftRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        liftRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        liftLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         waitForStart();
 
@@ -77,47 +75,11 @@ public class TeleOpJelly extends LinearOpMode {
 
             // lift
             double liftPower = gamepad2.right_trigger - gamepad2.left_trigger;
-            liftLeft.setPower(liftPower);
-            liftRight.setPower(liftPower);
+            leftLift.setPower(liftPower);
+            rightLift.setPower(liftPower);
             if (gamepad2.left_trigger != 0 && gamepad2.right_trigger == 0) {
                 claw.setPosition(0.9);
             }
-//            if (gamepad2.dpad_up && !gamepad2.dpad_right && !gamepad2.dpad_down && !gamepad2.dpad_left) {
-//                liftRight.setTargetPosition(1500);
-//                liftRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                liftRight.setPower(1);
-//                liftLeft.setPower(1);
-//                while (opModeIsActive() && liftRight.isBusy()) { }
-//                liftRight.setPower(0);
-//                liftLeft.setPower(0);
-//            }
-//            if (gamepad2.dpad_right && !gamepad2.dpad_up && !gamepad2.dpad_down && !gamepad2.dpad_left) {
-//                liftRight.setTargetPosition(1000);
-//                liftRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                liftRight.setPower(1);
-//                liftLeft.setPower(1);
-//                while (opModeIsActive() && liftRight.isBusy()) { }
-//                liftRight.setPower(0);
-//                liftLeft.setPower(0);
-//            }
-//            if (gamepad2.dpad_down && !gamepad2.dpad_up && !gamepad2.dpad_right && !gamepad2.dpad_left) {
-//                liftRight.setTargetPosition(500);
-//                liftRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                liftRight.setPower(1);
-//                liftLeft.setPower(1);
-//                while (opModeIsActive() && liftRight.isBusy()) { }
-//                liftRight.setPower(0);
-//                liftLeft.setPower(0);
-//            }
-//            if (gamepad2.dpad_left && !gamepad2.dpad_up && !gamepad2.dpad_right && !gamepad2.dpad_down) {
-//                liftRight.setTargetPosition(0);
-//                liftRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                liftRight.setPower(1);
-//                liftLeft.setPower(1);
-//                while (opModeIsActive() && liftRight.isBusy()) { }
-//                liftRight.setPower(0);
-//                liftLeft.setPower(0);
-//            }
 
             // intake
             double intakePower = (gamepad2.right_bumper ? 1.0 : 0.0) - (gamepad2.left_bumper ? 1.0 : 0.0);
@@ -153,8 +115,8 @@ public class TeleOpJelly extends LinearOpMode {
             telemetry.addData("back left", backLeftMotor.getCurrentPosition());
             telemetry.addData("back right", backRightMotor.getCurrentPosition());
             telemetry.addData("front right", frontRightMotor.getCurrentPosition());
-            telemetry.addData("lift left", liftLeft.getCurrentPosition());
-            telemetry.addData("lift right", liftRight.getCurrentPosition());
+            telemetry.addData("right lift", leftLift.getCurrentPosition());
+            telemetry.addData("left lift", rightLift.getCurrentPosition());
             telemetry.addData("intake", intake.getCurrentPosition());
             telemetry.addData("transit", transit.getCurrentPosition());
             telemetry.addData("claw", claw.getPosition());
@@ -162,15 +124,4 @@ public class TeleOpJelly extends LinearOpMode {
             telemetry.update();
         }
     }
-//    public void resetLiftEncoders() {
-//        liftLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        liftRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//        liftLeft.setPower(1);
-//        liftLeft.setPower(1);
-//        while(opModeIsActive() && liftLeft.isBusy() && liftRight.isBusy()) { }
-//        liftLeft.setPower(0);
-//        liftRight.setPower(0);
-//        liftLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        liftRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//    }
 }
