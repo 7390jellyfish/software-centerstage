@@ -8,10 +8,10 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
 public class TeleOpJelly extends LinearOpMode {
-    DcMotor frontLeftMotor = null;
-    DcMotor backLeftMotor = null;
     DcMotor frontRightMotor = null;
     DcMotor backRightMotor = null;
+    DcMotor backLeftMotor = null;
+    DcMotor frontLeftMotor = null;
     DcMotor leftLift = null;
     DcMotor rightLift = null;
     DcMotor intake = null;
@@ -21,10 +21,10 @@ public class TeleOpJelly extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        frontLeftMotor = hardwareMap.dcMotor.get("fl");
-        backLeftMotor = hardwareMap.dcMotor.get("bl");
-        frontRightMotor = hardwareMap.dcMotor.get("fr");
-        backRightMotor = hardwareMap.dcMotor.get("br");
+        frontRightMotor = hardwareMap.dcMotor.get("fl");
+        backRightMotor = hardwareMap.dcMotor.get("bl");
+        backLeftMotor = hardwareMap.dcMotor.get("fr");
+        frontLeftMotor = hardwareMap.dcMotor.get("br");
         leftLift = hardwareMap.dcMotor.get("ll");
         rightLift = hardwareMap.dcMotor.get("rl");
         intake = hardwareMap.dcMotor.get("intake");
@@ -34,18 +34,18 @@ public class TeleOpJelly extends LinearOpMode {
 
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         leftLift.setDirection(DcMotorSimple.Direction.FORWARD);
         rightLift.setDirection(DcMotorSimple.Direction.FORWARD);
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         transit.setDirection(DcMotorSimple.Direction.REVERSE);
         claw.setDirection(Servo.Direction.FORWARD);
 
-        frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -60,15 +60,15 @@ public class TeleOpJelly extends LinearOpMode {
             double rx = -gamepad1.right_stick_x;
 
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-            double frontLeftPower = (y + x + rx) / denominator;
-            double backLeftPower = (y - x + rx) / denominator;
             double frontRightPower = (y - x - rx) / denominator;
             double backRightPower = (y + x - rx) / denominator;
+            double backLeftPower = (y - x + rx) / denominator;
+            double frontLeftPower = (y + x + rx) / denominator;
 
-            frontLeftMotor.setPower(frontLeftPower);
-            backLeftMotor.setPower(backLeftPower);
             frontRightMotor.setPower(frontRightPower);
             backRightMotor.setPower(backRightPower);
+            backLeftMotor.setPower(backLeftPower);
+            frontLeftMotor.setPower(frontLeftPower);
 
             // lift
             double liftPower = gamepad2.right_trigger - gamepad2.left_trigger;
@@ -108,10 +108,10 @@ public class TeleOpJelly extends LinearOpMode {
                 drone.setPosition(1);
             }
 
-            telemetry.addData("front left", frontLeftMotor.getCurrentPosition());
-            telemetry.addData("back left", backLeftMotor.getCurrentPosition());
-            telemetry.addData("back right", backRightMotor.getCurrentPosition());
             telemetry.addData("front right", frontRightMotor.getCurrentPosition());
+            telemetry.addData("back right", backRightMotor.getCurrentPosition());
+            telemetry.addData("back left", backLeftMotor.getCurrentPosition());
+            telemetry.addData("front left", frontLeftMotor.getCurrentPosition());
             telemetry.addData("right lift", leftLift.getCurrentPosition());
             telemetry.addData("left lift", rightLift.getCurrentPosition());
             telemetry.addData("intake", intake.getCurrentPosition());
