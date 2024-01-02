@@ -25,7 +25,7 @@ public class CloseBlue extends LinearOpMode {
         transit = hardwareMap.dcMotor.get("transit");
         claw = hardwareMap.servo.get("claw");
 
-        leftLift.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftLift.setDirection(DcMotorSimple.Direction.REVERSE);
         rightLift.setDirection(DcMotorSimple.Direction.FORWARD);
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         transit.setDirection(DcMotorSimple.Direction.REVERSE);
