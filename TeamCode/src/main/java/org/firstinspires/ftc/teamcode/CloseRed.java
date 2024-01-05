@@ -42,15 +42,17 @@ public class CloseRed extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(0, 0, 90);
+        Pose2d startPose = new Pose2d(0, 0, 0);
 
         drive.setPoseEstimate(startPose);
 
         TrajectorySequence spikeMark = drive.trajectorySequenceBuilder(startPose)
-                .forward(10)
+                .strafeLeft(6.5)
+                .turn(Math.toRadians(90))
                 .addDisplacementMarker(() -> {
                     intake.setPower(-1);
-                    sleep(1000);
+                    transit.setPower(-1);
+                    sleep(4000);
                 })
                 .build();
         TrajectorySequence backdrop = drive.trajectorySequenceBuilder(spikeMark.end())
@@ -78,10 +80,10 @@ public class CloseRed extends LinearOpMode {
 
         if (!isStopRequested()) {
             drive.followTrajectorySequence(spikeMark);
-            drive.followTrajectorySequence(backdrop);
-            drive.followTrajectorySequence(cycle);
-            upDeposit();
-            downDeposit();
+//            drive.followTrajectorySequence(backdrop);
+//            drive.followTrajectorySequence(cycle);
+//            upDeposit();
+//            downDeposit();
         }
     }
     void upDeposit() {

@@ -55,27 +55,27 @@ public class TeleOpJelly extends LinearOpMode {
 
         while (opModeIsActive()) {
             // dt
-            double y = gamepad1.left_stick_y;
+            double y = -gamepad1.left_stick_y;
             double x = -gamepad1.left_stick_x * 1.1;
             double rx = -gamepad1.right_stick_x;
 
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
+            double frontLeftPower = (y - x + rx) / denominator;
+            double backLeftPower = (y + x + rx) / denominator;
             double frontRightPower = (y - x - rx) / denominator;
             double backRightPower = (y + x - rx) / denominator;
-            double backLeftPower = (y - x + rx) / denominator;
-            double frontLeftPower = (y + x + rx) / denominator;
 
+            frontLeftMotor.setPower(frontLeftPower);
+            backLeftMotor.setPower(backLeftPower);
             frontRightMotor.setPower(frontRightPower);
             backRightMotor.setPower(backRightPower);
-            backLeftMotor.setPower(backLeftPower);
-            frontLeftMotor.setPower(frontLeftPower);
 
             // lift
             double liftPower = gamepad2.right_trigger - gamepad2.left_trigger;
             leftLift.setPower(liftPower);
             rightLift.setPower(liftPower);
             if (gamepad2.left_trigger != 0 && gamepad2.right_trigger == 0) {
-                claw.setPosition(0.9);
+                claw.setPosition(0.7);
             }
 
             // intake
@@ -95,7 +95,7 @@ public class TeleOpJelly extends LinearOpMode {
                 claw.setPosition(0);
             }
             if (gamepad2.a && !gamepad2.b) {
-                claw.setPosition(0.9);
+                claw.setPosition(0.7);
             }
 
             // drone
