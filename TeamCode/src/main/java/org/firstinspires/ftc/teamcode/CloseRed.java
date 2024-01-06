@@ -47,7 +47,7 @@ public class CloseRed extends LinearOpMode {
         drive.setPoseEstimate(startPose);
 
         TrajectorySequence spikeMark = drive.trajectorySequenceBuilder(startPose)
-                .strafeLeft(6.5)
+                .strafeLeft(26)
                 .turn(Math.toRadians(90))
                 .addDisplacementMarker(() -> {
                     intake.setPower(-1);
