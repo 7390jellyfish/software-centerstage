@@ -8,13 +8,11 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.Pipelines.VisionRed;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvInternalCamera;
 import org.firstinspires.ftc.teamcode.Pipelines.VisionBlue;
 
 @Autonomous
@@ -51,7 +49,7 @@ public class CloseBlue extends LinearOpMode {
         OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(webcamName);
         VisionBlue visionBlue = new VisionBlue(telemetry);
         camera.setPipeline(visionBlue);
-        int spikeMarkPosition = 2;
+        int spikeMarkPosition = 1;
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
             @Override
@@ -121,29 +119,27 @@ public class CloseBlue extends LinearOpMode {
         waitForStart();
 
         if (!isStopRequested()) {
-            spikeMarkPosition = VisionRed.getPosition();
-            telemetry.addData("spike mark position", spikeMarkPosition);
-            telemetry.update();
-//            if (spikeMarkPosition == 1) {
-//                drive.followTrajectorySequence(spikeMarkLeft);
-//            } else if (spikeMarkPosition == 2) {
-//                drive.followTrajectorySequence(spikeMarkMiddle);
-//            } else {
-//                drive.followTrajectorySequence(spikeMarkRight);
-//            }
-//            intake.setPower(-0.5);
-//            transit.setPower(-1);
-//            sleep(4000);
-//            intake.setPower(0);
-//            transit.setPower(0);
-//            if (spikeMarkPosition == 1) {
-//                drive.followTrajectorySequence(backdropLeft);
-//            } else if (spikeMarkPosition == 2) {
-//                drive.followTrajectorySequence(backdropMiddle);
-//            } else {
-//                drive.followTrajectorySequence(backdropRight);
-//            }
-//            upDeposit();
+            spikeMarkPosition = VisionBlue.getPosition();
+            if (spikeMarkPosition == 1) {
+                drive.followTrajectorySequence(spikeMarkLeft);
+            } else if (spikeMarkPosition == 2) {
+                drive.followTrajectorySequence(spikeMarkMiddle);
+            } else {
+                drive.followTrajectorySequence(spikeMarkRight);
+            }
+            intake.setPower(-0.5);
+            transit.setPower(-1);
+            sleep(4000);
+            intake.setPower(0);
+            transit.setPower(0);
+            if (spikeMarkPosition == 1) {
+                drive.followTrajectorySequence(backdropLeft);
+            } else if (spikeMarkPosition == 2) {
+                drive.followTrajectorySequence(backdropMiddle);
+            } else {
+                drive.followTrajectorySequence(backdropRight);
+                upDeposit();
+            }
 
 //            drive.followTrajectorySequence(cycle);
 //            upDeposit();

@@ -13,7 +13,6 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvInternalCamera;
 import org.firstinspires.ftc.teamcode.Pipelines.VisionRed;
 
 @Autonomous
@@ -74,15 +73,15 @@ public class CloseRed extends LinearOpMode {
         drive.setPoseEstimate(startPose);
 
         TrajectorySequence spikeMarkLeft = drive.trajectorySequenceBuilder(startPose)
-                .strafeLeft(30)
+                .strafeLeft(26)
                 .turn(Math.toRadians(180))
                 .forward(20)
-                .back(14.5)
+                .back(13.5)
                 .strafeRight(5)
                 .build();
         TrajectorySequence spikeMarkMiddle = drive.trajectorySequenceBuilder(startPose)
                 .strafeLeft(34)
-                .strafeRight(10)
+                .strafeRight(11)
                 .turn(Math.toRadians(90))
                 .build();
         TrajectorySequence spikeMarkRight = drive.trajectorySequenceBuilder(startPose)
@@ -93,9 +92,14 @@ public class CloseRed extends LinearOpMode {
                 .back(10)
                 .build();
 
-        TrajectorySequence backdropLeft = drive.trajectorySequenceBuilder(spikeMarkLeft.end())
-                .strafeLeft(3)
-                .back(40)
+        TrajectorySequence backdropLeft1 = drive.trajectorySequenceBuilder(spikeMarkLeft.end())
+                .strafeLeft(6)
+                .back(43)
+                .build();
+        TrajectorySequence backdropLeft2 = drive.trajectorySequenceBuilder(backdropLeft1.end())
+                .forward(10)
+                .strafeLeft(24)
+                .back(10)
                 .build();
         TrajectorySequence backdropMiddle = drive.trajectorySequenceBuilder(spikeMarkMiddle.end())
                 .forward(10)
@@ -122,9 +126,7 @@ public class CloseRed extends LinearOpMode {
         waitForStart();
 
         if (!isStopRequested()) {
-//            spikeMarkPosition = VisionRed.getPosition();
-//            telemetry.addData("spike mark position", spikeMarkPosition);
-//            telemetry.update();
+            spikeMarkPosition = VisionRed.getPosition();
             if (spikeMarkPosition == 1) {
                 drive.followTrajectorySequence(spikeMarkLeft);
             } else if (spikeMarkPosition == 2) {
@@ -138,13 +140,16 @@ public class CloseRed extends LinearOpMode {
             intake.setPower(0);
             transit.setPower(0);
             if (spikeMarkPosition == 1) {
-                drive.followTrajectorySequence(backdropLeft);
+                drive.followTrajectorySequence(backdropLeft1);
+                upDeposit();
+                sleep(1000);
+                downDeposit();
+                drive.followTrajectorySequence(backdropLeft2);
             } else if (spikeMarkPosition == 2) {
                 drive.followTrajectorySequence(backdropMiddle);
             } else {
                 drive.followTrajectorySequence(backdropRight);
             }
-            upDeposit();
 
 //            drive.followTrajectorySequence(cycle);
 //            upDeposit();

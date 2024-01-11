@@ -14,58 +14,59 @@ public class VisionBlue extends OpenCvPipeline {
     Mat mat = new Mat();
     Mat rMat = new Mat();
 
-    public static int position = 2;
+    public static int position = 1;
     public static int getPosition() {
         return position;
     }
 
-    static final Rect MIDDLE_ROI = new Rect(
-            new Point(250, 250),
-            new Point(550, 500));
+    static final Rect LEFT_ROI = new Rect(
+            new Point(125, 250),
+            new Point(500, 550));
 
-    static final Rect RIGHT_ROI = new Rect(
-            new Point(800, 250),
-            new Point(1200, 550));
+    static final Rect MIDDLE_ROI = new Rect(
+            new Point(700, 250),
+            new Point(1100, 500));
 
     public VisionBlue(Telemetry t){telemetry=t;}
     public Mat processFrame(Mat input) {
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
 
-        // blue
-        Scalar rLow = new Scalar(100, 120, 160);
-        Scalar rHigh = new Scalar(120, 160, 200);
+        // red
+        Scalar rLow = new Scalar(0, 150, 100);
+        Scalar rHigh = new Scalar(10, 240, 150);
 
         Core.inRange(mat, rLow, rHigh, rMat);
 
+        Mat rLeft = rMat.submat(LEFT_ROI);
         Mat rMiddle = rMat.submat(MIDDLE_ROI);
-        Mat rRight = rMat.submat(RIGHT_ROI);
 
         Scalar color = new Scalar(100, 100, 100);
 
         // middle
-        Point point2a = new Point(250, 250);
-        Point point2b = new Point(550, 500);
+        Point point2a = new Point(125, 250);
+        Point point2b = new Point(500, 550);
         Imgproc.rectangle(mat, point2a, point2b, color, 5);
 
         // right
-        Point point3a = new Point(800, 250);
-        Point point3b = new Point(1200, 550);
+        Point point3a = new Point(700, 250);
+        Point point3b = new Point(1100, 500);
         Imgproc.rectangle(mat, point3a, point3b, color, 5);
 
+        double yLeftValue = Core.sumElems(rLeft).val[0] / LEFT_ROI.area() / 255;
         double yMiddleValue = Core.sumElems(rMiddle).val[0] / MIDDLE_ROI.area() / 255;
-        double yRightValue = Core.sumElems(rRight).val[0] / RIGHT_ROI.area() / 255;
 
-        if ((Math.round(yMiddleValue * 100) > Math.round(yRightValue * 100)) && (Math.round(yMiddleValue * 100) > 5)) {
-            position = 2;
-        } else if (Math.round(yRightValue * 100) > 5) {
-            position = 3;
-        } else {
+        if ((Math.round(yLeftValue * 100) > Math.round(yMiddleValue * 100)) && (Math.round(yLeftValue * 100) > 5)) {
             position = 1;
+        } else if (Math.round(yMiddleValue * 100) > 5) {
+            position = 2;
+        } else {
+            position = 3;
         }
 
+        telemetry.addLine("ROBOT IS READY");
         telemetry.addData("spike mark", position);
-        telemetry.addData("blue middle percentage", Math.round(yMiddleValue * 100) + "%");
-        telemetry.addData("blue right percentage", Math.round(yRightValue * 100) + "%");
+        telemetry.addData("red left percentage", Math.round(yLeftValue * 100));
+        telemetry.addData("red middle percentage", Math.round(yMiddleValue * 100));
         telemetry.update();
 
         return mat;

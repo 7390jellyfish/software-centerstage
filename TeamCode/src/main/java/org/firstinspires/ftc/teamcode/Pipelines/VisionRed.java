@@ -14,18 +14,18 @@ public class VisionRed extends OpenCvPipeline {
     Mat mat = new Mat();
     Mat rMat = new Mat();
 
-    public static int position = 2;
+    public static int position = 1;
     public static int getPosition() {
         return position;
     }
 
-    static final Rect LEFT_ROI = new Rect(
-            new Point(0, 225),
-            new Point(325, 550));
-
     static final Rect MIDDLE_ROI = new Rect(
-            new Point(550, 225),
-            new Point(925, 525));
+            new Point(400, 225),
+            new Point(700, 500));
+
+    static final Rect RIGHT_ROI = new Rect(
+            new Point(1000, 275),
+            new Point(1280, 575));
 
     public VisionRed(Telemetry t){telemetry=t;}
     public Mat processFrame(Mat input) {
@@ -37,35 +37,36 @@ public class VisionRed extends OpenCvPipeline {
 
         Core.inRange(mat, rLow, rHigh, rMat);
 
-        Mat rLeft = rMat.submat(LEFT_ROI);
         Mat rMiddle = rMat.submat(MIDDLE_ROI);
+        Mat rRight = rMat.submat(RIGHT_ROI);
 
         Scalar color = new Scalar(100, 100, 100);
 
-        // left
-        Point point2a = new Point(0, 225);
-        Point point2b = new Point(325, 550);
+        // middle
+        Point point2a = new Point(400, 275);
+        Point point2b = new Point(700, 600);
         Imgproc.rectangle(mat, point2a, point2b, color, 5);
 
-        // middle
-        Point point3a = new Point(550, 225);
-        Point point3b = new Point(925, 525);
+        // right
+        Point point3a = new Point(1000, 275);
+        Point point3b = new Point(1280, 600);
         Imgproc.rectangle(mat, point3a, point3b, color, 5);
 
-        double yLeftValue = Core.sumElems(rLeft).val[0] / LEFT_ROI.area() / 255;
         double yMiddleValue = Core.sumElems(rMiddle).val[0] / MIDDLE_ROI.area() / 255;
+        double yRightValue = Core.sumElems(rRight).val[0] / RIGHT_ROI.area() / 255;
 
-        if ((Math.round(yLeftValue * 100) > Math.round(yMiddleValue * 100)) && (Math.round(yLeftValue * 100) > 5)) {
+        if ((Math.round(yMiddleValue * 100) > Math.round(yRightValue * 100)) && (Math.round(yMiddleValue * 100) > 5)) {
             position = 2;
-        } else if (Math.round(yMiddleValue * 100) > 5) {
+        } else if (Math.round(yRightValue * 100) > 5) {
             position = 3;
         } else {
             position = 1;
         }
 
+        telemetry.addLine("ROBOT IS READY");
         telemetry.addData("spike mark", position);
-        telemetry.addData("red left percentage", Math.round(yLeftValue * 100));
         telemetry.addData("red middle percentage", Math.round(yMiddleValue * 100));
+        telemetry.addData("red right percentage", Math.round(yRightValue * 100));
         telemetry.update();
 
         return mat;
