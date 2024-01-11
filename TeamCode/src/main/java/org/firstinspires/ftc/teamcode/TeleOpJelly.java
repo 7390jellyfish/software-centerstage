@@ -36,8 +36,8 @@ public class TeleOpJelly extends LinearOpMode {
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        leftLift.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightLift.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftLift.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightLift.setDirection(DcMotorSimple.Direction.REVERSE);
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         transit.setDirection(DcMotorSimple.Direction.REVERSE);
         claw.setDirection(Servo.Direction.FORWARD);
@@ -75,7 +75,7 @@ public class TeleOpJelly extends LinearOpMode {
             leftLift.setPower(liftPower);
             rightLift.setPower(liftPower);
             if (gamepad2.left_trigger != 0 && gamepad2.right_trigger == 0) {
-                claw.setPosition(0.7);
+                claw.setPosition(0.75);
             }
 
             // intake
@@ -83,19 +83,13 @@ public class TeleOpJelly extends LinearOpMode {
             double transitPower =  (gamepad2.right_bumper ? 1.0 : 0.0) - (gamepad2.left_bumper ? 1.0 : 0.0);
             intake.setPower(intakePower);
             transit.setPower(transitPower * 0.8);
-            if (gamepad2.dpad_up && !gamepad2.dpad_down) {
-                transit.setPower(1);
-            }
-            if (gamepad2.dpad_down && !gamepad2.dpad_up) {
-                transit.setPower(-1);
-            }
 
             // claw
             if (gamepad2.b && !gamepad2.a) {
                 claw.setPosition(0);
             }
             if (gamepad2.a && !gamepad2.b) {
-                claw.setPosition(0.7);
+                claw.setPosition(0.75);
             }
 
             // drone

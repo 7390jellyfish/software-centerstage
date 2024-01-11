@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
-public class TeleOpArcade extends LinearOpMode {
+public class OnePersonTeleOp extends LinearOpMode {
     DcMotor frontRightMotor = null;
     DcMotor backRightMotor = null;
     DcMotor backLeftMotor = null;
@@ -36,8 +36,8 @@ public class TeleOpArcade extends LinearOpMode {
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        leftLift.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightLift.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftLift.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightLift.setDirection(DcMotorSimple.Direction.REVERSE);
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         transit.setDirection(DcMotorSimple.Direction.REVERSE);
         claw.setDirection(Servo.Direction.FORWARD);
@@ -55,9 +55,9 @@ public class TeleOpArcade extends LinearOpMode {
 
         while (opModeIsActive()) {
             // dt
-            double y = -gamepad1.left_stick_y;
-            double x = -gamepad1.right_stick_x * 1.1;
-            double rx = -gamepad1.left_stick_x;
+            double y = -gamepad2.left_stick_y;
+            double x = -gamepad2.left_stick_x * 1.1;
+            double rx = -gamepad2.right_stick_x;
 
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
             double frontLeftPower = (y - x + rx) / denominator;
@@ -75,7 +75,7 @@ public class TeleOpArcade extends LinearOpMode {
             leftLift.setPower(liftPower);
             rightLift.setPower(liftPower);
             if (gamepad2.left_trigger != 0 && gamepad2.right_trigger == 0) {
-                claw.setPosition(0.7);
+                claw.setPosition(0.75);
             }
 
             // intake
@@ -83,19 +83,13 @@ public class TeleOpArcade extends LinearOpMode {
             double transitPower =  (gamepad2.right_bumper ? 1.0 : 0.0) - (gamepad2.left_bumper ? 1.0 : 0.0);
             intake.setPower(intakePower);
             transit.setPower(transitPower * 0.8);
-            if (gamepad2.dpad_up && !gamepad2.dpad_down) {
-                transit.setPower(1);
-            }
-            if (gamepad2.dpad_down && !gamepad2.dpad_up) {
-                transit.setPower(-1);
-            }
 
             // claw
             if (gamepad2.b && !gamepad2.a) {
                 claw.setPosition(0);
             }
             if (gamepad2.a && !gamepad2.b) {
-                claw.setPosition(0.7);
+                claw.setPosition(0.75);
             }
 
             // drone
