@@ -36,8 +36,8 @@ public class OnePersonTeleOp extends LinearOpMode {
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        leftLift.setDirection(DcMotorSimple.Direction.FORWARD);
-        rightLift.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftLift.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightLift.setDirection(DcMotorSimple.Direction.FORWARD);
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         transit.setDirection(DcMotorSimple.Direction.REVERSE);
         claw.setDirection(Servo.Direction.FORWARD);
@@ -102,6 +102,9 @@ public class OnePersonTeleOp extends LinearOpMode {
                 drone.setPosition(1);
             }
 
+            telemetry.addData("vertical joystick", y);
+            telemetry.addData("horizontal joystick", x);
+            telemetry.addData("rotational joystick", rx);
             telemetry.addData("front right", frontRightMotor.getCurrentPosition());
             telemetry.addData("back right", backRightMotor.getCurrentPosition());
             telemetry.addData("back left", backLeftMotor.getCurrentPosition());
