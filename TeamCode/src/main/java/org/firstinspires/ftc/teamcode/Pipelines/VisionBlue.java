@@ -32,8 +32,8 @@ public class VisionBlue extends OpenCvPipeline {
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
 
         // red
-        Scalar rLow = new Scalar(0, 150, 100);
-        Scalar rHigh = new Scalar(10, 240, 150);
+        Scalar rLow = new Scalar(100, 120, 160);
+        Scalar rHigh = new Scalar(120, 160, 200);
 
         Core.inRange(mat, rLow, rHigh, rMat);
 
@@ -65,8 +65,8 @@ public class VisionBlue extends OpenCvPipeline {
 
         telemetry.addLine("ROBOT IS READY");
         telemetry.addData("spike mark", position);
-        telemetry.addData("red left percentage", Math.round(yLeftValue * 100));
-        telemetry.addData("red middle percentage", Math.round(yMiddleValue * 100));
+        telemetry.addData("blue left percentage", Math.round(yLeftValue * 100));
+        telemetry.addData("blue middle percentage", Math.round(yMiddleValue * 100));
         telemetry.update();
 
         return mat;

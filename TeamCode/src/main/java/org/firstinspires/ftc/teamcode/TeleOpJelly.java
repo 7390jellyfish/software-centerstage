@@ -102,6 +102,9 @@ public class TeleOpJelly extends LinearOpMode {
                 drone.setPosition(1);
             }
 
+            telemetry.addData("vertical joystick", y);
+            telemetry.addData("horizontal joystick", x);
+            telemetry.addData("rotational joystick", rx);
             telemetry.addData("front right", frontRightMotor.getCurrentPosition());
             telemetry.addData("back right", backRightMotor.getCurrentPosition());
             telemetry.addData("back left", backLeftMotor.getCurrentPosition());
