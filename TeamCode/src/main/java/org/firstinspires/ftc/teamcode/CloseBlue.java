@@ -95,7 +95,7 @@ public class CloseBlue extends LinearOpMode {
                 .build();
         TrajectorySequence backdropLeft2 = drive.trajectorySequenceBuilder(backdropLeft1.end())
                 .forward(10)
-                .strafeRight(24)
+                .strafeRight(26)
                 .back(10)
                 .build();
         TrajectorySequence backdropMiddle1 = drive.trajectorySequenceBuilder(spikeMarkMiddle.end())
@@ -103,7 +103,7 @@ public class CloseBlue extends LinearOpMode {
                 .build();
         TrajectorySequence backdropMiddle2 = drive.trajectorySequenceBuilder(backdropMiddle1.end())
                 .forward(10)
-                .strafeRight(24)
+                .strafeRight(26)
                 .back(10)
                 .build();
         TrajectorySequence backdropRight1 = drive.trajectorySequenceBuilder(spikeMarkRight.end())
@@ -111,7 +111,7 @@ public class CloseBlue extends LinearOpMode {
                 .build();
         TrajectorySequence backdropRight2 = drive.trajectorySequenceBuilder(backdropRight1.end())
                 .forward(10)
-                .strafeRight(24)
+                .strafeRight(26)
                 .back(10)
                 .build();
 

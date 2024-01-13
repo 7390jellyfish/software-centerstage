@@ -96,25 +96,27 @@ public class CloseRed extends LinearOpMode {
                 .build();
         TrajectorySequence backdropLeft2 = drive.trajectorySequenceBuilder(backdropLeft1.end())
                 .forward(10)
-                .strafeLeft(24)
+                .strafeLeft(26)
                 .back(10)
                 .build();
         TrajectorySequence backdropMiddle1 = drive.trajectorySequenceBuilder(spikeMarkMiddle.end())
+                .back(10)
                 .turn(Math.toRadians(90))
                 .lineToConstantHeading(new Vector2d(53.5, -33))
                 .build();
         TrajectorySequence backdropMiddle2 = drive.trajectorySequenceBuilder(backdropMiddle1.end())
                 .forward(10)
-                .strafeLeft(24)
+                .strafeLeft(26)
                 .back(10)
                 .build();
         TrajectorySequence backdropRight1 = drive.trajectorySequenceBuilder(spikeMarkRight.end())
+                .back(10)
                 .turn(Math.toRadians(90))
                 .lineToConstantHeading(new Vector2d(53.5, -33))
                 .build();
         TrajectorySequence backdropRight2 = drive.trajectorySequenceBuilder(backdropRight1.end())
                 .forward(10)
-                .strafeLeft(24)
+                .strafeLeft(26)
                 .back(10)
                 .build();
 
