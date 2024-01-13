@@ -7,15 +7,15 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
-public class TeleOpJelly extends LinearOpMode {
+public class PushBotTeleOp extends LinearOpMode {
     DcMotor frontRightMotor = null;
     DcMotor backRightMotor = null;
     DcMotor backLeftMotor = null;
     DcMotor frontLeftMotor = null;
-    DcMotor leftLift = null;
-    DcMotor rightLift = null;
-    DcMotor intake = null;
-    DcMotor transit = null;
+//    DcMotor leftLift = null;
+//    DcMotor rightLift = null;
+//    DcMotor intake = null;
+//    DcMotor transit = null;
     Servo claw = null;
     Servo drone = null;
 
@@ -25,10 +25,10 @@ public class TeleOpJelly extends LinearOpMode {
         backRightMotor = hardwareMap.dcMotor.get("bl");
         backLeftMotor = hardwareMap.dcMotor.get("fr");
         frontLeftMotor = hardwareMap.dcMotor.get("br");
-        leftLift = hardwareMap.dcMotor.get("ll");
-        rightLift = hardwareMap.dcMotor.get("rl");
-        intake = hardwareMap.dcMotor.get("intake");
-        transit = hardwareMap.dcMotor.get("transit");
+//        leftLift = hardwareMap.dcMotor.get("ll");
+//        rightLift = hardwareMap.dcMotor.get("rl");
+//        intake = hardwareMap.dcMotor.get("intake");
+//        transit = hardwareMap.dcMotor.get("transit");
         claw = hardwareMap.servo.get("claw");
         drone = hardwareMap.servo.get("drone");
 
@@ -36,18 +36,18 @@ public class TeleOpJelly extends LinearOpMode {
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        leftLift.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightLift.setDirection(DcMotorSimple.Direction.FORWARD);
-        intake.setDirection(DcMotorSimple.Direction.FORWARD);
-        transit.setDirection(DcMotorSimple.Direction.REVERSE);
+//        leftLift.setDirection(DcMotorSimple.Direction.REVERSE);
+//        rightLift.setDirection(DcMotorSimple.Direction.FORWARD);
+//        intake.setDirection(DcMotorSimple.Direction.FORWARD);
+//        transit.setDirection(DcMotorSimple.Direction.REVERSE);
         claw.setDirection(Servo.Direction.FORWARD);
 
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         waitForStart();
 
@@ -72,8 +72,8 @@ public class TeleOpJelly extends LinearOpMode {
 
             // lift
             double liftPower = gamepad2.right_trigger - gamepad2.left_trigger;
-            leftLift.setPower(liftPower);
-            rightLift.setPower(liftPower);
+//            leftLift.setPower(liftPower);
+//            rightLift.setPower(liftPower);
             if (gamepad2.left_trigger != 0 && gamepad2.right_trigger == 0) {
                 claw.setPosition(0.75);
             }
@@ -81,8 +81,8 @@ public class TeleOpJelly extends LinearOpMode {
             // intake
             double intakePower = (gamepad2.right_bumper ? 1.0 : 0.0) - (gamepad2.left_bumper ? 1.0 : 0.0);
             double transitPower =  (gamepad2.right_bumper ? 1.0 : 0.0) - (gamepad2.left_bumper ? 1.0 : 0.0);
-            intake.setPower(intakePower * 0.7);
-            transit.setPower(transitPower * 0.8);
+//            intake.setPower(intakePower * 0.7);
+//            transit.setPower(transitPower * 0.8);
 
             // claw
             if (gamepad2.b && !gamepad2.a) {
@@ -109,10 +109,10 @@ public class TeleOpJelly extends LinearOpMode {
             telemetry.addData("back right", backRightMotor.getCurrentPosition());
             telemetry.addData("back left", backLeftMotor.getCurrentPosition());
             telemetry.addData("front left", frontLeftMotor.getCurrentPosition());
-            telemetry.addData("right lift", leftLift.getCurrentPosition());
-            telemetry.addData("left lift", rightLift.getCurrentPosition());
-            telemetry.addData("intake", intake.getCurrentPosition());
-            telemetry.addData("transit", transit.getCurrentPosition());
+//            telemetry.addData("right lift", leftLift.getCurrentPosition());
+//            telemetry.addData("left lift", rightLift.getCurrentPosition());
+//            telemetry.addData("intake", intake.getCurrentPosition());
+//            telemetry.addData("transit", transit.getCurrentPosition());
             telemetry.addData("claw", claw.getPosition());
             telemetry.addData("drone", drone.getPosition());
             telemetry.update();
