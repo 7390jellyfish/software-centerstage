@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.firstinspires.ftc.teamcode.Pipelines.VisionBlue;
+import org.firstinspires.ftc.teamcode.Pipelines.CloseVisionBlue;
 
 @Autonomous
 public class CloseBlue extends LinearOpMode {
@@ -46,7 +46,7 @@ public class CloseBlue extends LinearOpMode {
 
         WebcamName webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
         OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(webcamName);
-        VisionBlue visionBlue = new VisionBlue(telemetry);
+        CloseVisionBlue visionBlue = new CloseVisionBlue(telemetry);
         camera.setPipeline(visionBlue);
         int spikeMarkPosition = 1;
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
@@ -67,7 +67,7 @@ public class CloseBlue extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(0, 0, 180);
+        Pose2d startPose = new Pose2d(0, 0, Math.toRadians(180));
 
         drive.setPoseEstimate(startPose);
 
@@ -89,7 +89,6 @@ public class CloseBlue extends LinearOpMode {
                 .forward(20)
                 .back(18)
                 .build();
-
         TrajectorySequence backdropLeft1 = drive.trajectorySequenceBuilder(spikeMarkLeft.end())
                 .forward(10)
                 .build();
@@ -103,32 +102,16 @@ public class CloseBlue extends LinearOpMode {
                 .forward(10)
                 .build();
         TrajectorySequence backdropRight1 = drive.trajectorySequenceBuilder(spikeMarkRight.end())
-                .strafeLeft(3)
-                .back(40)
+                .forward(10)
                 .build();
         TrajectorySequence backdropRight2 = drive.trajectorySequenceBuilder(backdropRight1.end())
-                .back(10)
+                .forward(10)
                 .build();
-
-//        TrajectorySequence cycle = drive.trajectorySequenceBuilder(backdrop.end())
-//                .forward(10)
-//                .addDisplacementMarker(() -> {
-//                    intake.setPower(1);
-//                    transit.setPower(1);
-//                    sleep(1000);
-//                })
-//                .forward(10)
-//                .addDisplacementMarker(() -> {
-//                    upDeposit();
-//                    downDeposit();
-//                    upDeposit();
-//                })
-//                .build();
 
         waitForStart();
 
         if (!isStopRequested()) {
-            spikeMarkPosition = VisionBlue.getPosition();
+            spikeMarkPosition = CloseVisionBlue.getPosition();
             intake.setPower(1);
             sleep(1000);
             intake.setPower(0);
@@ -139,40 +122,37 @@ public class CloseBlue extends LinearOpMode {
             } else {
                 drive.followTrajectorySequence(spikeMarkRight);
             }
-            intake.setPower(-0.5);
+            intake.setPower(-0.4);
             transit.setPower(-1);
             sleep(4000);
             intake.setPower(0);
             transit.setPower(0);
             if (spikeMarkPosition == 1) {
-//                drive.followTrajectorySequence(backdropLeft1);
-//                upDeposit();
-//                sleep(1000);
-//                downDeposit();
-//                drive.followTrajectorySequence(backdropLeft2);
-            } else if (spikeMarkPosition == 2) {
-//                drive.followTrajectorySequence(backdropMiddle1);
-//                upDeposit();
-//                sleep(1000);
-//                downDeposit();
-//                drive.followTrajectorySequence(backdropMiddle2);
-            } else {
-//                drive.followTrajectorySequence(backdropRight1);
-//                upDeposit();
-//                sleep(1000);
-//                downDeposit();
-//                drive.followTrajectorySequence(backdropRight2);
+                drive.followTrajectorySequence(backdropLeft1);
+                upDeposit();
+                sleep(1000);
+                downDeposit();
+                drive.followTrajectorySequence(backdropLeft2);
             }
-
-//            drive.followTrajectorySequence(cycle);
-//            upDeposit();
-//            downDeposit();
+            else if (spikeMarkPosition == 2) {
+                drive.followTrajectorySequence(backdropMiddle1);
+                upDeposit();
+                sleep(1000);
+                downDeposit();
+                drive.followTrajectorySequence(backdropMiddle2);
+            } else {
+                drive.followTrajectorySequence(backdropRight1);
+                upDeposit();
+                sleep(1000);
+                downDeposit();
+                drive.followTrajectorySequence(backdropRight2);
+            }
         }
     }
     void upDeposit() {
         claw.setPosition(0);
         sleep(1000);
-        rightLift.setTargetPosition(2000);
+        rightLift.setTargetPosition(2300);
         rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftLift.setPower(1);
         rightLift.setPower(1);
