@@ -74,7 +74,7 @@ public class CloseBlue extends LinearOpMode {
 
         // offset
         TrajectorySequence offset = drive.trajectorySequenceBuilder(startPose)
-                .back(5)
+                .back(10)
                 .build();
 
         // left

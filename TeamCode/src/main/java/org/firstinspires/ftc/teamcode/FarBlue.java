@@ -74,7 +74,7 @@ public class FarBlue extends LinearOpMode {
 
         // offset
         TrajectorySequence offset = drive.trajectorySequenceBuilder(startPose)
-                .back(5)
+                .forward(10)
                 .build();
 
         // left

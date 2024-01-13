@@ -34,8 +34,8 @@ public class FarVisionBlue extends OpenCvPipeline {
         // blue
 //        Scalar rLow = new Scalar(100, 120, 50);
 //        Scalar rHigh = new Scalar(125, 225, 110);
-        Scalar rLow = new Scalar(100, 170, 120);
-        Scalar rHigh = new Scalar(125, 210, 140);
+        Scalar rLow = new Scalar(70, 140, 90);
+        Scalar rHigh = new Scalar(155, 240, 170);
 
         Core.inRange(mat, rLow, rHigh, rMat);
 
@@ -57,9 +57,9 @@ public class FarVisionBlue extends OpenCvPipeline {
         double yMiddleValue = Core.sumElems(rMiddle).val[0] / MIDDLE_ROI.area() / 255;
         double yRightValue = Core.sumElems(rRight).val[0] / RIGHT_ROI.area() / 255;
 
-        if ((Math.round(yMiddleValue * 100) > Math.round(yRightValue * 100)) && (Math.round(yMiddleValue * 100) > 3)) {
+        if ((Math.round(yMiddleValue * 100) > Math.round(yRightValue * 100)) && (Math.round(yMiddleValue * 100) > 5)) {
             position = 2;
-        } else if (Math.round(yRightValue * 100) > 3) {
+        } else if (Math.round(yRightValue * 100) > 5) {
             position = 3;
         } else {
             position = 1;

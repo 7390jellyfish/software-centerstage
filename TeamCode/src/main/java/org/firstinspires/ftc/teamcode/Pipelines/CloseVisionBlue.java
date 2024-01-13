@@ -34,8 +34,8 @@ public class CloseVisionBlue extends OpenCvPipeline {
         // blue
 //        Scalar rLow = new Scalar(100, 120, 50);
 //        Scalar rHigh = new Scalar(125, 225, 110);
-        Scalar rLow = new Scalar(100, 170, 120);
-        Scalar rHigh = new Scalar(125, 210, 140);
+        Scalar rLow = new Scalar(70, 140, 90);
+        Scalar rHigh = new Scalar(155, 240, 170);
 
         Core.inRange(mat, rLow, rHigh, rMat);
 
