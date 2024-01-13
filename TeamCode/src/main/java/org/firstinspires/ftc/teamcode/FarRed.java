@@ -68,45 +68,60 @@ public class FarRed extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(16.5, -64, Math.toRadians(0));
+        Pose2d startPose = new Pose2d(16.5, 64, Math.toRadians(180));
 
         drive.setPoseEstimate(startPose);
 
+        // left
         TrajectorySequence spikeMarkLeft = drive.trajectorySequenceBuilder(startPose)
                 .strafeLeft(22)
-                .back(9.5)
+                .back(6)
                 .turn(Math.toRadians(90))
                 .forward(10)
                 .back(10)
                 .build();
+        TrajectorySequence backdropLeft = drive.trajectorySequenceBuilder(spikeMarkLeft.end())
+                .back(10)
+                .turn(Math.toRadians(-90))
+                .lineToConstantHeading(new Vector2d(53.5, 33))
+                .build();
+        TrajectorySequence parkLeft = drive.trajectorySequenceBuilder(backdropLeft.end())
+                .forward(10)
+                .strafeRight(26)
+                .back(10)
+                .build();
+
+        // middle
         TrajectorySequence spikeMarkMiddle = drive.trajectorySequenceBuilder(startPose)
                 .strafeLeft(34)
-                .strafeRight(10)
-                .forward(5)
+                .strafeRight(11)
                 .turn(Math.toRadians(90))
                 .build();
+        TrajectorySequence backdropMiddle = drive.trajectorySequenceBuilder(spikeMarkMiddle.end())
+                .back(10)
+                .turn(Math.toRadians(-90))
+                .lineToConstantHeading(new Vector2d(53.5, 33))
+                .build();
+        TrajectorySequence parkMiddle = drive.trajectorySequenceBuilder(backdropMiddle.end())
+                .forward(10)
+                .strafeRight(26)
+                .back(10)
+                .build();
+
+        // right
         TrajectorySequence spikeMarkRight = drive.trajectorySequenceBuilder(startPose)
                 .strafeLeft(30)
                 .forward(20)
-                .back(18)
+                .back(14.5)
+                .strafeLeft(5)
                 .build();
-        TrajectorySequence backdropLeft1 = drive.trajectorySequenceBuilder(spikeMarkLeft.end())
-                .forward(10)
+        TrajectorySequence backdropRight = drive.trajectorySequenceBuilder(spikeMarkRight.end())
+                .lineToConstantHeading(new Vector2d(53.5, 33))
                 .build();
-        TrajectorySequence backdropLeft2 = drive.trajectorySequenceBuilder(backdropLeft1.end())
+        TrajectorySequence parkRight = drive.trajectorySequenceBuilder(backdropRight.end())
                 .forward(10)
-                .build();
-        TrajectorySequence backdropMiddle1 = drive.trajectorySequenceBuilder(spikeMarkMiddle.end())
-                .forward(10)
-                .build();
-        TrajectorySequence backdropMiddle2 = drive.trajectorySequenceBuilder(backdropMiddle1.end())
-                .forward(10)
-                .build();
-        TrajectorySequence backdropRight1 = drive.trajectorySequenceBuilder(spikeMarkRight.end())
-                .forward(10)
-                .build();
-        TrajectorySequence backdropRight2 = drive.trajectorySequenceBuilder(backdropRight1.end())
-                .forward(10)
+                .strafeRight(26)
+                .back(10)
                 .build();
 
         waitForStart();
@@ -129,24 +144,24 @@ public class FarRed extends LinearOpMode {
             intake.setPower(0);
             transit.setPower(0);
 //            if (spikeMarkPosition == 1) {
-//                drive.followTrajectorySequence(backdropLeft1);
+//                drive.followTrajectorySequence(backdropLeft);
 //                upDeposit();
 //                sleep(1000);
 //                downDeposit();
-//                drive.followTrajectorySequence(backdropLeft2);
+//                drive.followTrajectorySequence(parkLeft);
 //            }
 //            else if (spikeMarkPosition == 2) {
-//                drive.followTrajectorySequence(backdropMiddle1);
+//                drive.followTrajectorySequence(backdropMiddle);
 //                upDeposit();
 //                sleep(1000);
 //                downDeposit();
-//                drive.followTrajectorySequence(backdropMiddle2);
+//                drive.followTrajectorySequence(parkMiddle);
 //            } else {
-//                drive.followTrajectorySequence(backdropRight1);
+//                drive.followTrajectorySequence(backdropRight);
 //                upDeposit();
 //                sleep(1000);
 //                downDeposit();
-//                drive.followTrajectorySequence(backdropRight2);
+//                drive.followTrajectorySequence(parkRight);
 //            }
             camera.closeCameraDevice();
         }
