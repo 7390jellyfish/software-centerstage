@@ -67,7 +67,7 @@ public class CloseRed extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(0, 0, 180);
+        Pose2d startPose = new Pose2d(16.5, -64, Math.toRadians(0));
 
         drive.setPoseEstimate(startPose);
 
@@ -91,27 +91,27 @@ public class CloseRed extends LinearOpMode {
                 .back(10)
                 .build();
 
-        TrajectorySequence backdropLeft1 = drive.trajectorySequenceBuilder(spikeMarkLeft.end())
-                .strafeLeft(6)
-                .back(43)
-                .build();
-        TrajectorySequence backdropLeft2 = drive.trajectorySequenceBuilder(backdropLeft1.end())
-                .forward(10)
-                .strafeLeft(24)
-                .back(10)
-                .build();
-        TrajectorySequence backdropMiddle1 = drive.trajectorySequenceBuilder(spikeMarkMiddle.end())
-                .forward(10)
-                .build();
-        TrajectorySequence backdropMiddle2 = drive.trajectorySequenceBuilder(backdropMiddle1.end())
-                .forward(10)
-                .build();
-        TrajectorySequence backdropRight1 = drive.trajectorySequenceBuilder(spikeMarkRight.end())
-                .forward(10)
-                .build();
-        TrajectorySequence backdropRight2 = drive.trajectorySequenceBuilder(backdropRight1.end())
-                .forward(10)
-                .build();
+//        TrajectorySequence backdropLeft1 = drive.trajectorySequenceBuilder(spikeMarkLeft.end())
+//                .strafeLeft(6)
+//                .back(43)
+//                .build();
+//        TrajectorySequence backdropLeft2 = drive.trajectorySequenceBuilder(backdropLeft1.end())
+//                .forward(10)
+//                .strafeLeft(24)
+//                .back(10)
+//                .build();
+//        TrajectorySequence backdropMiddle1 = drive.trajectorySequenceBuilder(spikeMarkMiddle.end())
+//                .forward(10)
+//                .build();
+//        TrajectorySequence backdropMiddle2 = drive.trajectorySequenceBuilder(backdropMiddle1.end())
+//                .forward(10)
+//                .build();
+//        TrajectorySequence backdropRight1 = drive.trajectorySequenceBuilder(spikeMarkRight.end())
+//                .forward(10)
+//                .build();
+//        TrajectorySequence backdropRight2 = drive.trajectorySequenceBuilder(backdropRight1.end())
+//                .forward(10)
+//                .build();
 
 //        TrajectorySequence cycle = drive.trajectorySequenceBuilder(backdrop.end())
 //                .forward(10)
@@ -147,25 +147,25 @@ public class CloseRed extends LinearOpMode {
             sleep(4000);
             intake.setPower(0);
             transit.setPower(0);
-            if (spikeMarkPosition == 1) {
+//            if (spikeMarkPosition == 1) {
 //                drive.followTrajectorySequence(backdropLeft1);
 //                upDeposit();
 //                sleep(1000);
 //                downDeposit();
 //                drive.followTrajectorySequence(backdropLeft2);
-            } else if (spikeMarkPosition == 2) {
+//            } else if (spikeMarkPosition == 2) {
 //                drive.followTrajectorySequence(backdropMiddle1);
 //                upDeposit();
 //                sleep(1000);
 //                downDeposit();
 //                drive.followTrajectorySequence(backdropMiddle2);
-            } else {
+//            } else {
 //                drive.followTrajectorySequence(backdropRight1);
 //                upDeposit();
 //                sleep(1000);
 //                downDeposit();
 //                drive.followTrajectorySequence(backdropRight2);
-            }
+//            }
 
 //            drive.followTrajectorySequence(cycle);
 //            upDeposit();
