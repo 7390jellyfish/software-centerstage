@@ -71,6 +71,6 @@ public class CloseVisionBlue extends OpenCvPipeline {
         telemetry.addData("blue middle percentage", Math.round(yMiddleValue * 100));
         telemetry.update();
 
-        return mat;
+        return rMat;
     }
 }

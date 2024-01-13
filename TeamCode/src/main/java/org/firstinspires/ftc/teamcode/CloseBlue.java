@@ -74,11 +74,11 @@ public class CloseBlue extends LinearOpMode {
 
         // offset
         TrajectorySequence offset = drive.trajectorySequenceBuilder(startPose)
-                .back(10)
+                .back(2)
                 .build();
 
         // left
-        TrajectorySequence spikeMarkLeft = drive.trajectorySequenceBuilder(startPose)
+        TrajectorySequence spikeMarkLeft = drive.trajectorySequenceBuilder(offset.end())
                 .strafeLeft(22)
                 .back(6)
                 .turn(Math.toRadians(90))
@@ -97,7 +97,7 @@ public class CloseBlue extends LinearOpMode {
                 .build();
 
         // middle
-        TrajectorySequence spikeMarkMiddle = drive.trajectorySequenceBuilder(startPose)
+        TrajectorySequence spikeMarkMiddle = drive.trajectorySequenceBuilder(offset.end())
                 .strafeLeft(34)
                 .strafeRight(11)
                 .turn(Math.toRadians(90))
@@ -114,7 +114,7 @@ public class CloseBlue extends LinearOpMode {
                 .build();
 
         // right
-        TrajectorySequence spikeMarkRight = drive.trajectorySequenceBuilder(startPose)
+        TrajectorySequence spikeMarkRight = drive.trajectorySequenceBuilder(offset.end())
                 .strafeLeft(30)
                 .forward(20)
                 .back(14.5)

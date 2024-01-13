@@ -74,11 +74,11 @@ public class FarBlue extends LinearOpMode {
 
         // offset
         TrajectorySequence offset = drive.trajectorySequenceBuilder(startPose)
-                .forward(10)
+                .forward(2)
                 .build();
 
         // left
-        TrajectorySequence spikeMarkLeft = drive.trajectorySequenceBuilder(startPose)
+        TrajectorySequence spikeMarkLeft = drive.trajectorySequenceBuilder(offset.end())
                 .strafeLeft(30)
                 .turn(Math.toRadians(180))
                 .forward(20)
@@ -95,7 +95,7 @@ public class FarBlue extends LinearOpMode {
                 .build();
 
         // middle
-        TrajectorySequence spikeMarkMiddle = drive.trajectorySequenceBuilder(startPose)
+        TrajectorySequence spikeMarkMiddle = drive.trajectorySequenceBuilder(offset.end())
                 .strafeLeft(34)
                 .strafeRight(11)
                 .turn(Math.toRadians(90))
@@ -112,7 +112,7 @@ public class FarBlue extends LinearOpMode {
                 .build();
 
         // right
-        TrajectorySequence spikeMarkRight = drive.trajectorySequenceBuilder(startPose)
+        TrajectorySequence spikeMarkRight = drive.trajectorySequenceBuilder(offset.end())
                 .strafeLeft(22)
                 .forward(6)
                 .turn(Math.toRadians(90))
