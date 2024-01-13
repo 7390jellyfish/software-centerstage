@@ -27,13 +27,15 @@ public class FarVisionBlue extends OpenCvPipeline {
             new Point(1000, 275),
             new Point(1280, 575));
 
-    public FarVisionBlue(Telemetry t){telemetry=t;}
+    public FarVisionBlue(Telemetry t){ telemetry=t; }
     public Mat processFrame(Mat input) {
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
 
         // blue
-        Scalar rLow = new Scalar(100, 120, 50);
-        Scalar rHigh = new Scalar(125, 225, 110);
+//        Scalar rLow = new Scalar(100, 120, 50);
+//        Scalar rHigh = new Scalar(125, 225, 110);
+        Scalar rLow = new Scalar(100, 170, 120);
+        Scalar rHigh = new Scalar(125, 210, 140);
 
         Core.inRange(mat, rLow, rHigh, rMat);
 
@@ -55,9 +57,9 @@ public class FarVisionBlue extends OpenCvPipeline {
         double yMiddleValue = Core.sumElems(rMiddle).val[0] / MIDDLE_ROI.area() / 255;
         double yRightValue = Core.sumElems(rRight).val[0] / RIGHT_ROI.area() / 255;
 
-        if ((Math.round(yMiddleValue * 100) > Math.round(yRightValue * 100)) && (Math.round(yMiddleValue * 100) > 5)) {
+        if ((Math.round(yMiddleValue * 100) > Math.round(yRightValue * 100)) && (Math.round(yMiddleValue * 100) > 3)) {
             position = 2;
-        } else if (Math.round(yRightValue * 100) > 5) {
+        } else if (Math.round(yRightValue * 100) > 3) {
             position = 3;
         } else {
             position = 1;

@@ -72,6 +72,11 @@ public class CloseBlue extends LinearOpMode {
 
         drive.setPoseEstimate(startPose);
 
+        // offset
+        TrajectorySequence offset = drive.trajectorySequenceBuilder(startPose)
+                .back(5)
+                .build();
+
         // left
         TrajectorySequence spikeMarkLeft = drive.trajectorySequenceBuilder(startPose)
                 .strafeLeft(22)
@@ -128,6 +133,7 @@ public class CloseBlue extends LinearOpMode {
 
         if (!isStopRequested()) {
             spikeMarkPosition = CloseVisionBlue.getPosition();
+            drive.followTrajectorySequence(offset);
             intake.setPower(1);
             sleep(1000);
             intake.setPower(0);

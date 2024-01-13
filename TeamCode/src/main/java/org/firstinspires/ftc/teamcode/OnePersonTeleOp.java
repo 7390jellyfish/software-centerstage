@@ -55,9 +55,9 @@ public class OnePersonTeleOp extends LinearOpMode {
 
         while (opModeIsActive()) {
             // dt
-            double y = -gamepad2.left_stick_y;
-            double x = -gamepad2.left_stick_x * 1.1;
-            double rx = -gamepad2.right_stick_x;
+            double y = -gamepad1.left_stick_y;
+            double x = -gamepad1.left_stick_x * 1.1;
+            double rx = -gamepad1.right_stick_x;
 
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
             double frontLeftPower = (y - x + rx) / denominator;
@@ -71,33 +71,33 @@ public class OnePersonTeleOp extends LinearOpMode {
             backRightMotor.setPower(backRightPower);
 
             // lift
-            double liftPower = gamepad2.right_trigger - gamepad2.left_trigger;
+            double liftPower = gamepad1.right_trigger - gamepad1.left_trigger;
             leftLift.setPower(liftPower);
             rightLift.setPower(liftPower);
-            if (gamepad2.left_trigger != 0 && gamepad2.right_trigger == 0) {
+            if (gamepad1.left_trigger != 0 && gamepad1.right_trigger == 0) {
                 claw.setPosition(0.75);
             }
 
             // intake
-            double intakePower = (gamepad2.right_bumper ? 1.0 : 0.0) - (gamepad2.left_bumper ? 1.0 : 0.0);
-            double transitPower =  (gamepad2.right_bumper ? 1.0 : 0.0) - (gamepad2.left_bumper ? 1.0 : 0.0);
-            intake.setPower(intakePower);
+            double intakePower = (gamepad1.right_bumper ? 1.0 : 0.0) - (gamepad1.left_bumper ? 1.0 : 0.0);
+            double transitPower =  (gamepad1.right_bumper ? 1.0 : 0.0) - (gamepad1.left_bumper ? 1.0 : 0.0);
+            intake.setPower(intakePower * 0.7);
             transit.setPower(transitPower * 0.8);
 
             // claw
-            if (gamepad2.b && !gamepad2.a) {
+            if (gamepad1.b && !gamepad1.a) {
                 claw.setPosition(0);
             }
-            if (gamepad2.a && !gamepad2.b) {
+            if (gamepad1.a && !gamepad1.b) {
                 claw.setPosition(0.75);
             }
 
             // drone
-            if (gamepad2.y && !gamepad2.x) {
+            if (gamepad1.y && !gamepad1.x) {
                 drone.setDirection(Servo.Direction.REVERSE);
                 drone.setPosition(1);
             }
-            if (gamepad2.x && !gamepad2.y) {
+            if (gamepad1.x && !gamepad1.y) {
                 drone.setDirection(Servo.Direction.FORWARD);
                 drone.setPosition(1);
             }

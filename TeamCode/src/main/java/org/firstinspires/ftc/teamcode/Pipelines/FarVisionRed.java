@@ -27,13 +27,15 @@ public class FarVisionRed extends OpenCvPipeline {
             new Point(700, 250),
             new Point(1100, 500));
 
-    public FarVisionRed(Telemetry t){telemetry=t;}
+    public FarVisionRed(Telemetry t){ telemetry=t; }
     public Mat processFrame(Mat input) {
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
 
         // red
-        Scalar rLow = new Scalar(0, 150, 100);
-        Scalar rHigh = new Scalar(10, 240, 160);
+//        Scalar rLow = new Scalar(0, 150, 100);
+//        Scalar rHigh = new Scalar(10, 240, 160);
+        Scalar rLow = new Scalar(0, 170, 190);
+        Scalar rHigh = new Scalar(10, 190, 210);
 
         Core.inRange(mat, rLow, rHigh, rMat);
 

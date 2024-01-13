@@ -27,13 +27,15 @@ public class CloseVisionBlue extends OpenCvPipeline {
             new Point(700, 250),
             new Point(1100, 500));
 
-    public CloseVisionBlue(Telemetry t){telemetry=t;}
+    public CloseVisionBlue(Telemetry t){ telemetry=t; }
     public Mat processFrame(Mat input) {
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
 
         // blue
-        Scalar rLow = new Scalar(100, 120, 50);
-        Scalar rHigh = new Scalar(125, 225, 110);
+//        Scalar rLow = new Scalar(100, 120, 50);
+//        Scalar rHigh = new Scalar(125, 225, 110);
+        Scalar rLow = new Scalar(100, 170, 120);
+        Scalar rHigh = new Scalar(125, 210, 140);
 
         Core.inRange(mat, rLow, rHigh, rMat);
 
@@ -55,9 +57,9 @@ public class CloseVisionBlue extends OpenCvPipeline {
         double yLeftValue = Core.sumElems(rLeft).val[0] / LEFT_ROI.area() / 255;
         double yMiddleValue = Core.sumElems(rMiddle).val[0] / MIDDLE_ROI.area() / 255;
 
-        if ((Math.round(yLeftValue * 100) > Math.round(yMiddleValue * 100)) && (Math.round(yLeftValue * 100) > 5)) {
+        if ((Math.round(yLeftValue * 100) > Math.round(yMiddleValue * 100)) && (Math.round(yLeftValue * 100) > 3)) {
             position = 1;
-        } else if (Math.round(yMiddleValue * 100) > 5) {
+        } else if (Math.round(yMiddleValue * 100) > 3) {
             position = 2;
         } else {
             position = 3;
