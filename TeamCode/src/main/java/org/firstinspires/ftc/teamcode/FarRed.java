@@ -14,10 +14,10 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.firstinspires.ftc.teamcode.Pipelines.CloseVisionRed;
+import org.firstinspires.ftc.teamcode.Pipelines.FarVisionRed;
 
 @Autonomous
-public class CloseRed extends LinearOpMode {
+public class FarRed extends LinearOpMode {
     DcMotor leftLift = null;
     DcMotor rightLift = null;
     DcMotor intake = null;
@@ -47,8 +47,8 @@ public class CloseRed extends LinearOpMode {
 
         WebcamName webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
         OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(webcamName);
-        CloseVisionRed closeVisionRed = new CloseVisionRed(telemetry);
-        camera.setPipeline(closeVisionRed);
+        FarVisionRed farVisionRed = new FarVisionRed(telemetry);
+        camera.setPipeline(farVisionRed);
         int spikeMarkPosition = 1;
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
@@ -73,55 +73,46 @@ public class CloseRed extends LinearOpMode {
         drive.setPoseEstimate(startPose);
 
         TrajectorySequence spikeMarkLeft = drive.trajectorySequenceBuilder(startPose)
-                .strafeLeft(30)
-                .turn(Math.toRadians(180))
-                .forward(20)
-                .back(14.5)
-                .strafeRight(5)
+                .strafeLeft(22)
+                .back(9.5)
+                .turn(Math.toRadians(90))
+                .forward(10)
+                .back(10)
                 .build();
         TrajectorySequence spikeMarkMiddle = drive.trajectorySequenceBuilder(startPose)
                 .strafeLeft(34)
-                .strafeRight(11)
+                .strafeRight(10)
+                .forward(5)
                 .turn(Math.toRadians(90))
                 .build();
         TrajectorySequence spikeMarkRight = drive.trajectorySequenceBuilder(startPose)
-                .strafeLeft(22)
-                .forward(6)
-                .turn(Math.toRadians(90))
-                .forward(10)
-                .back(10)
+                .strafeLeft(30)
+                .forward(20)
+                .back(18)
                 .build();
         TrajectorySequence backdropLeft1 = drive.trajectorySequenceBuilder(spikeMarkLeft.end())
-                .lineToConstantHeading(new Vector2d(53.5, -33))
+                .forward(10)
                 .build();
         TrajectorySequence backdropLeft2 = drive.trajectorySequenceBuilder(backdropLeft1.end())
                 .forward(10)
-                .strafeLeft(24)
-                .back(10)
                 .build();
         TrajectorySequence backdropMiddle1 = drive.trajectorySequenceBuilder(spikeMarkMiddle.end())
-                .turn(Math.toRadians(90))
-                .lineToConstantHeading(new Vector2d(53.5, -33))
+                .forward(10)
                 .build();
         TrajectorySequence backdropMiddle2 = drive.trajectorySequenceBuilder(backdropMiddle1.end())
                 .forward(10)
-                .strafeLeft(24)
-                .back(10)
                 .build();
         TrajectorySequence backdropRight1 = drive.trajectorySequenceBuilder(spikeMarkRight.end())
-                .turn(Math.toRadians(90))
-                .lineToConstantHeading(new Vector2d(53.5, -33))
+                .forward(10)
                 .build();
         TrajectorySequence backdropRight2 = drive.trajectorySequenceBuilder(backdropRight1.end())
                 .forward(10)
-                .strafeLeft(24)
-                .back(10)
                 .build();
 
         waitForStart();
 
         if (!isStopRequested()) {
-            spikeMarkPosition = CloseVisionRed.getPosition();
+            spikeMarkPosition = FarVisionRed.getPosition();
             intake.setPower(1);
             sleep(1000);
             intake.setPower(0);
@@ -137,26 +128,26 @@ public class CloseRed extends LinearOpMode {
             sleep(4000);
             intake.setPower(0);
             transit.setPower(0);
-            if (spikeMarkPosition == 1) {
-                drive.followTrajectorySequence(backdropLeft1);
-                upDeposit();
-                sleep(1000);
-                downDeposit();
-                drive.followTrajectorySequence(backdropLeft2);
-            }
-            else if (spikeMarkPosition == 2) {
-                drive.followTrajectorySequence(backdropMiddle1);
-                upDeposit();
-                sleep(1000);
-                downDeposit();
-                drive.followTrajectorySequence(backdropMiddle2);
-            } else {
-                drive.followTrajectorySequence(backdropRight1);
-                upDeposit();
-                sleep(1000);
-                downDeposit();
-                drive.followTrajectorySequence(backdropRight2);
-            }
+//            if (spikeMarkPosition == 1) {
+//                drive.followTrajectorySequence(backdropLeft1);
+//                upDeposit();
+//                sleep(1000);
+//                downDeposit();
+//                drive.followTrajectorySequence(backdropLeft2);
+//            }
+//            else if (spikeMarkPosition == 2) {
+//                drive.followTrajectorySequence(backdropMiddle1);
+//                upDeposit();
+//                sleep(1000);
+//                downDeposit();
+//                drive.followTrajectorySequence(backdropMiddle2);
+//            } else {
+//                drive.followTrajectorySequence(backdropRight1);
+//                upDeposit();
+//                sleep(1000);
+//                downDeposit();
+//                drive.followTrajectorySequence(backdropRight2);
+//            }
             camera.closeCameraDevice();
         }
     }

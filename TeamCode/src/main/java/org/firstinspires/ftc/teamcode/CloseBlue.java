@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -46,8 +47,8 @@ public class CloseBlue extends LinearOpMode {
 
         WebcamName webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
         OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(webcamName);
-        CloseVisionBlue visionBlue = new CloseVisionBlue(telemetry);
-        camera.setPipeline(visionBlue);
+        CloseVisionBlue closeVisionBlue = new CloseVisionBlue(telemetry);
+        camera.setPipeline(closeVisionBlue);
         int spikeMarkPosition = 1;
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
@@ -90,22 +91,28 @@ public class CloseBlue extends LinearOpMode {
                 .back(18)
                 .build();
         TrajectorySequence backdropLeft1 = drive.trajectorySequenceBuilder(spikeMarkLeft.end())
-                .forward(10)
+                .lineToConstantHeading(new Vector2d(53.5, 33))
                 .build();
         TrajectorySequence backdropLeft2 = drive.trajectorySequenceBuilder(backdropLeft1.end())
                 .forward(10)
+                .strafeRight(24)
+                .back(10)
                 .build();
         TrajectorySequence backdropMiddle1 = drive.trajectorySequenceBuilder(spikeMarkMiddle.end())
-                .forward(10)
+                .lineToConstantHeading(new Vector2d(53.5, 33))
                 .build();
         TrajectorySequence backdropMiddle2 = drive.trajectorySequenceBuilder(backdropMiddle1.end())
                 .forward(10)
+                .strafeRight(24)
+                .back(10)
                 .build();
         TrajectorySequence backdropRight1 = drive.trajectorySequenceBuilder(spikeMarkRight.end())
-                .forward(10)
+                .lineToConstantHeading(new Vector2d(53.5, 33))
                 .build();
         TrajectorySequence backdropRight2 = drive.trajectorySequenceBuilder(backdropRight1.end())
                 .forward(10)
+                .strafeRight(24)
+                .back(10)
                 .build();
 
         waitForStart();
@@ -147,6 +154,7 @@ public class CloseBlue extends LinearOpMode {
                 downDeposit();
                 drive.followTrajectorySequence(backdropRight2);
             }
+            camera.closeCameraDevice();
         }
     }
     void upDeposit() {
