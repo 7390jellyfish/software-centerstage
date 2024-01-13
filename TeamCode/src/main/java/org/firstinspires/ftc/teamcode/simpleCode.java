@@ -17,13 +17,13 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 @Autonomous
 @Config
 public class simpleCode extends LinearOpMode {
-    public static double distance = 2.0;
+    public static double distance = 10.0;
 
     public void runOpMode() {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         Trajectory myTrajectory = drive.trajectoryBuilder(new Pose2d())
-                .forward(distance)
+                .strafeRight(distance)
                 .build();
 
         waitForStart();

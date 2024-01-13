@@ -1,94 +1,137 @@
+
+
 package org.firstinspires.ftc.teamcode.Pipelines;
 
-
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
-import org.opencv.core.Point;
-import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
-import org.openftc.easyopencv.OpenCvCamera;
-import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvCameraRotation;
-
 import org.openftc.easyopencv.OpenCvPipeline;
-import org.openftc.easyopencv.OpenCvWebcam;
-
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import java.util.Arrays;
-
-import java.io.StringWriter;
 
 public class EmptyPipeline extends OpenCvPipeline {
-    Mat gmat = new Mat();
-    Mat bmat = new Mat();
-    Mat rmat = new Mat();
-    Telemetry telemetry;
-    public EmptyPipeline(Telemetry t) { telemetry = t; }
 
+
+    public Scalar lower = new Scalar(0, 0, 0);
+    public Scalar upper = new Scalar(255, 255, 255);
+
+    /**
+     * This will allow us to choose the color
+     * space we want to use on the live field
+     * tuner instead of hardcoding it
+     */
+    public ColorSpace colorSpace = ColorSpace.YCrCb;
+
+    /*
+     * A good practice when typing EOCV pipelines is
+     * declaring the Mats you will use here at the top
+     * of your pipeline, to reuse the same buffers every
+     * time. This removes the need to call mat.release()
+     * with every Mat you create on the processFrame method,
+     * and therefore, reducing the possibility of getting a
+     * memory leak and causing the app to crash due to an
+     * "Out of Memory" error.
+     */
+    private Mat ycrcbMat       = new Mat();
+    private Mat binaryMat      = new Mat();
+    private Mat maskedInputMat = new Mat();
+
+    private Telemetry telemetry = null;
+
+    /**
+     * Enum to choose which color space to choose
+     * with the live variable tuner isntead of
+     * hardcoding it.
+     */
+    enum ColorSpace {
+        /*
+         * Define our "conversion codes" in the enum
+         * so that we don't have to do a switch
+         * statement in the processFrame method.
+         */
+        RGB(Imgproc.COLOR_RGBA2RGB),
+        HSV(Imgproc.COLOR_RGB2HSV),
+        YCrCb(Imgproc.COLOR_RGB2YCrCb),
+        Lab(Imgproc.COLOR_RGB2Lab);
+
+        //store cvtCode in a public var
+        public int cvtCode = 0;
+
+        //constructor to be used by enum declarations above
+        ColorSpace(int cvtCode) {
+            this.cvtCode = cvtCode;
+        }
+    }
+
+    public EmptyPipeline(Telemetry telemetry) {
+        this.telemetry = telemetry;
+    }
 
     @Override
     public Mat processFrame(Mat input) {
-        Mat mat = new Mat();
-        Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
-//        Left
-        Point point1 = new Point(60, 160);
-        Point point2 = new Point(100, 110);
-        Scalar color = new Scalar(64, 64, 64);
-        Imgproc.rectangle(mat, point1, point2, color, 2);
-//        middle
-        Point point3 = new Point(130, 110);
-        Point point4 = new Point(180, 160);
-        Imgproc.rectangle(mat, point3, point4, color, 2);
-//        right
-        Point point5 = new Point(225, 110);
-        Point point6 = new Point(270, 150);
-        Imgproc.rectangle(mat, point5, point6, color, 2);
-        Scalar highHSV = new Scalar(30,255,255);
-        Scalar lowHSV = new Scalar(20,200,100);
-        try {
+        /*
+         * Converts our input mat from RGB to
+         * specified color space by the enum.
+         * EOCV ALWAYS returns RGB mats, so you'd
+         * always convert from RGB to the color
+         * space you want to use.
+         *
+         * Takes our "input" mat as an input, and outputs
+         * to a separate Mat buffer "ycrcbMat"
+         */
+        Imgproc.cvtColor(input, ycrcbMat, colorSpace.cvtCode);
 
-            Core.inRange(mat, lowHSV, highHSV, rmat);
-            Mat left = rmat.submat(new Rect(point1,point2));
-            Mat middle = rmat.submat(new Rect(point3,point4));
-            Mat right = rmat.submat(new Rect(point5,point6));
+        /*
+         * This is where our thresholding actually happens.
+         * Takes our "ycrcbMat" as input and outputs a "binary"
+         * Mat to "binaryMat" of the same size as our input.
+         * "Discards" all the pixels outside the bounds specified
+         * by the scalars above (and modifiable with EOCV-Sim's
+         * live variable tuner.)
+         *
+         * Binary meaning that we have either a 0 or 255 value
+         * for every pixel.
+         *
+         * 0 represents our pixels that were outside the bounds
+         * 255 represents our pixels that are inside the bounds
+         */
+        Core.inRange(ycrcbMat, lower, upper, binaryMat);
 
+        /*
+         * Release the reusable Mat so that old data doesn't
+         * affect the next step in the current processing
+         */
+        maskedInputMat.release();
 
-            double lefte = Core.sumElems(left).val[0] / new Rect(point1,point2).area() / 255;
-            double middlee = Core.sumElems(middle).val[0] / new Rect(point3,point4).area() / 255;
-            double righte = Core.sumElems(right).val[0] / new Rect(point5,point6).area() / 255;
+        /*
+         * Now, with our binary Mat, we perform a "bitwise and"
+         * to our input image, meaning that we will perform a mask
+         * which will include the pixels from our input Mat which
+         * are "255" in our binary Mat (meaning that they're inside
+         * the range) and will discard any other pixel outside the
+         * range (RGB 0, 0, 0. All discarded pixels will be black)
+         */
+        Core.bitwise_and(input, input, maskedInputMat, binaryMat);
 
+        /**
+         * Add some nice and informative telemetry messages
+         */
+        telemetry.addData("[>]", "Change these values in tuner menu");
+        telemetry.addData("[Color Space]", colorSpace.name());
+        telemetry.addData("[Lower Scalar]", lower);
+        telemetry.addData("[Upper Scalar]", upper);
+        telemetry.update();
 
-//            left.release();
-//            middle.release();
-//            right.release();
-
-            telemetry.addData("Left", Math.round(lefte * 100) + "%");
-            telemetry.addData("Middle", Math.round(middlee * 100) + "%");
-            telemetry.addData("Right", Math.round(righte * 100) + "%");
-            if(lefte>righte&&lefte>middlee){
-                telemetry.addData("Winner", "left");
-            } else if (righte>lefte&&righte>middlee) {
-                telemetry.addData("Winner", "right");
-            }else{
-                telemetry.addData("Winner", "middle");
-            }
-            telemetry.update();
-            return mat  ;
-        } catch (Exception e) {
-
-            telemetry.addData("error", Arrays.toString(e.getStackTrace()));
-            telemetry.update();
-            e.printStackTrace();
-            return mat;
-        }
-
-
+        /*
+         * The Mat returned from this method is the
+         * one displayed on the viewport.
+         *
+         * To visualize our threshold, we'll return
+         * the "masked input mat" which shows the
+         * pixel from the input Mat that were inside
+         * the threshold range.
+         */
+        return maskedInputMat;
     }
-
 
 }

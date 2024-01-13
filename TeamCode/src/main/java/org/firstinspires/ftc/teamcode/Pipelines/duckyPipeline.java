@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.Pipelines;
 // import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
+import static org.opencv.core.Core.sumElems;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -14,24 +16,43 @@ import org.opencv.core.Scalar;
 
 
 public class duckyPipeline extends OpenCvPipeline {
-    Telemetry telemetry;
-    Mat mat = new Mat();
+//    Telemetry telemetry;
+    Mat rmat = new Mat();
+    Mat bmat = new Mat();
+    public int zone = 1;
 
     Mat colormat = new Mat();
 
-    public duckyPipeline(Telemetry tel)
-    {
-        telemetry=tel;
-    }
+//    public duckyPipeline(Telemetry tel)
+//    {
+//        telemetry=tel;
+//    }
+public int getPosition() {
+    return zone;
+}
+    public EmptyPipeline.ColorSpace colorSpace = EmptyPipeline.ColorSpace.YCrCb;
+    private Mat ycrcbMat       = new Mat();
+    enum ColorSpace {
 
+        YCrCb(Imgproc.COLOR_RGB2YCrCb);
+        public int cvtCode = 0;
+
+        //constructor to be used by enum declarations above
+        ColorSpace(int cvtCode) {
+            this.cvtCode = cvtCode;
+        }
+    }
     @Override
     public Mat processFrame(Mat input) {
-        Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
-        Scalar bluehighHSV = new Scalar(140, 255, 255);
-        Scalar bluelowHSV = new Scalar(100, 130, 0);
-        Scalar redhighHSV = new Scalar(2,94,83);
-        Scalar redlowHSV = new Scalar(5,97,64);
+        Imgproc.cvtColor(input, ycrcbMat, colorSpace.cvtCode);
+        Scalar bluehighHSV = new Scalar(162, 121, 255);
+        Scalar bluelowHSV = new Scalar(0, 90.7, 127.5);
+        Scalar redhighHSV = new Scalar(255,255,255);
+        Scalar redlowHSV = new Scalar(0,191,0);
+        Core.inRange(ycrcbMat, redlowHSV, redhighHSV, rmat);
+        Core.inRange(ycrcbMat, bluelowHSV, bluehighHSV, bmat);
 
+////
         Rect RECT_LEFT = new Rect(
                 new Point(0, 180),
                 new Point(110, 60));
@@ -42,36 +63,40 @@ public class duckyPipeline extends OpenCvPipeline {
                 new Point(210, 155),
                 new Point(320, 50));
         Scalar color = new Scalar(64, 64, 64);
-        Imgproc.rectangle(mat, RECT_LEFT, color, 2);
-        Imgproc.rectangle(mat, RECT_MIDDLE, color, 2);
-        Imgproc.rectangle(mat, RECT_RIGHT, color,2);
+        Imgproc.rectangle(rmat, RECT_LEFT, color, 2);
+        Imgproc.rectangle(rmat, RECT_MIDDLE, color, 2);
+        Imgproc.rectangle(rmat, RECT_RIGHT, color,2);
+        Imgproc.rectangle(bmat, RECT_LEFT, color, 2);
+        Imgproc.rectangle(bmat, RECT_MIDDLE, color, 2);
+        Imgproc.rectangle(bmat, RECT_RIGHT, color,2);
+//
 
-//         Core.inRange(mat, bluelowHSV, bluehighHSV, colormat);
-        Core.inRange(mat, redlowHSV, redhighHSV, colormat);
+//
+        Mat rleft = rmat.submat(RECT_LEFT);
+        Mat rmiddle = rmat.submat(RECT_MIDDLE);
+        Mat rright = rmat.submat(RECT_RIGHT);
+        Mat bleft = bmat.submat(RECT_LEFT);
+        Mat bmiddle = bmat.submat(RECT_MIDDLE);
+        Mat bright = bmat.submat(RECT_RIGHT);
+        double rleftValue = Core.sumElems(rleft).val[0] / RECT_LEFT.area() / 255;
+        double rmiddleValue = Core.sumElems(rmiddle).val[0] / RECT_MIDDLE.area() / 255;
+        double rrightValue = Core.sumElems(rright).val[0] / RECT_RIGHT.area() / 255;
 
-        Mat left = colormat.submat(RECT_LEFT);
-        Mat middle = colormat.submat(RECT_MIDDLE);
-        Mat right = colormat.submat(RECT_RIGHT);
-
-        double leftValue = Core.sumElems(left).val[0];
-        double middleValue = Core.sumElems(middle).val[0];
-        double rightValue = Core.sumElems(right).val[0];
-
-        if (leftValue > middleValue || leftValue > rightValue) {
-            telemetry.addData("Duck", "Left");
+//        System.out.println(rleft);
+//
+//        telemetry.addData("leftValue", rleftValue*100+ "");
+//        telemetry.addData("middleValue", rmiddleValue*100 + "");
+//        telemetry.addData("rightValue", rrightValue*100+"");
+//        telemetry.update();
+        if(rleftValue>rmiddleValue&&rleftValue>rrightValue){
+            zone = 0;
+        } else if (rrightValue>rmiddleValue&&rrightValue>rleftValue) {
+            zone = 2;
         }
-        if (middleValue > leftValue || middleValue > rightValue) {
-            telemetry.addData("Duck", "Middle");
+        else{
+            zone = 1;
         }
-        if (rightValue > middleValue || rightValue > leftValue) {
-            telemetry.addData("Duck", "Right");
-        }
-        telemetry.addData("test", "test");
-        telemetry.addData("leftValue", leftValue + "");
-        telemetry.addData("middleValue", middleValue + "");
-        telemetry.addData("rightValue", rightValue + "");
-        telemetry.update();
-
-        return mat;
+//
+        return rmat;
     }
 }
