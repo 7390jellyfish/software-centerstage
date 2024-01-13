@@ -32,8 +32,8 @@ public class VisionBlue extends OpenCvPipeline {
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
 
         // red
-        Scalar rLow = new Scalar(100, 120, 160);
-        Scalar rHigh = new Scalar(120, 160, 200);
+        Scalar rLow = new Scalar(100, 120, 50);
+        Scalar rHigh = new Scalar(125, 225, 110);
 
         Core.inRange(mat, rLow, rHigh, rMat);
 
