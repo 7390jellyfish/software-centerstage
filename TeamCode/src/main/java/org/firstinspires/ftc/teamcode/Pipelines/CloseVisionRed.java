@@ -34,8 +34,8 @@ public class CloseVisionRed extends OpenCvPipeline {
         // red
 //        Scalar rLow = new Scalar(0, 150, 100);
 //        Scalar rHigh = new Scalar(10, 240, 160);
-        Scalar rLow = new Scalar(0, 160, 180);
-        Scalar rHigh = new Scalar(20, 200, 220);
+        Scalar rLow = new Scalar(0, 150, 170);
+        Scalar rHigh = new Scalar(30, 210, 230);
 
         Core.inRange(mat, rLow, rHigh, rMat);
 
@@ -71,6 +71,6 @@ public class CloseVisionRed extends OpenCvPipeline {
         telemetry.addData("red right percentage", Math.round(yRightValue * 100));
         telemetry.update();
 
-        return rMat;
+        return mat;
     }
 }
