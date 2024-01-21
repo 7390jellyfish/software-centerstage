@@ -72,13 +72,8 @@ public class FarBlue extends LinearOpMode {
 
         drive.setPoseEstimate(startPose);
 
-        // offset
-        TrajectorySequence offset = drive.trajectorySequenceBuilder(startPose)
-                .forward(2)
-                .build();
-
         // left
-        TrajectorySequence spikeMarkLeft = drive.trajectorySequenceBuilder(offset.end())
+        TrajectorySequence spikeMarkLeft = drive.trajectorySequenceBuilder(startPose)
                 .strafeLeft(30)
                 .turn(Math.toRadians(180))
                 .forward(20)
@@ -95,7 +90,7 @@ public class FarBlue extends LinearOpMode {
                 .build();
 
         // middle
-        TrajectorySequence spikeMarkMiddle = drive.trajectorySequenceBuilder(offset.end())
+        TrajectorySequence spikeMarkMiddle = drive.trajectorySequenceBuilder(startPose)
                 .strafeLeft(34)
                 .strafeRight(11)
                 .turn(Math.toRadians(90))
@@ -112,7 +107,7 @@ public class FarBlue extends LinearOpMode {
                 .build();
 
         // right
-        TrajectorySequence spikeMarkRight = drive.trajectorySequenceBuilder(offset.end())
+        TrajectorySequence spikeMarkRight = drive.trajectorySequenceBuilder(startPose)
                 .strafeLeft(22)
                 .forward(6)
                 .turn(Math.toRadians(90))
@@ -134,7 +129,6 @@ public class FarBlue extends LinearOpMode {
 
         if (!isStopRequested()) {
             spikeMarkPosition = FarVisionBlue.getPosition();
-            drive.followTrajectorySequence(offset);
             intake.setPower(1);
             sleep(1000);
             intake.setPower(0);

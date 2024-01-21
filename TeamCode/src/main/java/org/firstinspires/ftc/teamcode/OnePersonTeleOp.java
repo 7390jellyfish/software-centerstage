@@ -81,7 +81,7 @@ public class OnePersonTeleOp extends LinearOpMode {
             // intake
             double intakePower = (gamepad1.right_bumper ? 1.0 : 0.0) - (gamepad1.left_bumper ? 1.0 : 0.0);
             double transitPower =  (gamepad1.right_bumper ? 1.0 : 0.0) - (gamepad1.left_bumper ? 1.0 : 0.0);
-            intake.setPower(intakePower * 0.7);
+            intake.setPower(intakePower);
             transit.setPower(transitPower * 0.8);
 
             // claw

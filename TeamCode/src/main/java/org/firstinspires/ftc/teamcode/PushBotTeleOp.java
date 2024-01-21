@@ -71,17 +71,17 @@ public class PushBotTeleOp extends LinearOpMode {
             backRightMotor.setPower(backRightPower);
 
             // lift
-            double liftPower = gamepad2.right_trigger - gamepad2.left_trigger;
+//            double liftPower = gamepad2.right_trigger - gamepad2.left_trigger;
 //            leftLift.setPower(liftPower);
 //            rightLift.setPower(liftPower);
-            if (gamepad2.left_trigger != 0 && gamepad2.right_trigger == 0) {
-                claw.setPosition(0.75);
-            }
+//            if (gamepad2.left_trigger != 0 && gamepad2.right_trigger == 0) {
+//                claw.setPosition(0.75);
+//            }
 
             // intake
-            double intakePower = (gamepad2.right_bumper ? 1.0 : 0.0) - (gamepad2.left_bumper ? 1.0 : 0.0);
-            double transitPower =  (gamepad2.right_bumper ? 1.0 : 0.0) - (gamepad2.left_bumper ? 1.0 : 0.0);
-//            intake.setPower(intakePower * 0.7);
+//            double intakePower = (gamepad2.right_bumper ? 1.0 : 0.0) - (gamepad2.left_bumper ? 1.0 : 0.0);
+//            double transitPower =  (gamepad2.right_bumper ? 1.0 : 0.0) - (gamepad2.left_bumper ? 1.0 : 0.0);
+//            intake.setPower(intakePower);
 //            transit.setPower(transitPower * 0.8);
 
             // claw

@@ -133,10 +133,10 @@ public class CloseBlue extends LinearOpMode {
 
         if (!isStopRequested()) {
             spikeMarkPosition = CloseVisionBlue.getPosition();
-            drive.followTrajectorySequence(offset);
             intake.setPower(1);
             sleep(1000);
             intake.setPower(0);
+            drive.followTrajectorySequence(offset);
             if (spikeMarkPosition == 1) {
                 drive.followTrajectorySequence(spikeMarkLeft);
             } else if (spikeMarkPosition == 2) {

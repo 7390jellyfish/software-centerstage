@@ -27,15 +27,15 @@ public class FarVisionRed extends OpenCvPipeline {
             new Point(700, 250),
             new Point(1100, 500));
 
-    public FarVisionRed(Telemetry t){ telemetry=t; }
+    public FarVisionRed(Telemetry t) {
+        telemetry = t;
+    }
     public Mat processFrame(Mat input) {
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
 
         // red
-//        Scalar rLow = new Scalar(0, 150, 100);
-//        Scalar rHigh = new Scalar(10, 240, 160);
-        Scalar rLow = new Scalar(0, 140, 160);
-        Scalar rHigh = new Scalar(40, 220, 240);
+        Scalar rLow = new Scalar(0, 150, 100);
+        Scalar rHigh = new Scalar(10, 240, 160);
 
         Core.inRange(mat, rLow, rHigh, rMat);
 
@@ -71,6 +71,6 @@ public class FarVisionRed extends OpenCvPipeline {
         telemetry.addData("blue middle percentage", Math.round(yMiddleValue * 100));
         telemetry.update();
 
-        return rMat;
+        return mat;
     }
 }

@@ -72,8 +72,13 @@ public class CloseRed extends LinearOpMode {
 
         drive.setPoseEstimate(startPose);
 
+        // offset
+        TrajectorySequence offset = drive.trajectorySequenceBuilder(startPose)
+                .forward(2)
+                .build();
+
         // left
-        TrajectorySequence spikeMarkLeft = drive.trajectorySequenceBuilder(startPose)
+        TrajectorySequence spikeMarkLeft = drive.trajectorySequenceBuilder(offset.end())
                 .strafeLeft(30)
                 .turn(Math.toRadians(180))
                 .forward(20)
@@ -90,7 +95,7 @@ public class CloseRed extends LinearOpMode {
                 .build();
 
         // middle
-        TrajectorySequence spikeMarkMiddle = drive.trajectorySequenceBuilder(startPose)
+        TrajectorySequence spikeMarkMiddle = drive.trajectorySequenceBuilder(offset.end())
                 .strafeLeft(34)
                 .strafeRight(11)
                 .turn(Math.toRadians(90))
@@ -107,7 +112,7 @@ public class CloseRed extends LinearOpMode {
                 .build();
 
         // right
-        TrajectorySequence spikeMarkRight = drive.trajectorySequenceBuilder(startPose)
+        TrajectorySequence spikeMarkRight = drive.trajectorySequenceBuilder(offset.end())
                 .strafeLeft(22)
                 .forward(6)
                 .turn(Math.toRadians(90))
@@ -132,6 +137,7 @@ public class CloseRed extends LinearOpMode {
             intake.setPower(1);
             sleep(1000);
             intake.setPower(0);
+            drive.followTrajectorySequence(offset);
             if (spikeMarkPosition == 1) {
                 drive.followTrajectorySequence(spikeMarkLeft);
             } else if (spikeMarkPosition == 2) {
