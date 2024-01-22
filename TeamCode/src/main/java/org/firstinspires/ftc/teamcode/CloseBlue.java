@@ -40,9 +40,10 @@ public class CloseBlue extends LinearOpMode {
         leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        leftLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        leftLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         WebcamName webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
@@ -175,24 +176,30 @@ public class CloseBlue extends LinearOpMode {
     void upDeposit() {
         claw.setPosition(0);
         sleep(1000);
+        leftLift.setTargetPosition(2300);
         rightLift.setTargetPosition(2300);
+        leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftLift.setPower(1);
         rightLift.setPower(1);
-        while (opModeIsActive() && rightLift.isBusy()) { }
+        while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
         leftLift.setPower(0);
         rightLift.setPower(0);
+        leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         claw.setPosition(0.6);
     }
     void downDeposit() {
+        leftLift.setTargetPosition(0);
         rightLift.setTargetPosition(0);
+        leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftLift.setPower(-1);
         rightLift.setPower(-1);
-        while (opModeIsActive() && rightLift.isBusy()) { }
+        while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
         leftLift.setPower(0);
         rightLift.setPower(0);
+        leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 }
