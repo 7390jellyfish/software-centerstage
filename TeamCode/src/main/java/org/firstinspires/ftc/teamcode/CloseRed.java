@@ -22,6 +22,7 @@ public class CloseRed extends LinearOpMode {
     DcMotor rightLift = null;
     DcMotor intake = null;
     DcMotor transit = null;
+    Servo wrist = null;
     Servo claw = null;
     @Override
     public void runOpMode() throws InterruptedException {
@@ -29,12 +30,14 @@ public class CloseRed extends LinearOpMode {
         rightLift = hardwareMap.dcMotor.get("rl");
         intake = hardwareMap.dcMotor.get("intake");
         transit = hardwareMap.dcMotor.get("transit");
+        wrist = hardwareMap.servo.get("wrist");
         claw = hardwareMap.servo.get("claw");
 
         leftLift.setDirection(DcMotorSimple.Direction.REVERSE);
         rightLift.setDirection(DcMotorSimple.Direction.FORWARD);
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         transit.setDirection(DcMotorSimple.Direction.REVERSE);
+        wrist.setDirection(Servo.Direction.FORWARD);
         claw.setDirection(Servo.Direction.FORWARD);
 
         leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -175,7 +178,8 @@ public class CloseRed extends LinearOpMode {
         }
     }
     void upDeposit() {
-        claw.setPosition(0);
+//        wrist.setPosition(0.45);
+//        claw.setPosition(0);
         sleep(1000);
         leftLift.setTargetPosition(2300);
         rightLift.setTargetPosition(2300);
@@ -188,7 +192,8 @@ public class CloseRed extends LinearOpMode {
         rightLift.setPower(0);
         leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        claw.setPosition(0.6);
+//        wrist.setPosition(0.45);
+//        claw.setPosition(0.6);
     }
     void downDeposit() {
         leftLift.setTargetPosition(0);

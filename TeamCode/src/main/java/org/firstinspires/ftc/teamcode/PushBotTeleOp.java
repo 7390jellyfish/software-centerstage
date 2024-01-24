@@ -16,6 +16,7 @@ public class PushBotTeleOp extends LinearOpMode {
 //    DcMotor rightLift = null;
 //    DcMotor intake = null;
 //    DcMotor transit = null;
+    Servo wrist = null;
     Servo claw = null;
     Servo drone = null;
 
@@ -29,6 +30,7 @@ public class PushBotTeleOp extends LinearOpMode {
 //        rightLift = hardwareMap.dcMotor.get("rl");
 //        intake = hardwareMap.dcMotor.get("intake");
 //        transit = hardwareMap.dcMotor.get("transit");
+        wrist = hardwareMap.servo.get("wrist");
         claw = hardwareMap.servo.get("claw");
         drone = hardwareMap.servo.get("drone");
 
@@ -40,6 +42,7 @@ public class PushBotTeleOp extends LinearOpMode {
 //        rightLift.setDirection(DcMotorSimple.Direction.FORWARD);
 //        intake.setDirection(DcMotorSimple.Direction.FORWARD);
 //        transit.setDirection(DcMotorSimple.Direction.REVERSE);
+        wrist.setDirection(Servo.Direction.FORWARD);
         claw.setDirection(Servo.Direction.FORWARD);
 
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -48,6 +51,12 @@ public class PushBotTeleOp extends LinearOpMode {
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 //        leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 //        rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+//        leftLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        rightLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+//        leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         waitForStart();
 
@@ -75,21 +84,34 @@ public class PushBotTeleOp extends LinearOpMode {
 //            leftLift.setPower(liftPower);
 //            rightLift.setPower(liftPower);
 //            if (gamepad2.left_trigger != 0 && gamepad2.right_trigger == 0) {
-//                claw.setPosition(0.75);
+//                claw.setPosition(0.8);
 //            }
 
             // intake
 //            double intakePower = (gamepad2.right_bumper ? 1.0 : 0.0) - (gamepad2.left_bumper ? 1.0 : 0.0);
 //            double transitPower =  (gamepad2.right_bumper ? 1.0 : 0.0) - (gamepad2.left_bumper ? 1.0 : 0.0);
 //            intake.setPower(intakePower);
-//            transit.setPower(transitPower * 0.8);
+//            transit.setPower(transitPower * 0.7);
+
+            // wrist
+//            if ((leftLift.getCurrentPosition() > 1250) && (rightLift.getCurrentPosition() > 1250)) {
+//                wrist.setPosition(0.6);
+//            } else if ((leftLift.getCurrentPosition() < 1250) && (rightLift.getCurrentPosition() < 1250)) {
+//                wrist.setPosition(0.45);
+//            }
+            if (gamepad2.dpad_up && !gamepad2.dpad_down) {
+                wrist.setPosition(0.6);
+            }
+            if (gamepad2.dpad_down && !gamepad2.dpad_up) {
+                wrist.setPosition(0.45);
+            }
 
             // claw
-            if (gamepad2.b && !gamepad2.a) {
-                claw.setPosition(0);
-            }
             if (gamepad2.a && !gamepad2.b) {
-                claw.setPosition(0.75);
+                claw.setPosition(0.8);
+            }
+            if (gamepad2.b && !gamepad2.a) {
+                claw.setPosition(0.7);
             }
 
             // drone
@@ -109,8 +131,8 @@ public class PushBotTeleOp extends LinearOpMode {
             telemetry.addData("back right", backRightMotor.getCurrentPosition());
             telemetry.addData("back left", backLeftMotor.getCurrentPosition());
             telemetry.addData("front left", frontLeftMotor.getCurrentPosition());
-//            telemetry.addData("right lift", leftLift.getCurrentPosition());
-//            telemetry.addData("left lift", rightLift.getCurrentPosition());
+//            telemetry.addData("left lift", leftLift.getCurrentPosition());
+//            telemetry.addData("right lift", rightLift.getCurrentPosition());
 //            telemetry.addData("intake", intake.getCurrentPosition());
 //            telemetry.addData("transit", transit.getCurrentPosition());
             telemetry.addData("claw", claw.getPosition());
