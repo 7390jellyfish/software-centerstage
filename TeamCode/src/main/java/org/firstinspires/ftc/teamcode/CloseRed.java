@@ -78,7 +78,7 @@ public class CloseRed extends LinearOpMode {
 
         // offset
         TrajectorySequence offset = drive.trajectorySequenceBuilder(startPose)
-                .forward(2)
+                .forward(1)
                 .build();
 
         // left
@@ -181,8 +181,8 @@ public class CloseRed extends LinearOpMode {
 //        wrist.setPosition(0.45);
 //        claw.setPosition(0);
         sleep(1000);
-        leftLift.setTargetPosition(2300);
-        rightLift.setTargetPosition(2300);
+        leftLift.setTargetPosition(1250);
+        rightLift.setTargetPosition(1250);
         leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftLift.setPower(1);

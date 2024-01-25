@@ -86,6 +86,32 @@ public class TeleOpJelly extends LinearOpMode {
             if (gamepad2.left_trigger != 0 && gamepad2.right_trigger == 0) {
                 claw.setPosition(0.8);
             }
+            if (gamepad2.dpad_left) {
+                leftLift.setTargetPosition(1200);
+                rightLift.setTargetPosition(1200);
+                leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                leftLift.setPower(1);
+                rightLift.setPower(1);
+                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
+                leftLift.setPower(0);
+                rightLift.setPower(0);
+                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
+            if (gamepad2.dpad_right) {
+                leftLift.setTargetPosition(1800);
+                rightLift.setTargetPosition(1800);
+                leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                leftLift.setPower(1);
+                rightLift.setPower(1);
+                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
+                leftLift.setPower(0);
+                rightLift.setPower(0);
+                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
 
             // intake
             double intakePower = (gamepad2.right_bumper ? 1.0 : 0.0) - (gamepad2.left_bumper ? 1.0 : 0.0);
@@ -94,9 +120,10 @@ public class TeleOpJelly extends LinearOpMode {
             transit.setPower(transitPower * 0.7);
 
             // wrist
-            if ((leftLift.getCurrentPosition() > 1250) && (rightLift.getCurrentPosition() > 1250)) {
+            if ((leftLift.getCurrentPosition() > 1000) && (rightLift.getCurrentPosition() > 1000)) {
                 wrist.setPosition(0.6);
-            } else if ((leftLift.getCurrentPosition() < 1250) && (rightLift.getCurrentPosition() < 1250)) {
+            }
+            if ((leftLift.getCurrentPosition() < 1250) && (rightLift.getCurrentPosition() < 1250)) {
                 wrist.setPosition(0.45);
             }
             if (gamepad2.dpad_up && !gamepad2.dpad_down) {
