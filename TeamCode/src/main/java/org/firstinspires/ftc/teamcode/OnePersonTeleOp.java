@@ -135,10 +135,10 @@ public class OnePersonTeleOp extends LinearOpMode {
 
             // claw
             if (gamepad1.a && !gamepad1.b) {
-                claw.setPosition(0.8);
+                claw.setPosition(0);
             }
             if (gamepad1.b && !gamepad1.a) {
-                claw.setPosition(0.7);
+                claw.setPosition(1);
             }
 
             // drone
