@@ -123,10 +123,10 @@ public class OnePersonTeleOp extends LinearOpMode {
 //                wrist.setPosition(0.65);
 //            }
             if (gamepad1.dpad_up && !gamepad1.dpad_down) {
-                wrist.setPosition(1);
+                wrist.setPosition(wrist.getPosition() + 0.1);
             }
             if (gamepad1.dpad_down && !gamepad1.dpad_up) {
-                wrist.setPosition(0.3);
+                wrist.setPosition(wrist.getPosition() - 0.1);
             }
 
             // claw
@@ -134,21 +134,30 @@ public class OnePersonTeleOp extends LinearOpMode {
 //                claw.setPosition(0.4);
 //            }
             if (gamepad1.a && !gamepad1.b) {
-                claw.setPosition(0.4);
+                claw.setPosition(0.25);
             }
             if (gamepad1.b && !gamepad1.a) {
                 claw.setPosition(1);
             }
+            if(gamepad1.y){
+                wrist.setPosition(wrist.getPosition()+0.01);
+                while(gamepad1.y) { }
+            }
+            if(gamepad1.x){
+                wrist.setPosition(wrist.getPosition()-0.01);
+                while(gamepad1.x) { }
+            }
 
-            // drone
-            if (gamepad1.y && !gamepad1.x) {
-                drone.setDirection(Servo.Direction.REVERSE);
-                drone.setPosition(1);
-            }
-            if (gamepad1.x && !gamepad1.y) {
-                drone.setDirection(Servo.Direction.FORWARD);
-                drone.setPosition(1);
-            }
+// 0.44
+//            // drone
+//            if (gamepad1.y && !gamepad1.x) {
+//                drone.setDirection(Servo.Direction.REVERSE);
+//                drone.setPosition(1);
+//            }
+//            if (gamepad1.x && !gamepad1.y) {
+//                drone.setDirection(Servo.Direction.FORWARD);
+//                drone.setPosition(1);
+//            }
 
             telemetry.addData("vertical joystick", y);
             telemetry.addData("horizontal joystick", x);
