@@ -16,8 +16,8 @@ public class PushBotTeleOp extends LinearOpMode {
 //    DcMotor rightLift = null;
 //    DcMotor intake = null;
 //    DcMotor transit = null;
-    Servo wrist = null;
-    Servo claw = null;
+//    Servo wrist = null;
+//    Servo claw = null;
     Servo drone = null;
 
     @Override
@@ -30,8 +30,8 @@ public class PushBotTeleOp extends LinearOpMode {
 //        rightLift = hardwareMap.dcMotor.get("rl");
 //        intake = hardwareMap.dcMotor.get("intake");
 //        transit = hardwareMap.dcMotor.get("transit");
-        wrist = hardwareMap.servo.get("wrist");
-        claw = hardwareMap.servo.get("claw");
+//        wrist = hardwareMap.servo.get("wrist");
+//        claw = hardwareMap.servo.get("claw");
         drone = hardwareMap.servo.get("drone");
 
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -42,8 +42,8 @@ public class PushBotTeleOp extends LinearOpMode {
 //        rightLift.setDirection(DcMotorSimple.Direction.FORWARD);
 //        intake.setDirection(DcMotorSimple.Direction.FORWARD);
 //        transit.setDirection(DcMotorSimple.Direction.REVERSE);
-        wrist.setDirection(Servo.Direction.FORWARD);
-        claw.setDirection(Servo.Direction.FORWARD);
+//        wrist.setDirection(Servo.Direction.FORWARD);
+//        claw.setDirection(Servo.Direction.FORWARD);
 
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -83,35 +83,6 @@ public class PushBotTeleOp extends LinearOpMode {
 //            double liftPower = gamepad2.right_trigger - gamepad2.left_trigger;
 //            leftLift.setPower(liftPower);
 //            rightLift.setPower(liftPower);
-//            if (gamepad2.left_trigger != 0 && gamepad2.right_trigger == 0) {
-//                claw.setPosition(0.8);
-//            }
-//            if (gamepad2.dpad_left) {
-//                leftLift.setTargetPosition(1200);
-//                rightLift.setTargetPosition(1200);
-//                leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                leftLift.setPower(1);
-//                rightLift.setPower(1);
-//                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
-//                leftLift.setPower(0);
-//                rightLift.setPower(0);
-//                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//            }
-//            if (gamepad2.dpad_right) {
-//                leftLift.setTargetPosition(1800);
-//                rightLift.setTargetPosition(1800);
-//                leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                leftLift.setPower(1);
-//                rightLift.setPower(1);
-//                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
-//                leftLift.setPower(0);
-//                rightLift.setPower(0);
-//                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//            }
 
             // intake
 //            double intakePower = (gamepad2.right_bumper ? 1.0 : 0.0) - (gamepad2.left_bumper ? 1.0 : 0.0);
@@ -120,26 +91,28 @@ public class PushBotTeleOp extends LinearOpMode {
 //            transit.setPower(transitPower * 0.7);
 
             // wrist
-//            if ((leftLift.getCurrentPosition() > 1000) && (rightLift.getCurrentPosition() > 1000)) {
-//                wrist.setPosition(0.6);
+//            if ((leftLift.getCurrentPosition() > 1250) && (rightLift.getCurrentPosition() > 1250)) {
+//                wrist.setPosition(0.65);
+//            } else if ((leftLift.getCurrentPosition() < 1250) && (rightLift.getCurrentPosition() < 1250)) {
+//                wrist.setPosition(0.48);
 //            }
-//            if ((leftLift.getCurrentPosition() < 1250) && (rightLift.getCurrentPosition() < 1250)) {
-//                wrist.setPosition(0.45);
+//            if (gamepad2.dpad_up && !gamepad2.dpad_down) {
+//                wrist.setPosition(0.65);
 //            }
-            if (gamepad2.dpad_up && !gamepad2.dpad_down) {
-                wrist.setPosition(0.6);
-            }
-            if (gamepad2.dpad_down && !gamepad2.dpad_up) {
-                wrist.setPosition(0.45);
-            }
+//            if (gamepad2.dpad_down && !gamepad2.dpad_up) {
+//                wrist.setPosition(0.48);
+//            }
 
             // claw
-            if (gamepad2.a && !gamepad2.b) {
-                claw.setPosition(0);
-            }
-            if (gamepad2.b && !gamepad2.a) {
-                claw.setPosition(1);
-            }
+//            if (gamepad2.left_trigger != 0 && gamepad2.right_trigger == 0) {
+//                claw.setPosition(0.1);
+//            }
+//            if (gamepad2.a && !gamepad2.b) {
+//                claw.setPosition(0.1);
+//            }
+//            if (gamepad2.b && !gamepad2.a) {
+//                claw.setPosition(1);
+//            }
 
             // drone
             if (gamepad2.y && !gamepad2.x) {
@@ -162,7 +135,8 @@ public class PushBotTeleOp extends LinearOpMode {
 //            telemetry.addData("right lift", rightLift.getCurrentPosition());
 //            telemetry.addData("intake", intake.getCurrentPosition());
 //            telemetry.addData("transit", transit.getCurrentPosition());
-            telemetry.addData("claw", claw.getPosition());
+//            telemetry.addData("wrist", wrist.getPosition());
+//            telemetry.addData("claw", claw.getPosition());
             telemetry.addData("drone", drone.getPosition());
             telemetry.update();
         }

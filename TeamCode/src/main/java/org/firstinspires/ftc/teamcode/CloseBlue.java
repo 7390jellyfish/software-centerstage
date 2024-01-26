@@ -78,7 +78,7 @@ public class CloseBlue extends LinearOpMode {
 
         // offset
         TrajectorySequence offset = drive.trajectorySequenceBuilder(startPose)
-                .back(2)
+                .back(1)
                 .build();
 
         // left
@@ -177,11 +177,11 @@ public class CloseBlue extends LinearOpMode {
         }
     }
     void upDeposit() {
-//        wrist.setPosition(0.45);
-//        claw.setPosition(0);
+        wrist.setPosition(0.48);
+        claw.setPosition(1);
         sleep(1000);
-        leftLift.setTargetPosition(2300);
-        rightLift.setTargetPosition(2300);
+        leftLift.setTargetPosition(1500);
+        rightLift.setTargetPosition(1500);
         leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftLift.setPower(1);
@@ -191,10 +191,12 @@ public class CloseBlue extends LinearOpMode {
         rightLift.setPower(0);
         leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        wrist.setPosition(0.45);
-//        claw.setPosition(0.6);
+        wrist.setPosition(0.65);
+        claw.setPosition(0.1);
     }
     void downDeposit() {
+        wrist.setPosition(0.48);
+        claw.setPosition(0.1);
         leftLift.setTargetPosition(0);
         rightLift.setTargetPosition(0);
         leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
