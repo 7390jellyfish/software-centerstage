@@ -25,8 +25,13 @@ public class MeepMeepTesting {
                                 .turn(Math.toRadians(-90))
                                 .lineToConstantHeading(new Vector2d(53.5, 33))
                                 .forward(10)
-                                .strafeRight(26)
-                                .back(10)
+                                .lineToLinearHeading(new Pose2d(20,35, Math.toRadians(180)))
+                                .forward(80)
+//                                intake
+//                                .back()
+
+//                                .strafeRight(26)
+//                                .back(10)
                                 .build()
                 );
 
