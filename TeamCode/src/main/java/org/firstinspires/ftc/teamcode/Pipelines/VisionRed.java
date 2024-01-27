@@ -33,7 +33,7 @@ public class VisionRed extends OpenCvPipeline {
 
         // red
         Scalar rLow = new Scalar(0, 150, 100);
-        Scalar rHigh = new Scalar(10, 240, 150);
+        Scalar rHigh = new Scalar(10, 240, 160);
 
         Core.inRange(mat, rLow, rHigh, rMat);
 
