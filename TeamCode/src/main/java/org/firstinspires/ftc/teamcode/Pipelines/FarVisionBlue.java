@@ -9,7 +9,7 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-public class VisionRed extends OpenCvPipeline {
+public class FarVisionBlue extends OpenCvPipeline {
     Telemetry telemetry;
     Mat mat = new Mat();
     Mat rMat = new Mat();
@@ -27,13 +27,15 @@ public class VisionRed extends OpenCvPipeline {
             new Point(1000, 275),
             new Point(1280, 575));
 
-    public VisionRed(Telemetry t){telemetry=t;}
+    public FarVisionBlue(Telemetry t) {
+        telemetry = t;
+    }
     public Mat processFrame(Mat input) {
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
 
-        // red
-        Scalar rLow = new Scalar(0, 150, 100);
-        Scalar rHigh = new Scalar(10, 240, 160);
+        // blue
+        Scalar rLow = new Scalar(80, 100, 30);
+        Scalar rHigh = new Scalar(145, 245, 130);
 
         Core.inRange(mat, rLow, rHigh, rMat);
 

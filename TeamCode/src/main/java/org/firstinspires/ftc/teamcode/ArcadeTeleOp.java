@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
-public class OnePersonTeleOp extends LinearOpMode {
+public class ArcadeTeleOp extends LinearOpMode {
     DcMotor frontRightMotor = null;
     DcMotor backRightMotor = null;
     DcMotor backLeftMotor = null;
@@ -65,8 +65,8 @@ public class OnePersonTeleOp extends LinearOpMode {
         while (opModeIsActive()) {
             // dt
             double y = -gamepad1.left_stick_y;
-            double x = -gamepad1.left_stick_x * 1.1;
-            double rx = -gamepad1.right_stick_x;
+            double x = -gamepad1.right_stick_x * 1.1;
+            double rx = -gamepad1.left_stick_x;
 
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
             double frontLeftPower = (y - x + rx) / denominator;
@@ -80,84 +80,75 @@ public class OnePersonTeleOp extends LinearOpMode {
             backRightMotor.setPower(backRightPower);
 
             // lift
-//            if (gamepad1.dpad_left) {
-//                leftLift.setTargetPosition(1500);
-//                rightLift.setTargetPosition(1500);
-//                leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                leftLift.setPower(1);
-//                rightLift.setPower(1);
-//                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
-//                leftLift.setPower(0);
-//                rightLift.setPower(0);
-//                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//            }
-//            if (gamepad1.dpad_right) {
-//                leftLift.setTargetPosition(1500);
-//                rightLift.setTargetPosition(1500);
-//                leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                leftLift.setPower(1);
-//                rightLift.setPower(1);
-//                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
-//                leftLift.setPower(0);
-//                rightLift.setPower(0);
-//                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//            }
-            double liftPower = gamepad1.right_trigger - gamepad1.left_trigger;
+            if (gamepad2.dpad_left) {
+                leftLift.setTargetPosition(1500);
+                rightLift.setTargetPosition(1500);
+                leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                leftLift.setPower(1);
+                rightLift.setPower(1);
+                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
+                leftLift.setPower(0);
+                rightLift.setPower(0);
+                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
+            if (gamepad2.dpad_right) {
+                leftLift.setTargetPosition(1750);
+                rightLift.setTargetPosition(1750);
+                leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                leftLift.setPower(1);
+                rightLift.setPower(1);
+                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
+                leftLift.setPower(0);
+                rightLift.setPower(0);
+                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
+            double liftPower = gamepad2.right_trigger - gamepad2.left_trigger;
             leftLift.setPower(liftPower);
             rightLift.setPower(liftPower);
 
             // intake
-            double intakePower = (gamepad1.right_bumper ? 1.0 : 0.0) - (gamepad1.left_bumper ? 1.0 : 0.0);
-            double transitPower =  (gamepad1.right_bumper ? 1.0 : 0.0) - (gamepad1.left_bumper ? 1.0 : 0.0);
+            double intakePower = (gamepad2.right_bumper ? 1.0 : 0.0) - (gamepad2.left_bumper ? 1.0 : 0.0);
+            double transitPower =  (gamepad2.right_bumper ? 1.0 : 0.0) - (gamepad2.left_bumper ? 1.0 : 0.0);
             intake.setPower(intakePower);
             transit.setPower(transitPower * 0.7);
 
             // wrist
-//            if ((leftLift.getCurrentPosition() > 1250) && (rightLift.getCurrentPosition() > 1250)) {
-//                wrist.setPosition(1);
-//            } else if ((leftLift.getCurrentPosition() < 1250) && (rightLift.getCurrentPosition() < 1250)) {
-//                wrist.setPosition(0.65);
-//            }
-            if (gamepad1.dpad_up && !gamepad1.dpad_down) {
-                wrist.setPosition(wrist.getPosition() + 0.1);
+            if ((leftLift.getCurrentPosition() > 1250) && (rightLift.getCurrentPosition() > 1250)) {
+                wrist.setPosition(0.65);
+            } else if ((leftLift.getCurrentPosition() < 1250) && (rightLift.getCurrentPosition() < 1250)) {
+                wrist.setPosition(0.48);
             }
-            if (gamepad1.dpad_down && !gamepad1.dpad_up) {
-                wrist.setPosition(wrist.getPosition() - 0.1);
+            if (gamepad2.dpad_up && !gamepad2.dpad_down) {
+                wrist.setPosition(0.65);
+            }
+            if (gamepad2.dpad_down && !gamepad2.dpad_up) {
+                wrist.setPosition(0.48);
             }
 
             // claw
-//            if (gamepad1.left_trigger != 0 && gamepad1.right_trigger == 0) {
-//                claw.setPosition(0.4);
-//            }
-            if (gamepad1.a && !gamepad1.b) {
-                claw.setPosition(0.25);
+            if (gamepad2.left_trigger != 0 && gamepad2.right_trigger == 0) {
+                claw.setPosition(0.1);
             }
-            if (gamepad1.b && !gamepad1.a) {
+            if (gamepad2.a && !gamepad2.b) {
+                claw.setPosition(0.1);
+            }
+            if (gamepad2.b && !gamepad2.a) {
                 claw.setPosition(1);
             }
-            if(gamepad1.y){
-                wrist.setPosition(wrist.getPosition()+0.01);
-                while(gamepad1.y) { }
-            }
-            if(gamepad1.x){
-                wrist.setPosition(wrist.getPosition()-0.01);
-                while(gamepad1.x) { }
-            }
 
-// 0.44
-//            // drone
-//            if (gamepad1.y && !gamepad1.x) {
-//                drone.setDirection(Servo.Direction.REVERSE);
-//                drone.setPosition(1);
-//            }
-//            if (gamepad1.x && !gamepad1.y) {
-//                drone.setDirection(Servo.Direction.FORWARD);
-//                drone.setPosition(1);
-//            }
+            // drone
+            if (gamepad2.y && !gamepad2.x) {
+                drone.setDirection(Servo.Direction.REVERSE);
+                drone.setPosition(1);
+            }
+            if (gamepad2.x && !gamepad2.y) {
+                drone.setDirection(Servo.Direction.FORWARD);
+                drone.setPosition(1);
+            }
 
             telemetry.addData("vertical joystick", y);
             telemetry.addData("horizontal joystick", x);
