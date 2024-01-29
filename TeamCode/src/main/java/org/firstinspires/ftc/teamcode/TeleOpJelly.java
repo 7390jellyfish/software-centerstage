@@ -80,7 +80,7 @@ public class TeleOpJelly extends LinearOpMode {
             backRightMotor.setPower(backRightPower);
 
             // lift
-//            if (gamepad2.dpad_left) {
+//            if (gamepad2.dpad_left && !gamepad2.dpad_right) {
 //                leftLift.setTargetPosition(1500);
 //                rightLift.setTargetPosition(1500);
 //                leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -93,9 +93,9 @@ public class TeleOpJelly extends LinearOpMode {
 //                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //            }
-//            if (gamepad2.dpad_right) {
-//                leftLift.setTargetPosition(1500);
-//                rightLift.setTargetPosition(1500);
+//            if (gamepad2.dpad_right && !gamepad2.dpad_left) {
+//                leftLift.setTargetPosition(1250);
+//                rightLift.setTargetPosition(1250);
 //                leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 //                rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 //                leftLift.setPower(1);
@@ -118,12 +118,12 @@ public class TeleOpJelly extends LinearOpMode {
 
             // wrist
 //            if ((leftLift.getCurrentPosition() > 1250) && (rightLift.getCurrentPosition() > 1250)) {
-//                wrist.setPosition(1);
+//                wrist.setPosition(0.85);
 //            } else if ((leftLift.getCurrentPosition() < 1250) && (rightLift.getCurrentPosition() < 1250)) {
 //                wrist.setPosition(0.65);
 //            }
             if (gamepad2.dpad_up && !gamepad2.dpad_down) {
-                wrist.setPosition(1);
+                wrist.setPosition(0.85);
             }
             if (gamepad2.dpad_down && !gamepad2.dpad_up) {
                 wrist.setPosition(0.65);
@@ -131,13 +131,13 @@ public class TeleOpJelly extends LinearOpMode {
 
             // claw
 //            if (gamepad2.left_trigger != 0 && gamepad2.right_trigger == 0) {
-//                claw.setPosition(0.4);
+//                claw.setPosition(1);
 //            }
             if (gamepad2.a && !gamepad2.b) {
-                claw.setPosition(0.4);
+                claw.setPosition(1);
             }
             if (gamepad2.b && !gamepad2.a) {
-                claw.setPosition(1);
+                claw.setPosition(0.34);
             }
 
             // drone
