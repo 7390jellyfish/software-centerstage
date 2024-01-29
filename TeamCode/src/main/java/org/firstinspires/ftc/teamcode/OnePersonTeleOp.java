@@ -123,10 +123,10 @@ public class OnePersonTeleOp extends LinearOpMode {
 //                wrist.setPosition(0.65);
 //            }
             if (gamepad1.dpad_up && !gamepad1.dpad_down) {
-                wrist.setPosition(wrist.getPosition() + 0.1);
+                wrist.setPosition(0.43 );
             }
             if (gamepad1.dpad_down && !gamepad1.dpad_up) {
-                wrist.setPosition(wrist.getPosition() - 0.1);
+                wrist.setPosition(0.6);
             }
 
             // claw
