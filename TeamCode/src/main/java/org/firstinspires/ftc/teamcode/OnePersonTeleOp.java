@@ -80,7 +80,7 @@ public class OnePersonTeleOp extends LinearOpMode {
             backRightMotor.setPower(backRightPower);
 
             // lift
-//            if (gamepad2.dpad_left && !gamepad2.dpad_right) {
+//            if (gamepad1.dpad_left && !gamepad1.dpad_right) {
 //                leftLift.setTargetPosition(1500);
 //                rightLift.setTargetPosition(1500);
 //                leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -93,7 +93,7 @@ public class OnePersonTeleOp extends LinearOpMode {
 //                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //            }
-//            if (gamepad2.dpad_right && !gamepad2.dpad_left) {
+//            if (gamepad1.dpad_right && !gamepad1.dpad_left) {
 //                leftLift.setTargetPosition(1250);
 //                rightLift.setTargetPosition(1250);
 //                leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);

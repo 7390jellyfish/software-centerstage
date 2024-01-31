@@ -7,15 +7,15 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
-public class PushBotTeleOp extends LinearOpMode {
+public class DavidTeleOp extends LinearOpMode {
     DcMotor frontRightMotor = null;
     DcMotor backRightMotor = null;
     DcMotor backLeftMotor = null;
     DcMotor frontLeftMotor = null;
-//    DcMotor leftLift = null;
-//    DcMotor rightLift = null;
-//    DcMotor intake = null;
-//    DcMotor transit = null;
+    DcMotor leftLift = null;
+    DcMotor rightLift = null;
+    DcMotor intake = null;
+    DcMotor transit = null;
     Servo wrist = null;
     Servo claw = null;
     Servo drone = null;
@@ -26,10 +26,10 @@ public class PushBotTeleOp extends LinearOpMode {
         backRightMotor = hardwareMap.dcMotor.get("bl");
         backLeftMotor = hardwareMap.dcMotor.get("fr");
         frontLeftMotor = hardwareMap.dcMotor.get("br");
-//        leftLift = hardwareMap.dcMotor.get("ll");
-//        rightLift = hardwareMap.dcMotor.get("rl");
-//        intake = hardwareMap.dcMotor.get("intake");
-//        transit = hardwareMap.dcMotor.get("transit");
+        leftLift = hardwareMap.dcMotor.get("ll");
+        rightLift = hardwareMap.dcMotor.get("rl");
+        intake = hardwareMap.dcMotor.get("intake");
+        transit = hardwareMap.dcMotor.get("transit");
         wrist = hardwareMap.servo.get("wrist");
         claw = hardwareMap.servo.get("claw");
         drone = hardwareMap.servo.get("drone");
@@ -38,10 +38,10 @@ public class PushBotTeleOp extends LinearOpMode {
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-//        leftLift.setDirection(DcMotorSimple.Direction.REVERSE);
-//        rightLift.setDirection(DcMotorSimple.Direction.FORWARD);
-//        intake.setDirection(DcMotorSimple.Direction.FORWARD);
-//        transit.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftLift.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightLift.setDirection(DcMotorSimple.Direction.FORWARD);
+        intake.setDirection(DcMotorSimple.Direction.FORWARD);
+        transit.setDirection(DcMotorSimple.Direction.REVERSE);
         wrist.setDirection(Servo.Direction.FORWARD);
         claw.setDirection(Servo.Direction.FORWARD);
 
@@ -49,14 +49,14 @@ public class PushBotTeleOp extends LinearOpMode {
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-//        leftLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        rightLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-//        leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         waitForStart();
 
@@ -64,7 +64,7 @@ public class PushBotTeleOp extends LinearOpMode {
 
         while (opModeIsActive()) {
             // dt
-            double y = -gamepad1.left_stick_y;
+            double y = -gamepad1.right_stick_y;
             double x = -gamepad1.left_stick_x * 1.1;
             double rx = -gamepad1.right_stick_x;
 
@@ -106,15 +106,15 @@ public class PushBotTeleOp extends LinearOpMode {
 //                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //            }
-//            double liftPower = gamepad2.right_trigger - gamepad2.left_trigger;
-//            leftLift.setPower(liftPower);
-//            rightLift.setPower(liftPower);
+            double liftPower = gamepad2.right_trigger - gamepad2.left_trigger;
+            leftLift.setPower(liftPower);
+            rightLift.setPower(liftPower);
 
             // intake
-//            double intakePower = (gamepad2.right_bumper ? 1.0 : 0.0) - (gamepad2.left_bumper ? 1.0 : 0.0);
-//            double transitPower =  (gamepad2.right_bumper ? 1.0 : 0.0) - (gamepad2.left_bumper ? 1.0 : 0.0);
-//            intake.setPower(intakePower);
-//            transit.setPower(transitPower * 0.7);
+            double intakePower = (gamepad2.right_bumper ? 1.0 : 0.0) - (gamepad2.left_bumper ? 1.0 : 0.0);
+            double transitPower =  (gamepad2.right_bumper ? 1.0 : 0.0) - (gamepad2.left_bumper ? 1.0 : 0.0);
+            intake.setPower(intakePower);
+            transit.setPower(transitPower * 0.7);
 
             // wrist
 //            if ((leftLift.getCurrentPosition() > 1250) && (rightLift.getCurrentPosition() > 1250)) {
@@ -122,23 +122,23 @@ public class PushBotTeleOp extends LinearOpMode {
 //            } else if ((leftLift.getCurrentPosition() < 1250) && (rightLift.getCurrentPosition() < 1250)) {
 //                wrist.setPosition(0.65);
 //            }
-//            if (gamepad2.dpad_up && !gamepad2.dpad_down) {
-//                wrist.setPosition(0.85);
-//            }
-//            if (gamepad2.dpad_down && !gamepad2.dpad_up) {
-//                wrist.setPosition(0.65);
-//            }
+            if (gamepad2.dpad_up && !gamepad2.dpad_down) {
+                wrist.setPosition(0.85);
+            }
+            if (gamepad2.dpad_down && !gamepad2.dpad_up) {
+                wrist.setPosition(0.65);
+            }
 
             // claw
 //            if (gamepad2.left_trigger != 0 && gamepad2.right_trigger == 0) {
 //                claw.setPosition(1);
 //            }
-//            if (gamepad2.a && !gamepad2.b) {
-//                claw.setPosition(1);
-//            }
-//            if (gamepad2.b && !gamepad2.a) {
-//                claw.setPosition(0.34);
-//            }
+            if (gamepad2.a && !gamepad2.b) {
+                claw.setPosition(1);
+            }
+            if (gamepad2.b && !gamepad2.a) {
+                claw.setPosition(0.34);
+            }
 
             // drone
             if (gamepad2.y && !gamepad2.x) {
@@ -157,10 +157,10 @@ public class PushBotTeleOp extends LinearOpMode {
             telemetry.addData("back right", backRightMotor.getCurrentPosition());
             telemetry.addData("back left", backLeftMotor.getCurrentPosition());
             telemetry.addData("front left", frontLeftMotor.getCurrentPosition());
-//            telemetry.addData("left lift", leftLift.getCurrentPosition());
-//            telemetry.addData("right lift", rightLift.getCurrentPosition());
-//            telemetry.addData("intake", intake.getCurrentPosition());
-//            telemetry.addData("transit", transit.getCurrentPosition());
+            telemetry.addData("left lift", leftLift.getCurrentPosition());
+            telemetry.addData("right lift", rightLift.getCurrentPosition());
+            telemetry.addData("intake", intake.getCurrentPosition());
+            telemetry.addData("transit", transit.getCurrentPosition());
             telemetry.addData("wrist", wrist.getPosition());
             telemetry.addData("claw", claw.getPosition());
             telemetry.addData("drone", drone.getPosition());
