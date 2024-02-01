@@ -39,7 +39,7 @@ public class OnePersonTeleOp extends LinearOpMode {
         backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         leftLift.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightLift.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightLift.setDirection(DcMotorSimple.Direction.REVERSE);
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         transit.setDirection(DcMotorSimple.Direction.REVERSE);
         wrist.setDirection(Servo.Direction.FORWARD);
@@ -55,8 +55,8 @@ public class OnePersonTeleOp extends LinearOpMode {
         leftLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         waitForStart();
 
@@ -106,11 +106,14 @@ public class OnePersonTeleOp extends LinearOpMode {
 //                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //            }
-//            if (leftLift.getCurrentPosition() < 1750 && rightLift.getCurrentPosition() < 1750) {
             double liftPower = gamepad1.right_trigger - gamepad1.left_trigger;
-            leftLift.setPower(liftPower);
-            rightLift.setPower(liftPower);
-//            }
+            if (((liftPower > 0) && ((leftLift.getCurrentPosition() < 1900) && (rightLift.getCurrentPosition() < 1900))) || (liftPower < 0)) {
+                leftLift.setPower(liftPower);
+                rightLift.setPower(liftPower);
+            } else {
+                leftLift.setPower(0);
+                rightLift.setPower(0);
+            }
 
             // intake
             double intakePower = (gamepad1.right_bumper ? 1.0 : 0.0) - (gamepad1.left_bumper ? 1.0 : 0.0);
@@ -119,27 +122,27 @@ public class OnePersonTeleOp extends LinearOpMode {
             transit.setPower(transitPower * 0.7);
 
             // wrist
-//            if ((leftLift.getCurrentPosition() > 1250) && (rightLift.getCurrentPosition() > 1250)) {
-//                wrist.setPosition(0.85);
-//            } else if ((leftLift.getCurrentPosition() < 1250) && (rightLift.getCurrentPosition() < 1250)) {
-//                wrist.setPosition(0.65);
-//            }
+            if (leftLift.getCurrentPosition() < 750) {
+                wrist.setPosition(0.45);
+            } else if (leftLift.getCurrentPosition() > 750) {
+                wrist.setPosition(0.57);
+            }
             if (gamepad1.dpad_up && !gamepad1.dpad_down) {
-                wrist.setPosition(0.85);
+                wrist.setPosition(0.57);
             }
             if (gamepad1.dpad_down && !gamepad1.dpad_up) {
-                wrist.setPosition(0.65);
+                wrist.setPosition(0.45);
             }
 
             // claw
-//            if (gamepad1.left_trigger != 0 && gamepad1.right_trigger == 0) {
-//                claw.setPosition(1);
-//            }
+            if ((liftPower < 0) && (leftLift.getCurrentPosition() < 1250) && (leftLift.getCurrentPosition() > 750)) {
+                claw.setPosition(0.8);
+            }
             if (gamepad1.a && !gamepad1.b) {
-                claw.setPosition(1);
+                claw.setPosition(0.8);
             }
             if (gamepad1.b && !gamepad1.a) {
-                claw.setPosition(0.34);
+                claw.setPosition(1);
             }
 
             // drone
