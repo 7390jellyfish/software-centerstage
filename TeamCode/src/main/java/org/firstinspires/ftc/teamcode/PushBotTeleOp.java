@@ -16,8 +16,8 @@ public class PushBotTeleOp extends LinearOpMode {
 //    DcMotor rightLift = null;
 //    DcMotor intake = null;
 //    DcMotor transit = null;
-//    Servo wrist = null;
-//    Servo claw = null;
+    Servo wrist = null;
+    Servo claw = null;
     Servo drone = null;
 
     @Override
@@ -30,8 +30,8 @@ public class PushBotTeleOp extends LinearOpMode {
 //        rightLift = hardwareMap.dcMotor.get("rl");
 //        intake = hardwareMap.dcMotor.get("intake");
 //        transit = hardwareMap.dcMotor.get("transit");
-//        wrist = hardwareMap.servo.get("wrist");
-//        claw = hardwareMap.servo.get("claw");
+        wrist = hardwareMap.servo.get("wrist");
+        claw = hardwareMap.servo.get("claw");
         drone = hardwareMap.servo.get("drone");
 
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -42,8 +42,8 @@ public class PushBotTeleOp extends LinearOpMode {
 //        rightLift.setDirection(DcMotorSimple.Direction.FORWARD);
 //        intake.setDirection(DcMotorSimple.Direction.FORWARD);
 //        transit.setDirection(DcMotorSimple.Direction.REVERSE);
-//        wrist.setDirection(Servo.Direction.FORWARD);
-//        claw.setDirection(Servo.Direction.FORWARD);
+        wrist.setDirection(Servo.Direction.FORWARD);
+        claw.setDirection(Servo.Direction.FORWARD);
 
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -161,8 +161,8 @@ public class PushBotTeleOp extends LinearOpMode {
 //            telemetry.addData("right lift", rightLift.getCurrentPosition());
 //            telemetry.addData("intake", intake.getCurrentPosition());
 //            telemetry.addData("transit", transit.getCurrentPosition());
-//            telemetry.addData("wrist", wrist.getPosition());
-//            telemetry.addData("claw", claw.getPosition());
+            telemetry.addData("wrist", wrist.getPosition());
+            telemetry.addData("claw", claw.getPosition());
             telemetry.addData("drone", drone.getPosition());
             telemetry.update();
         }

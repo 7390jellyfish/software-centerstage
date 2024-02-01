@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
-public class TeleOpJelly extends LinearOpMode {
+public class DavidTeleOp extends LinearOpMode {
     DcMotor frontRightMotor = null;
     DcMotor backRightMotor = null;
     DcMotor backLeftMotor = null;
@@ -64,7 +64,7 @@ public class TeleOpJelly extends LinearOpMode {
 
         while (opModeIsActive()) {
             // dt
-            double y = -gamepad1.left_stick_y;
+            double y = -gamepad1.right_stick_y;
             double x = -gamepad1.left_stick_x * 1.1;
             double rx = -gamepad1.right_stick_x;
 
@@ -106,11 +106,9 @@ public class TeleOpJelly extends LinearOpMode {
 //                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //            }
-//            if (leftLift.getCurrentPosition() < 2000 && rightLift.getCurrentPosition() < 2000) {
-                double liftPower = gamepad2.right_trigger - gamepad2.left_trigger;
-                leftLift.setPower(liftPower);
-                rightLift.setPower(liftPower);
-//            }
+            double liftPower = gamepad2.right_trigger - gamepad2.left_trigger;
+            leftLift.setPower(liftPower);
+            rightLift.setPower(liftPower);
 
             // intake
             double intakePower = (gamepad2.right_bumper ? 1.0 : 0.0) - (gamepad2.left_bumper ? 1.0 : 0.0);
