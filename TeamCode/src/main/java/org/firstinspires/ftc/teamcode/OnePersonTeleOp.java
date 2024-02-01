@@ -106,9 +106,11 @@ public class OnePersonTeleOp extends LinearOpMode {
 //                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //            }
+//            if (leftLift.getCurrentPosition() < 1750 && rightLift.getCurrentPosition() < 1750) {
             double liftPower = gamepad1.right_trigger - gamepad1.left_trigger;
             leftLift.setPower(liftPower);
             rightLift.setPower(liftPower);
+//            }
 
             // intake
             double intakePower = (gamepad1.right_bumper ? 1.0 : 0.0) - (gamepad1.left_bumper ? 1.0 : 0.0);

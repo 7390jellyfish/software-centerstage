@@ -106,9 +106,11 @@ public class DavidTeleOp extends LinearOpMode {
 //                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //            }
+//            if (leftLift.getCurrentPosition() < 1750 && rightLift.getCurrentPosition() < 1750) {
             double liftPower = gamepad2.right_trigger - gamepad2.left_trigger;
             leftLift.setPower(liftPower);
             rightLift.setPower(liftPower);
+//            }
 
             // intake
             double intakePower = (gamepad2.right_bumper ? 1.0 : 0.0) - (gamepad2.left_bumper ? 1.0 : 0.0);
