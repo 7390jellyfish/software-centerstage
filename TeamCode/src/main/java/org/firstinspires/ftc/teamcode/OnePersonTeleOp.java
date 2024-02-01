@@ -93,19 +93,21 @@ public class OnePersonTeleOp extends LinearOpMode {
 //                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //            }
-//            if (gamepad2.dpad_right && !gamepad2.dpad_left) {
-//                leftLift.setTargetPosition(1250);
-//                rightLift.setTargetPosition(1250);
-//                leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                leftLift.setPower(1);
-//                rightLift.setPower(1);
-//                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
-//                leftLift.setPower(0);
-//                rightLift.setPower(0);
-//                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//            }
+            if (gamepad2.dpad_right && !gamepad2.dpad_left) {
+                leftLift.setTargetPosition(1250);
+                rightLift.setTargetPosition(1250);
+                leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                leftLift.setPower(1);
+                rightLift.setPower(1);
+                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
+                leftLift.setPower(0);
+                rightLift.setPower(0);
+                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
+
+
             double liftPower = gamepad1.right_trigger - gamepad1.left_trigger;
             leftLift.setPower(liftPower);
             rightLift.setPower(liftPower);
