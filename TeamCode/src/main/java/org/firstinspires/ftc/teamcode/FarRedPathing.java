@@ -70,16 +70,15 @@ public class FarRedPathing extends LinearOpMode {
                 .back(10)
                 .build();
         TrajectorySequence backdropLeft = drive.trajectorySequenceBuilder(spikeMarkLeft.end())
-                .back(10)
-                .turn(Math.toRadians(-90))
-                .strafeRight(8)
-                .forward(50)
-                .lineToConstantHeading(new Vector2d(52.5, -29))
+                .lineToConstantHeading(new Vector2d(-35,-57))
+                .turn(Math.toRadians(90))
+                .back(50)
+                .lineToLinearHeading(new Pose2d(46, -27.3, Math.toRadians(180)))
                 .build();
         TrajectorySequence parkLeft = drive.trajectorySequenceBuilder(backdropLeft.end())
-                .forward(10)
-                .strafeLeft(31)
-                .back(10)
+                .forward(20)
+                .strafeRight(17)
+                .back(23)
                 .build();
 
         // middle
@@ -89,9 +88,10 @@ public class FarRedPathing extends LinearOpMode {
                 .turn(Math.toRadians(90))
                 .build();
         TrajectorySequence backdropMiddle = drive.trajectorySequenceBuilder(spikeMarkMiddle.end())
-                .back(10)
+                .lineToConstantHeading(new Vector2d(-35,-57))
                 .turn(Math.toRadians(90))
-                .lineToConstantHeading(new Vector2d(53.5, -36))
+                .back(50)
+                .lineToLinearHeading(new Pose2d(46, -27.3, Math.toRadians(180)))
                 .build();
         TrajectorySequence parkMiddle = drive.trajectorySequenceBuilder(backdropMiddle.end())
                 .forward(10)
@@ -107,9 +107,10 @@ public class FarRedPathing extends LinearOpMode {
                 .strafeLeft(5)
                 .build();
         TrajectorySequence backdropRight = drive.trajectorySequenceBuilder(spikeMarkRight.end())
-                .back(10)
+                .lineToConstantHeading(new Vector2d(-35,-57))
                 .turn(Math.toRadians(90))
-                .lineToConstantHeading(new Vector2d(53.5, -41))
+                .back(50)
+                .lineToLinearHeading(new Pose2d(46, -27.3, Math.toRadians(180)))
                 .build();
         TrajectorySequence parkRight = drive.trajectorySequenceBuilder(backdropRight.end())
                 .forward(10)
@@ -120,8 +121,8 @@ public class FarRedPathing extends LinearOpMode {
         waitForStart();
 
         if (!isStopRequested()) {
-            spikeMarkPosition = CloseVisionBlue.getPosition();
-
+//            spikeMarkPosition = CloseVisionBlue.getPosition();
+            spikeMarkPosition = 1;
             drive.followTrajectorySequence(offset);
             if (spikeMarkPosition == 1) {
                 drive.followTrajectorySequence(spikeMarkLeft);
