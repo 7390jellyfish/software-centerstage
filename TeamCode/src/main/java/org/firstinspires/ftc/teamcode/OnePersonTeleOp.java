@@ -1,11 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-
+@Config
 @TeleOp
 public class OnePersonTeleOp extends LinearOpMode {
     DcMotor frontRightMotor = null;
@@ -107,14 +108,20 @@ public class OnePersonTeleOp extends LinearOpMode {
 //                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //            }
             double liftPower = gamepad1.right_trigger - gamepad1.left_trigger;
-            if (((liftPower > 0) && ((leftLift.getCurrentPosition() < 1900) && (rightLift.getCurrentPosition() < 1900))) || (liftPower < 0)) {
-                leftLift.setPower(liftPower);
-                rightLift.setPower(liftPower);
-            } else {
-                leftLift.setPower(0);
-                rightLift.setPower(0);
-            }
-
+            leftLift.setPower(liftPower);
+            rightLift.setPower(liftPower);
+//
+//            if((gamepad1.right_trigger==0&&gamepad1.left_trigger==0)&&!leftLift.isBusy()){
+//                int llP = leftLift.getCurrentPosition();
+//                int rlP = rightLift.getCurrentPosition();
+//
+//                leftLift.setTargetPosition(rlP);
+//                leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                leftLift.setPower(0.5);
+//                while ((gamepad1.right_trigger==0&&gamepad1.left_trigger==0)&&leftLift.isBusy()){}
+//                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+////                leftLift.setPower(0);
+//            }
             // intake
             double intakePower = (gamepad1.right_bumper ? 1.0 : 0.0) - (gamepad1.left_bumper ? 1.0 : 0.0);
             double transitPower =  (gamepad1.right_bumper ? 1.0 : 0.0) - (gamepad1.left_bumper ? 1.0 : 0.0);
