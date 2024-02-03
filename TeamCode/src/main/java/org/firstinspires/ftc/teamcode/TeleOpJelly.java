@@ -19,6 +19,7 @@ public class TeleOpJelly extends LinearOpMode {
     Servo wrist = null;
     Servo claw = null;
     Servo drone = null;
+//    Servo pacifier = null;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -33,17 +34,19 @@ public class TeleOpJelly extends LinearOpMode {
         wrist = hardwareMap.servo.get("wrist");
         claw = hardwareMap.servo.get("claw");
         drone = hardwareMap.servo.get("drone");
+//        pacifier = hardwareMap.servo.get("pacifier");
 
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         leftLift.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightLift.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightLift.setDirection(DcMotorSimple.Direction.FORWARD);
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         transit.setDirection(DcMotorSimple.Direction.REVERSE);
         wrist.setDirection(Servo.Direction.FORWARD);
         claw.setDirection(Servo.Direction.FORWARD);
+//        pacifier.setDirection(Servo.Direction.FORWARD);
 
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -107,9 +110,33 @@ public class TeleOpJelly extends LinearOpMode {
 //                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //            }
             double liftPower = gamepad2.right_trigger - gamepad2.left_trigger;
-            if (((liftPower > 0) && ((leftLift.getCurrentPosition() < 1900) && (rightLift.getCurrentPosition() < 1900))) || (liftPower < 0)) {
+            if (((liftPower > 0) && ((leftLift.getCurrentPosition() < 2000) && (rightLift.getCurrentPosition() < 2000))) || (liftPower < 0)) {
                 leftLift.setPower(liftPower);
                 rightLift.setPower(liftPower);
+//                if (liftPower > 0) {
+//                    if ((leftLift.getCurrentPosition() - rightLift.getCurrentPosition()) > 25) {
+//                        leftLift.setPower(0);
+//                        rightLift.setPower(liftPower);
+//                    }
+//                    if ((rightLift.getCurrentPosition() - leftLift.getCurrentPosition()) > 25) {
+//                        leftLift.setPower(liftPower);
+//                        rightLift.setPower(0);
+//                    }
+//                }
+//                if (liftPower < 0) {
+//                    if ((leftLift.getCurrentPosition() - rightLift.getCurrentPosition()) > 25) {
+//                        leftLift.setPower(liftPower);
+//                        rightLift.setPower(0);
+//                    }
+//                    if ((rightLift.getCurrentPosition() - leftLift.getCurrentPosition()) > 25) {
+//                        leftLift.setPower(0);
+//                        rightLift.setPower(liftPower);
+//                    }
+//                }
+//                if (leftLift.getCurrentPosition() == rightLift.getCurrentPosition()) {
+//                    leftLift.setPower(liftPower);
+//                    rightLift.setPower(liftPower);
+//                }
             } else {
                 leftLift.setPower(0);
                 rightLift.setPower(0);
@@ -119,30 +146,38 @@ public class TeleOpJelly extends LinearOpMode {
             double intakePower = (gamepad2.right_bumper ? 1.0 : 0.0) - (gamepad2.left_bumper ? 1.0 : 0.0);
             double transitPower =  (gamepad2.right_bumper ? 1.0 : 0.0) - (gamepad2.left_bumper ? 1.0 : 0.0);
             intake.setPower(intakePower);
-            transit.setPower(transitPower * 0.7);
+            transit.setPower(transitPower * 0.5);
 
             // wrist
-            if (leftLift.getCurrentPosition() < 750) {
-                wrist.setPosition(0.45);
-            } else if (leftLift.getCurrentPosition() > 750) {
+            if (leftLift.getCurrentPosition() < 500) {
+                wrist.setPosition(0.43);
+            } else if (leftLift.getCurrentPosition() > 500) {
                 wrist.setPosition(0.57);
             }
             if (gamepad2.dpad_up && !gamepad2.dpad_down) {
                 wrist.setPosition(0.57);
+//                wrist.setPosition(wrist.getPosition() + 0.01);
+//                while (gamepad2.dpad_up) { }
             }
             if (gamepad2.dpad_down && !gamepad2.dpad_up) {
-                wrist.setPosition(0.45);
+                wrist.setPosition(0.43);
+//                wrist.setPosition(wrist.getPosition() - 0.01);
+//                while (gamepad2.dpad_down) { }
             }
 
             // claw
-            if ((liftPower < 0) && (leftLift.getCurrentPosition() < 1250) && (leftLift.getCurrentPosition() > 750)) {
-                claw.setPosition(0.8);
+            if ((liftPower < 0) && (leftLift.getCurrentPosition() < 750) && (leftLift.getCurrentPosition() > 500)) {
+                claw.setPosition(0.28);
             }
             if (gamepad2.a && !gamepad2.b) {
-                claw.setPosition(0.8);
+                claw.setPosition(0.28);
+//                claw.setPosition(claw.getPosition() - 0.01);
+//                while (gamepad2.a) { }
             }
             if (gamepad2.b && !gamepad2.a) {
                 claw.setPosition(1);
+//                claw.setPosition(claw.getPosition() + 0.01);
+//                while (gamepad2.b) { }
             }
 
             // drone
@@ -154,6 +189,24 @@ public class TeleOpJelly extends LinearOpMode {
                 drone.setDirection(Servo.Direction.FORWARD);
                 drone.setPosition(1);
             }
+
+            // pacifier
+//            if (gamepad2.dpad_left && !gamepad2.dpad_right) {
+//                while (pacifier.getPosition() <= 0.75) {
+//                    pacifier.setPosition(pacifier.getPosition() + 0.01);
+//                    sleep(8);
+//                }
+//                pacifier.setPosition(pacifier.getPosition() + 0.01);
+//                while (gamepad2.dpad_left) { }
+//            }
+//            if (gamepad2.dpad_right && !gamepad2.dpad_left) {
+//                while (pacifier.getPosition() >= 0.13) {
+//                    pacifier.setPosition(pacifier.getPosition() - 0.01);
+//                    sleep(8);
+//                }
+//                pacifier.setPosition(pacifier.getPosition() - 0.01);
+//                while (gamepad2.dpad_right) { }
+//            }
 
             telemetry.addData("vertical joystick", y);
             telemetry.addData("horizontal joystick", x);
@@ -169,6 +222,7 @@ public class TeleOpJelly extends LinearOpMode {
             telemetry.addData("wrist", wrist.getPosition());
             telemetry.addData("claw", claw.getPosition());
             telemetry.addData("drone", drone.getPosition());
+//            telemetry.addData("pacifier", pacifier.getPosition());
             telemetry.update();
         }
     }
