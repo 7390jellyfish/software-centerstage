@@ -9,12 +9,13 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.firstinspires.ftc.teamcode.Pipelines.CloseVisionRed;
+import org.firstinspires.ftc.teamcode.Pipelines.FarVisionBlue;
 
 @Autonomous
 public class FarBlue extends LinearOpMode {
@@ -24,6 +25,7 @@ public class FarBlue extends LinearOpMode {
     DcMotor transit = null;
     Servo wrist = null;
     Servo claw = null;
+    Servo pacifier = null;
     @Override
     public void runOpMode() throws InterruptedException {
         leftLift = hardwareMap.dcMotor.get("ll");
@@ -32,13 +34,15 @@ public class FarBlue extends LinearOpMode {
         transit = hardwareMap.dcMotor.get("transit");
         wrist = hardwareMap.servo.get("wrist");
         claw = hardwareMap.servo.get("claw");
+        pacifier = hardwareMap.servo.get("pacifier");
 
         leftLift.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightLift.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightLift.setDirection(DcMotorSimple.Direction.FORWARD);
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         transit.setDirection(DcMotorSimple.Direction.REVERSE);
         wrist.setDirection(Servo.Direction.FORWARD);
         claw.setDirection(Servo.Direction.FORWARD);
+        pacifier.setDirection(Servo.Direction.FORWARD);
 
         leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -51,8 +55,8 @@ public class FarBlue extends LinearOpMode {
 
         WebcamName webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
         OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(webcamName);
-        CloseVisionRed closeVisionRed = new CloseVisionRed(telemetry);
-        camera.setPipeline(closeVisionRed);
+        FarVisionBlue farVisionBlue = new FarVisionBlue(telemetry);
+        camera.setPipeline(farVisionBlue);
         int spikeMarkPosition = 1;
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
@@ -72,142 +76,189 @@ public class FarBlue extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(16.5, -64, Math.toRadians(180));
+        Pose2d startPose = new Pose2d(-37.5, -61, Math.toRadians(0));
 
         drive.setPoseEstimate(startPose);
 
         // offset
         TrajectorySequence offset = drive.trajectorySequenceBuilder(startPose)
-                .forward(1)
+                .back(1)
                 .build();
 
         // left
         TrajectorySequence spikeMarkLeft = drive.trajectorySequenceBuilder(offset.end())
-                .strafeLeft(30)
-                .turn(Math.toRadians(180))
-                .forward(20)
-                .back(14.5)
-                .strafeRight(5)
+                .lineToConstantHeading(new Vector2d(15, -33.5))
+                .turn(Math.toRadians(90))
+                .lineToConstantHeading(new Vector2d(7.25, -33.5))
                 .build();
         TrajectorySequence backdropLeft = drive.trajectorySequenceBuilder(spikeMarkLeft.end())
-                .lineToConstantHeading(new Vector2d(53.5, -33))
+                .lineToConstantHeading(new Vector2d(-44, -28))
+                .turn(Math.toRadians(-90))
+                .lineToConstantHeading(new Vector2d(-35,-57))
+                .lineToConstantHeading(new Vector2d(15,-55))
+                .addDisplacementMarker(() -> {
+                    leftLift.setTargetPosition(1100);
+                    rightLift.setTargetPosition(1100);
+                    leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    leftLift.setPower(1);
+                    rightLift.setPower(1);
+                })
+                .lineToConstantHeading(new Vector2d(47, -33))
+                .lineToConstantHeading(new Vector2d(50, -33),
+                        SampleMecanumDrive.getVelocityConstraint(32, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
                 .build();
         TrajectorySequence parkLeft = drive.trajectorySequenceBuilder(backdropLeft.end())
                 .forward(10)
-                .strafeLeft(26)
-                .back(10)
+                .strafeLeft(20)
                 .build();
 
         // middle
         TrajectorySequence spikeMarkMiddle = drive.trajectorySequenceBuilder(offset.end())
-                .strafeLeft(34)
-                .strafeRight(11)
-                .turn(Math.toRadians(90))
+                .lineToConstantHeading(new Vector2d(9.5, -34))
                 .build();
         TrajectorySequence backdropMiddle = drive.trajectorySequenceBuilder(spikeMarkMiddle.end())
-                .back(10)
-                .turn(Math.toRadians(90))
-                .lineToConstantHeading(new Vector2d(53.5, -33))
+                .lineToConstantHeading(new Vector2d(-44, -28))
+                .turn(Math.toRadians(-90))
+                .lineToConstantHeading(new Vector2d(-35,-57))
+                .lineToConstantHeading(new Vector2d(15,-55))
+                .addDisplacementMarker(() -> {
+                    leftLift.setTargetPosition(1100);
+                    rightLift.setTargetPosition(1100);
+                    leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    leftLift.setPower(1);
+                    rightLift.setPower(1);
+                })
+                .lineToConstantHeading(new Vector2d(47, -33))
+                .lineToConstantHeading(new Vector2d(50, -33),
+                        SampleMecanumDrive.getVelocityConstraint(32, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
                 .build();
         TrajectorySequence parkMiddle = drive.trajectorySequenceBuilder(backdropMiddle.end())
                 .forward(10)
-                .strafeLeft(26)
-                .back(10)
+                .strafeLeft(20)
                 .build();
 
         // right
         TrajectorySequence spikeMarkRight = drive.trajectorySequenceBuilder(offset.end())
-                .strafeLeft(22)
-                .forward(6)
-                .turn(Math.toRadians(90))
-                .forward(10)
-                .back(10)
+                .lineToConstantHeading(new Vector2d(16, -42))
                 .build();
         TrajectorySequence backdropRight = drive.trajectorySequenceBuilder(spikeMarkRight.end())
-                .back(10)
-                .turn(Math.toRadians(90))
-                .lineToConstantHeading(new Vector2d(53.5, -33))
+                .lineToConstantHeading(new Vector2d(-44, -28))
+                .turn(Math.toRadians(-90))
+                .lineToConstantHeading(new Vector2d(-35,-57))
+                .lineToConstantHeading(new Vector2d(15,-55))
+                .addDisplacementMarker(() -> {
+                    leftLift.setTargetPosition(1100);
+                    rightLift.setTargetPosition(1100);
+                    leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    leftLift.setPower(1);
+                    rightLift.setPower(1);
+                })
+                .lineToConstantHeading(new Vector2d(47, -33))
+                .lineToConstantHeading(new Vector2d(50, -33),
+                        SampleMecanumDrive.getVelocityConstraint(32, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
+                        SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
+                )
                 .build();
         TrajectorySequence parkRight = drive.trajectorySequenceBuilder(backdropRight.end())
                 .forward(10)
-                .strafeLeft(26)
-                .back(10)
+                .strafeLeft(20)
                 .build();
 
         waitForStart();
 
         if (!isStopRequested()) {
-            spikeMarkPosition = CloseVisionRed.getPosition();
-            intake.setPower(1);
-            sleep(1000);
-            intake.setPower(0);
-            drive.followTrajectorySequence(offset);
+            pacifier.setPosition(0);
+            wrist.setPosition(0.43);
+            claw.setPosition(1);
+            spikeMarkPosition = FarVisionBlue.getPosition();
+            spikeMarkPosition = 1;
             if (spikeMarkPosition == 1) {
+                drive.followTrajectorySequence(offset);
+
                 drive.followTrajectorySequence(spikeMarkLeft);
+                sleep(500);
+                while (pacifier.getPosition() <= 0.75) {
+                    pacifier.setPosition(pacifier.getPosition() + 0.01);
+                    sleep(9);
+                }
+                sleep(300);
+                pacifier.setPosition(0);
+                sleep(100);
+
+//                drive.followTrajectorySequence(backdropLeft);
+//                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
+//                leftLift.setPower(0);
+//                rightLift.setPower(0);
+//                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//                sleep(200);
+//                wrist.setPosition(0.57);
+//                sleep(200);
+//                claw.setPosition(0);
+//                sleep(100);
+
+//                drive.followTrajectorySequence(parkLeft);
             } else if (spikeMarkPosition == 2) {
+                drive.followTrajectorySequence(offset);
+
                 drive.followTrajectorySequence(spikeMarkMiddle);
+                sleep(500);
+                while (pacifier.getPosition() <= 0.75) {
+                    pacifier.setPosition(pacifier.getPosition() + 0.01);
+                    sleep(9);
+                }
+                sleep(300);
+                pacifier.setPosition(0);
+                sleep(100);
+
+//                drive.followTrajectorySequence(backdropMiddle);
+//                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
+//                leftLift.setPower(0);
+//                rightLift.setPower(0);
+//                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//                sleep(200);
+//                wrist.setPosition(0.57);
+//                sleep(200);
+//                claw.setPosition(0);
+//                sleep(100);
+
+//                drive.followTrajectorySequence(parkMiddle);
             } else {
+                drive.followTrajectorySequence(offset);
+
                 drive.followTrajectorySequence(spikeMarkRight);
-            }
-            intake.setPower(-0.4);
-            transit.setPower(-1);
-            sleep(4000);
-            intake.setPower(0);
-            transit.setPower(0);
-            if (spikeMarkPosition == 1) {
-                drive.followTrajectorySequence(backdropLeft);
-                upDeposit();
-                sleep(1000);
-                downDeposit();
-                drive.followTrajectorySequence(parkLeft);
-            }
-            else if (spikeMarkPosition == 2) {
-                drive.followTrajectorySequence(backdropMiddle);
-                upDeposit();
-                sleep(1000);
-                downDeposit();
-                drive.followTrajectorySequence(parkMiddle);
-            } else {
-                drive.followTrajectorySequence(backdropRight);
-                upDeposit();
-                sleep(1000);
-                downDeposit();
-                drive.followTrajectorySequence(parkRight);
+                sleep(500);
+                while (pacifier.getPosition() <= 0.75) {
+                    pacifier.setPosition(pacifier.getPosition() + 0.01);
+                    sleep(9);
+                }
+                sleep(300);
+                pacifier.setPosition(0);
+                sleep(100);
+
+//                drive.followTrajectorySequence(backdropRight);
+//                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
+//                leftLift.setPower(0);
+//                rightLift.setPower(0);
+//                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//                sleep(200);
+//                wrist.setPosition(0.57);
+//                sleep(200);
+//                claw.setPosition(0);
+//                sleep(100);
+
+//                drive.followTrajectorySequence(parkRight);
             }
             camera.closeCameraDevice();
         }
-    }
-    void upDeposit() {
-        wrist.setPosition(0.48);
-        claw.setPosition(1);
-        sleep(1000);
-        leftLift.setTargetPosition(1500);
-        rightLift.setTargetPosition(1500);
-        leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftLift.setPower(1);
-        rightLift.setPower(1);
-        while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
-        leftLift.setPower(0);
-        rightLift.setPower(0);
-        leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        wrist.setPosition(0.65);
-        claw.setPosition(0.1);
-    }
-    void downDeposit() {
-        wrist.setPosition(0.48);
-        claw.setPosition(0.1);
-        leftLift.setTargetPosition(0);
-        rightLift.setTargetPosition(0);
-        leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftLift.setPower(-1);
-        rightLift.setPower(-1);
-        while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
-        leftLift.setPower(0);
-        rightLift.setPower(0);
-        leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 }
