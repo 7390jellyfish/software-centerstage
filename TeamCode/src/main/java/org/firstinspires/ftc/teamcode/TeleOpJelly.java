@@ -40,8 +40,8 @@ public class TeleOpJelly extends LinearOpMode {
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        leftLift.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightLift.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftLift.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightLift.setDirection(DcMotorSimple.Direction.REVERSE);
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         transit.setDirection(DcMotorSimple.Direction.REVERSE);
         wrist.setDirection(Servo.Direction.FORWARD);
@@ -155,29 +155,29 @@ public class TeleOpJelly extends LinearOpMode {
 //                wrist.setPosition(0.57);
 //            }
             if (gamepad2.dpad_up && !gamepad2.dpad_down) {
-                wrist.setPosition(0.57);
-//                wrist.setPosition(wrist.getPosition() + 0.01);
-//                while (gamepad2.dpad_up) { }
+//                wrist.setPosition(0.57);
+                wrist.setPosition(wrist.getPosition() + 0.01);
+                while (gamepad2.dpad_up) { }
             }
             if (gamepad2.dpad_down && !gamepad2.dpad_up) {
-                wrist.setPosition(0.43);
-//                wrist.setPosition(wrist.getPosition() - 0.01);
-//                while (gamepad2.dpad_down) { }
+//                wrist.setPosition(0.43);
+                wrist.setPosition(wrist.getPosition() - 0.01);
+                while (gamepad2.dpad_down) { }
             }
 
             // claw
 //            if ((liftPower < 0) && (leftLift.getCurrentPosition() < 750) && (leftLift.getCurrentPosition() > 500)) {
-//                claw.setPosition(0.75);
+//                claw.setPosition(0.25);
 //            }
             if (gamepad2.a && !gamepad2.b) {
-                claw.setPosition(0.75);
-//                claw.setPosition(claw.getPosition() - 0.01);
-//                while (gamepad2.a) { }
+//                claw.setPosition(0.25);
+                claw.setPosition(claw.getPosition() - 0.01);
+                while (gamepad2.a) { }
             }
             if (gamepad2.b && !gamepad2.a) {
-                claw.setPosition(1);
-//                claw.setPosition(claw.getPosition() + 0.01);
-//                while (gamepad2.b) { }
+//                claw.setPosition(1);
+                claw.setPosition(claw.getPosition() + 0.01);
+                while (gamepad2.b) { }
             }
 
             // drone

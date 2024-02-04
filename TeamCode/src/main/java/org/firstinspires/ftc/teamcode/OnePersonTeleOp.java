@@ -40,8 +40,8 @@ public class OnePersonTeleOp extends LinearOpMode {
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        leftLift.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightLift.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftLift.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightLift.setDirection(DcMotorSimple.Direction.REVERSE);
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         transit.setDirection(DcMotorSimple.Direction.REVERSE);
         wrist.setDirection(Servo.Direction.FORWARD);
@@ -167,10 +167,10 @@ public class OnePersonTeleOp extends LinearOpMode {
 
             // claw
 //            if ((liftPower < 0) && (leftLift.getCurrentPosition() < 750) && (leftLift.getCurrentPosition() > 500)) {
-//                claw.setPosition(0.75);
+//                claw.setPosition(0.25);
 //            }
             if (gamepad1.a && !gamepad1.b) {
-                claw.setPosition(0.75);
+                claw.setPosition(0.25);
 //                claw.setPosition(claw.getPosition() - 0.01);
 //                while (gamepad1.a) { }
             }
