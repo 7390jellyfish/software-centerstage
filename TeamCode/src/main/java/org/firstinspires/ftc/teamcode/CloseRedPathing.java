@@ -24,12 +24,13 @@ public class CloseRedPathing extends LinearOpMode {
     DcMotor transit = null;
     Servo wrist = null;
     Servo claw = null;
+    Servo pacifier = null;
+
     @Override
     public void runOpMode() throws InterruptedException {
+        pacifier = hardwareMap.servo.get("pacifier");
 
-
-
-
+        pacifier.setDirection(Servo.Direction.FORWARD);
 
         WebcamName webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
         OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(webcamName);
@@ -54,42 +55,43 @@ public class CloseRedPathing extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(16.5, -64, Math.toRadians(0));
+        Pose2d startPose = new Pose2d(12.7, -61, Math.toRadians(0));
 
         drive.setPoseEstimate(startPose);
 
         // offset
         TrajectorySequence offset = drive.trajectorySequenceBuilder(startPose)
-                .forward(1)
+                .back(1)
                 .build();
 
         // left
         TrajectorySequence spikeMarkLeft = drive.trajectorySequenceBuilder(offset.end())
-                .strafeLeft(27)
-                .turn(Math.toRadians(180))
-                .forward(20)
-                .back(14.5)
-                .strafeRight(5)
+                .lineToConstantHeading(new Vector2d(15, -33.5))
+                .turn(Math.toRadians(90))
+                .lineToConstantHeading(new Vector2d(7.25, -33.5))
                 .build();
         TrajectorySequence backdropLeft = drive.trajectorySequenceBuilder(spikeMarkLeft.end())
-                .lineToConstantHeading(new Vector2d(53.5, -31))
+                .back(10)
+                .turn(Math.toRadians(90))
+                .lineToConstantHeading(new Vector2d(-35,-57))
+                .back(50)
+                .lineToLinearHeading(new Pose2d(46, -27.3, Math.toRadians(180)))
                 .build();
         TrajectorySequence parkLeft = drive.trajectorySequenceBuilder(backdropLeft.end())
-                .forward(10)
-                .strafeLeft(31)
-                .back(10)
+                .forward(20)
+                .strafeRight(17)
+                .back(23)
                 .build();
 
         // middle
         TrajectorySequence spikeMarkMiddle = drive.trajectorySequenceBuilder(offset.end())
-                .strafeLeft(34)
-                .strafeRight(11)
-                .turn(Math.toRadians(90))
+                .lineToConstantHeading(new Vector2d(9.5, -34))
                 .build();
         TrajectorySequence backdropMiddle = drive.trajectorySequenceBuilder(spikeMarkMiddle.end())
-                .back(10)
+                .lineToConstantHeading(new Vector2d(-34.7,-57))
                 .turn(Math.toRadians(90))
-                .lineToConstantHeading(new Vector2d(53.5, -36))
+                .back(50)
+                .lineToLinearHeading(new Pose2d(46, -27.3, Math.toRadians(180)))
                 .build();
         TrajectorySequence parkMiddle = drive.trajectorySequenceBuilder(backdropMiddle.end())
                 .forward(10)
@@ -99,16 +101,13 @@ public class CloseRedPathing extends LinearOpMode {
 
         // right
         TrajectorySequence spikeMarkRight = drive.trajectorySequenceBuilder(offset.end())
-                .strafeLeft(22)
-                .forward(6)
-                .turn(Math.toRadians(90))
-                .forward(10)
-                .back(10)
+                .lineToConstantHeading(new Vector2d(16, -42))
                 .build();
         TrajectorySequence backdropRight = drive.trajectorySequenceBuilder(spikeMarkRight.end())
-                .back(10)
+                .lineToConstantHeading(new Vector2d(-35,-57))
                 .turn(Math.toRadians(90))
-                .lineToConstantHeading(new Vector2d(53.5, -41))
+                .back(50)
+                .lineToLinearHeading(new Pose2d(46, -27.3, Math.toRadians(180)))
                 .build();
         TrajectorySequence parkRight = drive.trajectorySequenceBuilder(backdropRight.end())
                 .forward(10)
@@ -119,34 +118,53 @@ public class CloseRedPathing extends LinearOpMode {
         waitForStart();
 
         if (!isStopRequested()) {
-            spikeMarkPosition = CloseVisionRed.getPosition();
-
+//            spikeMarkPosition = CloseVisionRed.getPosition();
+            spikeMarkPosition = 3;
             drive.followTrajectorySequence(offset);
             if (spikeMarkPosition == 1) {
                 drive.followTrajectorySequence(spikeMarkLeft);
-                sleep(4000);
-                drive.followTrajectorySequence(backdropLeft);
-                sleep(1000);
-                drive.followTrajectorySequence(parkLeft);
+                pacifier.setPosition(0);
+                sleep(500);
+                while (pacifier.getPosition() <= 0.75) {
+                    pacifier.setPosition(pacifier.getPosition() + 0.01);
+                    sleep(9);
+                }
+                sleep(500);
+                pacifier.setPosition(0);
+//                sleep(4000);
+//                drive.followTrajectorySequence(backdropLeft);
+//                sleep(1000);
+//                drive.followTrajectorySequence(parkLeft);
             } else if (spikeMarkPosition == 2) {
                 drive.followTrajectorySequence(spikeMarkMiddle);
-                sleep(4000);
-                drive.followTrajectorySequence(backdropMiddle);
-                sleep(1000);
-                drive.followTrajectorySequence(parkMiddle);
+                pacifier.setPosition(0);
+                sleep(500);
+                while (pacifier.getPosition() <= 0.75) {
+                    pacifier.setPosition(pacifier.getPosition() + 0.01);
+                    sleep(9);
+                }
+                sleep(500);
+                pacifier.setPosition(0);
+//                sleep(4000);
+//                drive.followTrajectorySequence(backdropMiddle);
+//                sleep(1000);
+//                drive.followTrajectorySequence(parkMiddle);
             } else {
                 drive.followTrajectorySequence(spikeMarkRight);
-                sleep(4000);
-                drive.followTrajectorySequence(backdropRight);
-                sleep(1000);
-                drive.followTrajectorySequence(parkRight);
+                pacifier.setPosition(0);
+                sleep(500);
+                while (pacifier.getPosition() <= 0.75) {
+                    pacifier.setPosition(pacifier.getPosition() + 0.01);
+                    sleep(9);
+                }
+                sleep(500);
+                pacifier.setPosition(0);
+//                sleep(4000);
+//                drive.followTrajectorySequence(backdropRight);
+//                sleep(1000);
+//                drive.followTrajectorySequence(parkRight);
             }
-
-
-
-
             camera.closeCameraDevice();
         }
     }
-
 }

@@ -200,7 +200,7 @@ public class PushBotTeleOp extends LinearOpMode {
 //                while (gamepad2.dpad_left) { }
 //            }
 //            if (gamepad2.dpad_right && !gamepad2.dpad_left) {
-//                while (pacifier.getPosition() >= 0.13) {
+//                while (pacifier.getPosition() >= 0) {
 //                    pacifier.setPosition(pacifier.getPosition() - 0.01);
 //                    sleep(8);
 //                }
