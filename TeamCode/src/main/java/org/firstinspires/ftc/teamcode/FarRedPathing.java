@@ -24,8 +24,14 @@ public class FarRedPathing extends LinearOpMode {
     DcMotor transit = null;
     Servo wrist = null;
     Servo claw = null;
+    Servo pacifier = null;
+
     @Override
     public void runOpMode() throws InterruptedException {
+        pacifier = hardwareMap.servo.get("pacifier");
+
+
+        pacifier.setDirection(Servo.Direction.FORWARD);
 
 
 
@@ -63,11 +69,14 @@ public class FarRedPathing extends LinearOpMode {
 
         // left
         TrajectorySequence spikeMarkLeft = drive.trajectorySequenceBuilder(offset.end())
-                .strafeLeft(22)
-                .back(6)
-                .turn(Math.toRadians(90))
-                .forward(10)
-                .back(10)
+//                .strafeLeft(22)
+//                .back(6)
+//                .turn(Math.toRadians(90))
+//                .forward(10)
+//                .back(10)
+                .lineToLinearHeading(new Pose2d(-53.5, -50, Math.toRadians(0)))
+                .strafeLeft(10)
+                .strafeRight(10)
                 .build();
         TrajectorySequence backdropLeft = drive.trajectorySequenceBuilder(spikeMarkLeft.end())
                 .back(10)
@@ -127,6 +136,10 @@ public class FarRedPathing extends LinearOpMode {
             drive.followTrajectorySequence(offset);
             if (spikeMarkPosition == 1) {
                 drive.followTrajectorySequence(spikeMarkLeft);
+                while (pacifier.getPosition() <= 0.75) {
+                    pacifier.setPosition(pacifier.getPosition() + 0.01);
+                    sleep(8);
+                }
                 sleep(4000);
                 drive.followTrajectorySequence(backdropLeft);
                 sleep(1000);
