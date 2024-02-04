@@ -70,8 +70,9 @@ public class FarRedPathing extends LinearOpMode {
                 .back(10)
                 .build();
         TrajectorySequence backdropLeft = drive.trajectorySequenceBuilder(spikeMarkLeft.end())
-                .lineToConstantHeading(new Vector2d(-35,-57))
+                .back(10)
                 .turn(Math.toRadians(90))
+                .lineToConstantHeading(new Vector2d(-35,-57))
                 .back(50)
                 .lineToLinearHeading(new Pose2d(46, -27.3, Math.toRadians(180)))
                 .build();
