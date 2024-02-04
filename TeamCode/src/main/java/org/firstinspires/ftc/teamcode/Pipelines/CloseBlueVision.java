@@ -9,7 +9,7 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-public class CloseVisionBlue extends OpenCvPipeline {
+public class CloseBlueVision extends OpenCvPipeline {
     Telemetry telemetry;
     Mat mat = new Mat();
     Mat rMat = new Mat();
@@ -27,7 +27,7 @@ public class CloseVisionBlue extends OpenCvPipeline {
             new Point(700, 250),
             new Point(1100, 500));
 
-    public CloseVisionBlue(Telemetry t) {
+    public CloseBlueVision(Telemetry t) {
         telemetry = t;
     }
     public Mat processFrame(Mat input) {

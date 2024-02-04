@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.firstinspires.ftc.teamcode.Pipelines.FarVisionBlue;
+import org.firstinspires.ftc.teamcode.Pipelines.FarBlueVision;
 
 @Autonomous
 public class FarBlue extends LinearOpMode {
@@ -55,8 +55,8 @@ public class FarBlue extends LinearOpMode {
 
         WebcamName webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
         OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(webcamName);
-        FarVisionBlue farVisionBlue = new FarVisionBlue(telemetry);
-        camera.setPipeline(farVisionBlue);
+        FarBlueVision farBlueVision = new FarBlueVision(telemetry);
+        camera.setPipeline(farBlueVision);
         int spikeMarkPosition = 1;
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
@@ -177,7 +177,7 @@ public class FarBlue extends LinearOpMode {
             pacifier.setPosition(0);
             wrist.setPosition(0.43);
             claw.setPosition(1);
-            spikeMarkPosition = FarVisionBlue.getPosition();
+            spikeMarkPosition = FarBlueVision.getPosition();
             spikeMarkPosition = 1;
             if (spikeMarkPosition == 1) {
                 drive.followTrajectorySequence(offset);

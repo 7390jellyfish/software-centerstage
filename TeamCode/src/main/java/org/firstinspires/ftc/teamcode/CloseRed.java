@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.firstinspires.ftc.teamcode.Pipelines.CloseVisionRed;
+import org.firstinspires.ftc.teamcode.Pipelines.CloseRedVision;
 
 @Autonomous
 public class CloseRed extends LinearOpMode {
@@ -55,8 +55,8 @@ public class CloseRed extends LinearOpMode {
 
         WebcamName webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
         OpenCvCamera camera = OpenCvCameraFactory.getInstance().createWebcam(webcamName);
-        CloseVisionRed closeVisionRed = new CloseVisionRed(telemetry);
-        camera.setPipeline(closeVisionRed);
+        CloseRedVision closeRedVision = new CloseRedVision(telemetry);
+        camera.setPipeline(closeRedVision);
         int spikeMarkPosition = 1;
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
@@ -177,7 +177,7 @@ public class CloseRed extends LinearOpMode {
             pacifier.setPosition(0);
             wrist.setPosition(0.43);
             claw.setPosition(1);
-            spikeMarkPosition = CloseVisionRed.getPosition();
+            spikeMarkPosition = CloseRedVision.getPosition();
             spikeMarkPosition = 1;
             if (spikeMarkPosition == 1) {
                 drive.followTrajectorySequence(offset);
