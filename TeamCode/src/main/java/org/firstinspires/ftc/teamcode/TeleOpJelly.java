@@ -167,10 +167,10 @@ public class TeleOpJelly extends LinearOpMode {
 
             // claw
 //            if ((liftPower < 0) && (leftLift.getCurrentPosition() < 750) && (leftLift.getCurrentPosition() > 500)) {
-//                claw.setPosition(0.28);
+//                claw.setPosition(0.75);
 //            }
             if (gamepad2.a && !gamepad2.b) {
-                claw.setPosition(0.28);
+                claw.setPosition(0.75);
 //                claw.setPosition(claw.getPosition() - 0.01);
 //                while (gamepad2.a) { }
             }
@@ -192,17 +192,14 @@ public class TeleOpJelly extends LinearOpMode {
 
             // pacifier
             if (gamepad2.dpad_left && !gamepad2.dpad_right) {
-                while (pacifier.getPosition() <= 0.75) {
-                    pacifier.setPosition(pacifier.getPosition() + 0.01);
-                    sleep(8);
-                }
+                pacifier.setPosition(0);
 //                pacifier.setPosition(pacifier.getPosition() + 0.01);
 //                while (gamepad2.dpad_left) { }
             }
             if (gamepad2.dpad_right && !gamepad2.dpad_left) {
-                while (pacifier.getPosition() >= 0) {
+                while (pacifier.getPosition() <= 0.75) {
                     pacifier.setPosition(pacifier.getPosition() - 0.01);
-                    sleep(8);
+                    sleep(9);
                 }
 //                pacifier.setPosition(pacifier.getPosition() - 0.01);
 //                while (gamepad2.dpad_right) { }

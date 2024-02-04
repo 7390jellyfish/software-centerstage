@@ -19,7 +19,7 @@ public class OnePersonTeleOp extends LinearOpMode {
     Servo wrist = null;
     Servo claw = null;
     Servo drone = null;
-//    Servo pacifier = null;
+    Servo pacifier = null;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -34,7 +34,7 @@ public class OnePersonTeleOp extends LinearOpMode {
         wrist = hardwareMap.servo.get("wrist");
         claw = hardwareMap.servo.get("claw");
         drone = hardwareMap.servo.get("drone");
-//        pacifier = hardwareMap.servo.get("pacifier");
+        pacifier = hardwareMap.servo.get("pacifier");
 
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -46,7 +46,7 @@ public class OnePersonTeleOp extends LinearOpMode {
         transit.setDirection(DcMotorSimple.Direction.REVERSE);
         wrist.setDirection(Servo.Direction.FORWARD);
         claw.setDirection(Servo.Direction.FORWARD);
-//        pacifier.setDirection(Servo.Direction.FORWARD);
+        pacifier.setDirection(Servo.Direction.FORWARD);
 
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -149,11 +149,11 @@ public class OnePersonTeleOp extends LinearOpMode {
             transit.setPower(transitPower * 0.5);
 
             // wrist
-            if (leftLift.getCurrentPosition() < 500) {
-                wrist.setPosition(0.43);
-            } else if (leftLift.getCurrentPosition() > 500) {
-                wrist.setPosition(0.57);
-            }
+//            if (leftLift.getCurrentPosition() < 500) {
+//                wrist.setPosition(0.43);
+//            } else if (leftLift.getCurrentPosition() > 500) {
+//                wrist.setPosition(0.57);
+//            }
             if (gamepad1.dpad_up && !gamepad1.dpad_down) {
                 wrist.setPosition(0.57);
 //                wrist.setPosition(wrist.getPosition() + 0.01);
@@ -166,11 +166,11 @@ public class OnePersonTeleOp extends LinearOpMode {
             }
 
             // claw
-            if ((liftPower < 0) && (leftLift.getCurrentPosition() < 750) && (leftLift.getCurrentPosition() > 500)) {
-                claw.setPosition(0.28);
-            }
+//            if ((liftPower < 0) && (leftLift.getCurrentPosition() < 750) && (leftLift.getCurrentPosition() > 500)) {
+//                claw.setPosition(0.75);
+//            }
             if (gamepad1.a && !gamepad1.b) {
-                claw.setPosition(0.28);
+                claw.setPosition(0.75);
 //                claw.setPosition(claw.getPosition() - 0.01);
 //                while (gamepad1.a) { }
             }
@@ -191,22 +191,19 @@ public class OnePersonTeleOp extends LinearOpMode {
             }
 
             // pacifier
-//            if (gamepad1.dpad_left && !gamepad1.dpad_right) {
-//                while (pacifier.getPosition() <= 0.75) {
-//                    pacifier.setPosition(pacifier.getPosition() + 0.01);
-//                    sleep(8);
-//                }
+            if (gamepad1.dpad_left && !gamepad1.dpad_right) {
+                pacifier.setPosition(0);
 //                pacifier.setPosition(pacifier.getPosition() + 0.01);
 //                while (gamepad1.dpad_left) { }
-//            }
-//            if (gamepad1.dpad_right && !gamepad1.dpad_left) {
-//                while (pacifier.getPosition() >= 0) {
-//                    pacifier.setPosition(pacifier.getPosition() - 0.01);
-//                    sleep(8);
-//                }
+            }
+            if (gamepad1.dpad_right && !gamepad1.dpad_left) {
+                while (pacifier.getPosition() <= 0.75) {
+                    pacifier.setPosition(pacifier.getPosition() - 0.01);
+                    sleep(9);
+                }
 //                pacifier.setPosition(pacifier.getPosition() - 0.01);
 //                while (gamepad1.dpad_right) { }
-//            }
+            }
 
             telemetry.addData("vertical joystick", y);
             telemetry.addData("horizontal joystick", x);
@@ -222,7 +219,7 @@ public class OnePersonTeleOp extends LinearOpMode {
             telemetry.addData("wrist", wrist.getPosition());
             telemetry.addData("claw", claw.getPosition());
             telemetry.addData("drone", drone.getPosition());
-//            telemetry.addData("pacifier", pacifier.getPosition());
+            telemetry.addData("pacifier", pacifier.getPosition());
             telemetry.update();
         }
     }
