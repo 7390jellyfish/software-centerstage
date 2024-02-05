@@ -76,7 +76,7 @@ public class FarBlue extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(-37.5, -61, Math.toRadians(0));
+        Pose2d startPose = new Pose2d(-37.5, 61, Math.toRadians(180));
 
         drive.setPoseEstimate(startPose);
 
@@ -87,15 +87,15 @@ public class FarBlue extends LinearOpMode {
 
         // left
         TrajectorySequence spikeMarkLeft = drive.trajectorySequenceBuilder(offset.end())
-                .lineToConstantHeading(new Vector2d(15, -33.5))
+                .lineToConstantHeading(new Vector2d(15, 33.5))
                 .turn(Math.toRadians(90))
-                .lineToConstantHeading(new Vector2d(7.25, -33.5))
+                .lineToConstantHeading(new Vector2d(7.25, 33.5))
                 .build();
         TrajectorySequence backdropLeft = drive.trajectorySequenceBuilder(spikeMarkLeft.end())
-                .lineToConstantHeading(new Vector2d(-44, -28))
+                .lineToConstantHeading(new Vector2d(-44, 28))
                 .turn(Math.toRadians(-90))
-                .lineToConstantHeading(new Vector2d(-35,-57))
-                .lineToConstantHeading(new Vector2d(15,-55))
+                .lineToConstantHeading(new Vector2d(-35,57))
+                .lineToConstantHeading(new Vector2d(15,55))
                 .addDisplacementMarker(() -> {
                     leftLift.setTargetPosition(1100);
                     rightLift.setTargetPosition(1100);
@@ -104,26 +104,26 @@ public class FarBlue extends LinearOpMode {
                     leftLift.setPower(1);
                     rightLift.setPower(1);
                 })
-                .lineToConstantHeading(new Vector2d(47, -33))
-                .lineToConstantHeading(new Vector2d(50, -33),
+                .lineToConstantHeading(new Vector2d(47, 33))
+                .lineToConstantHeading(new Vector2d(50, 33),
                         SampleMecanumDrive.getVelocityConstraint(32, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .build();
         TrajectorySequence parkLeft = drive.trajectorySequenceBuilder(backdropLeft.end())
                 .forward(10)
-                .strafeLeft(20)
+                .strafeRight(20)
                 .build();
 
         // middle
         TrajectorySequence spikeMarkMiddle = drive.trajectorySequenceBuilder(offset.end())
-                .lineToConstantHeading(new Vector2d(9.5, -34))
+                .lineToConstantHeading(new Vector2d(9.5, 34))
                 .build();
         TrajectorySequence backdropMiddle = drive.trajectorySequenceBuilder(spikeMarkMiddle.end())
-                .lineToConstantHeading(new Vector2d(-44, -28))
+                .lineToConstantHeading(new Vector2d(-44, 28))
                 .turn(Math.toRadians(-90))
-                .lineToConstantHeading(new Vector2d(-35,-57))
-                .lineToConstantHeading(new Vector2d(15,-55))
+                .lineToConstantHeading(new Vector2d(-35,57))
+                .lineToConstantHeading(new Vector2d(15,55))
                 .addDisplacementMarker(() -> {
                     leftLift.setTargetPosition(1100);
                     rightLift.setTargetPosition(1100);
@@ -132,26 +132,26 @@ public class FarBlue extends LinearOpMode {
                     leftLift.setPower(1);
                     rightLift.setPower(1);
                 })
-                .lineToConstantHeading(new Vector2d(47, -33))
-                .lineToConstantHeading(new Vector2d(50, -33),
+                .lineToConstantHeading(new Vector2d(47, 33))
+                .lineToConstantHeading(new Vector2d(50, 33),
                         SampleMecanumDrive.getVelocityConstraint(32, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .build();
         TrajectorySequence parkMiddle = drive.trajectorySequenceBuilder(backdropMiddle.end())
                 .forward(10)
-                .strafeLeft(20)
+                .strafeRight(20)
                 .build();
 
         // right
         TrajectorySequence spikeMarkRight = drive.trajectorySequenceBuilder(offset.end())
-                .lineToConstantHeading(new Vector2d(16, -42))
+                .lineToConstantHeading(new Vector2d(16, 42))
                 .build();
         TrajectorySequence backdropRight = drive.trajectorySequenceBuilder(spikeMarkRight.end())
-                .lineToConstantHeading(new Vector2d(-44, -28))
+                .lineToConstantHeading(new Vector2d(-44, 28))
                 .turn(Math.toRadians(-90))
-                .lineToConstantHeading(new Vector2d(-35,-57))
-                .lineToConstantHeading(new Vector2d(15,-55))
+                .lineToConstantHeading(new Vector2d(-35,57))
+                .lineToConstantHeading(new Vector2d(15,55))
                 .addDisplacementMarker(() -> {
                     leftLift.setTargetPosition(1100);
                     rightLift.setTargetPosition(1100);
@@ -160,15 +160,15 @@ public class FarBlue extends LinearOpMode {
                     leftLift.setPower(1);
                     rightLift.setPower(1);
                 })
-                .lineToConstantHeading(new Vector2d(47, -33))
-                .lineToConstantHeading(new Vector2d(50, -33),
+                .lineToConstantHeading(new Vector2d(47, 33))
+                .lineToConstantHeading(new Vector2d(50, 33),
                         SampleMecanumDrive.getVelocityConstraint(32, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .build();
         TrajectorySequence parkRight = drive.trajectorySequenceBuilder(backdropRight.end())
                 .forward(10)
-                .strafeLeft(20)
+                .strafeRight(20)
                 .build();
 
         waitForStart();

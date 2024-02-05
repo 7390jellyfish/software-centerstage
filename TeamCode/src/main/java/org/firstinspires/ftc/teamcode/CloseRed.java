@@ -76,7 +76,7 @@ public class CloseRed extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(-37.5, -61, Math.toRadians(0));
+        Pose2d startPose = new Pose2d(12.7, -61, Math.toRadians(0));
 
         drive.setPoseEstimate(startPose);
 
