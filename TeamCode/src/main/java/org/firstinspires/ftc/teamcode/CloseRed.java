@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.Pipelines.FarRedVision;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
@@ -87,15 +88,13 @@ public class CloseRed extends LinearOpMode {
 
         // left
         TrajectorySequence spikeMarkLeft = drive.trajectorySequenceBuilder(offset.end())
-                .lineToConstantHeading(new Vector2d(15, -33.5))
+                .lineToConstantHeading(new Vector2d(15, -34.5))
                 .turn(Math.toRadians(90))
-                .lineToConstantHeading(new Vector2d(7.25, -33.5))
+                .lineToConstantHeading(new Vector2d(7.25, -34.5))
                 .build();
         TrajectorySequence backdropLeft = drive.trajectorySequenceBuilder(spikeMarkLeft.end())
-                .lineToConstantHeading(new Vector2d(-44, -28))
-                .turn(Math.toRadians(-90))
-                .lineToConstantHeading(new Vector2d(-35,-57))
-                .lineToConstantHeading(new Vector2d(15,-55))
+                .lineToConstantHeading(new Vector2d(15, -34.5))
+                .turn(Math.toRadians(90))
                 .addDisplacementMarker(() -> {
                     leftLift.setTargetPosition(1100);
                     rightLift.setTargetPosition(1100);
@@ -104,15 +103,15 @@ public class CloseRed extends LinearOpMode {
                     leftLift.setPower(1);
                     rightLift.setPower(1);
                 })
-                .lineToConstantHeading(new Vector2d(47, -33))
-                .lineToConstantHeading(new Vector2d(50, -33),
+                .lineToConstantHeading(new Vector2d(47, -25))
+                .lineToConstantHeading(new Vector2d(50, -25),
                         SampleMecanumDrive.getVelocityConstraint(32, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .build();
         TrajectorySequence parkLeft = drive.trajectorySequenceBuilder(backdropLeft.end())
-                .forward(10)
-                .strafeLeft(20)
+                .forward(5)
+                .strafeLeft(28)
                 .build();
 
         // middle
@@ -120,10 +119,8 @@ public class CloseRed extends LinearOpMode {
                 .lineToConstantHeading(new Vector2d(9.5, -34))
                 .build();
         TrajectorySequence backdropMiddle = drive.trajectorySequenceBuilder(spikeMarkMiddle.end())
-                .lineToConstantHeading(new Vector2d(-44, -28))
-                .turn(Math.toRadians(-90))
-                .lineToConstantHeading(new Vector2d(-35,-57))
-                .lineToConstantHeading(new Vector2d(15,-55))
+                .lineToConstantHeading(new Vector2d(15, -40))
+                .turn(Math.toRadians(180))
                 .addDisplacementMarker(() -> {
                     leftLift.setTargetPosition(1100);
                     rightLift.setTargetPosition(1100);
@@ -132,15 +129,15 @@ public class CloseRed extends LinearOpMode {
                     leftLift.setPower(1);
                     rightLift.setPower(1);
                 })
-                .lineToConstantHeading(new Vector2d(47, -33))
-                .lineToConstantHeading(new Vector2d(50, -33),
+                .lineToConstantHeading(new Vector2d(47, -32))
+                .lineToConstantHeading(new Vector2d(50, -32),
                         SampleMecanumDrive.getVelocityConstraint(32, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .build();
         TrajectorySequence parkMiddle = drive.trajectorySequenceBuilder(backdropMiddle.end())
-                .forward(10)
-                .strafeLeft(20)
+                .forward(5)
+                .strafeLeft(24)
                 .build();
 
         // right
@@ -148,10 +145,8 @@ public class CloseRed extends LinearOpMode {
                 .lineToConstantHeading(new Vector2d(16, -42))
                 .build();
         TrajectorySequence backdropRight = drive.trajectorySequenceBuilder(spikeMarkRight.end())
-                .lineToConstantHeading(new Vector2d(-44, -28))
-                .turn(Math.toRadians(-90))
-                .lineToConstantHeading(new Vector2d(-35,-57))
-                .lineToConstantHeading(new Vector2d(15,-55))
+                .lineToConstantHeading(new Vector2d(16, -50))
+                .turn(Math.toRadians(180))
                 .addDisplacementMarker(() -> {
                     leftLift.setTargetPosition(1100);
                     rightLift.setTargetPosition(1100);
@@ -160,15 +155,15 @@ public class CloseRed extends LinearOpMode {
                     leftLift.setPower(1);
                     rightLift.setPower(1);
                 })
-                .lineToConstantHeading(new Vector2d(47, -33))
-                .lineToConstantHeading(new Vector2d(50, -33),
+                .lineToConstantHeading(new Vector2d(47, -37))
+                .lineToConstantHeading(new Vector2d(50, -37),
                         SampleMecanumDrive.getVelocityConstraint(32, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .build();
         TrajectorySequence parkRight = drive.trajectorySequenceBuilder(backdropRight.end())
-                .forward(10)
-                .strafeLeft(20)
+                .forward(5)
+                .strafeLeft(22)
                 .build();
 
         waitForStart();
@@ -178,7 +173,7 @@ public class CloseRed extends LinearOpMode {
             wrist.setPosition(0.43);
             claw.setPosition(1);
             spikeMarkPosition = CloseRedVision.getPosition();
-            spikeMarkPosition = 1;
+            spikeMarkPosition = 3;
             if (spikeMarkPosition == 1) {
                 drive.followTrajectorySequence(offset);
 
@@ -192,19 +187,19 @@ public class CloseRed extends LinearOpMode {
                 pacifier.setPosition(0);
                 sleep(100);
 
-//                drive.followTrajectorySequence(backdropLeft);
-//                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
-//                leftLift.setPower(0);
-//                rightLift.setPower(0);
-//                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//                sleep(200);
-//                wrist.setPosition(0.57);
-//                sleep(200);
-//                claw.setPosition(0);
-//                sleep(100);
+                drive.followTrajectorySequence(backdropLeft);
+                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
+                leftLift.setPower(0);
+                rightLift.setPower(0);
+                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                sleep(200);
+                wrist.setPosition(0.57);
+                sleep(500);
+                claw.setPosition(0.475);
+                sleep(200);
 
-//                drive.followTrajectorySequence(parkLeft);
+                drive.followTrajectorySequence(parkLeft);
             } else if (spikeMarkPosition == 2) {
                 drive.followTrajectorySequence(offset);
 
@@ -218,19 +213,19 @@ public class CloseRed extends LinearOpMode {
                 pacifier.setPosition(0);
                 sleep(100);
 
-//                drive.followTrajectorySequence(backdropMiddle);
-//                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
-//                leftLift.setPower(0);
-//                rightLift.setPower(0);
-//                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//                sleep(200);
-//                wrist.setPosition(0.57);
-//                sleep(200);
-//                claw.setPosition(0);
-//                sleep(100);
+                drive.followTrajectorySequence(backdropMiddle);
+                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
+                leftLift.setPower(0);
+                rightLift.setPower(0);
+                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                sleep(200);
+                wrist.setPosition(0.57);
+                sleep(500);
+                claw.setPosition(0.475);
+                sleep(200);
 
-//                drive.followTrajectorySequence(parkMiddle);
+                drive.followTrajectorySequence(parkMiddle);
             } else {
                 drive.followTrajectorySequence(offset);
 
@@ -244,19 +239,19 @@ public class CloseRed extends LinearOpMode {
                 pacifier.setPosition(0);
                 sleep(100);
 
-//                drive.followTrajectorySequence(backdropRight);
-//                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
-//                leftLift.setPower(0);
-//                rightLift.setPower(0);
-//                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//                sleep(200);
-//                wrist.setPosition(0.57);
-//                sleep(200);
-//                claw.setPosition(0);
-//                sleep(100);
+                drive.followTrajectorySequence(backdropRight);
+                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
+                leftLift.setPower(0);
+                rightLift.setPower(0);
+                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                sleep(200);
+                wrist.setPosition(0.57);
+                sleep(500);
+                claw.setPosition(0.475);
+                sleep(200);
 
-//                drive.followTrajectorySequence(parkRight);
+                drive.followTrajectorySequence(parkRight);
             }
             camera.closeCameraDevice();
         }

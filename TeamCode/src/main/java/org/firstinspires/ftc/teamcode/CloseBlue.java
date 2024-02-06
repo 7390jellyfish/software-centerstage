@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.Pipelines.FarRedVision;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
@@ -87,13 +88,10 @@ public class CloseBlue extends LinearOpMode {
 
         // left
         TrajectorySequence spikeMarkLeft = drive.trajectorySequenceBuilder(offset.end())
-                .lineToConstantHeading(new Vector2d(-52, 46))
+                .lineToConstantHeading(new Vector2d(26, 45))
                 .build();
         TrajectorySequence backdropLeft = drive.trajectorySequenceBuilder(spikeMarkLeft.end())
-                .lineToConstantHeading(new Vector2d(-44, 28))
-                .turn(Math.toRadians(-90))
-                .lineToConstantHeading(new Vector2d(-35,57))
-                .lineToConstantHeading(new Vector2d(15,55))
+                .lineToConstantHeading(new Vector2d(27, 54))
                 .addDisplacementMarker(() -> {
                     leftLift.setTargetPosition(1100);
                     rightLift.setTargetPosition(1100);
@@ -102,26 +100,23 @@ public class CloseBlue extends LinearOpMode {
                     leftLift.setPower(1);
                     rightLift.setPower(1);
                 })
-                .lineToConstantHeading(new Vector2d(47, 33))
-                .lineToConstantHeading(new Vector2d(50, 33),
+                .lineToConstantHeading(new Vector2d(50, 42))
+                .lineToConstantHeading(new Vector2d(53, 42),
                         SampleMecanumDrive.getVelocityConstraint(32, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .build();
         TrajectorySequence parkLeft = drive.trajectorySequenceBuilder(backdropLeft.end())
-                .forward(10)
-                .strafeRight(20)
+                .forward(5)
+                .strafeRight(22)
                 .build();
 
         // middle
         TrajectorySequence spikeMarkMiddle = drive.trajectorySequenceBuilder(offset.end())
-                .lineToConstantHeading(new Vector2d(-45.5, 34))
+                .lineToConstantHeading(new Vector2d(21, 33.5))
                 .build();
         TrajectorySequence backdropMiddle = drive.trajectorySequenceBuilder(spikeMarkMiddle.end())
-                .lineToConstantHeading(new Vector2d(-44, 28))
-                .turn(Math.toRadians(-90))
-                .lineToConstantHeading(new Vector2d(-35,57))
-                .lineToConstantHeading(new Vector2d(15,55))
+                .lineToConstantHeading(new Vector2d(26, 36))
                 .addDisplacementMarker(() -> {
                     leftLift.setTargetPosition(1100);
                     rightLift.setTargetPosition(1100);
@@ -130,28 +125,26 @@ public class CloseBlue extends LinearOpMode {
                     leftLift.setPower(1);
                     rightLift.setPower(1);
                 })
-                .lineToConstantHeading(new Vector2d(47, 33))
-                .lineToConstantHeading(new Vector2d(50, 33),
+                .lineToConstantHeading(new Vector2d(53, 34.5))
+                .lineToConstantHeading(new Vector2d(56, 34.5),
                         SampleMecanumDrive.getVelocityConstraint(32, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .build();
         TrajectorySequence parkMiddle = drive.trajectorySequenceBuilder(backdropMiddle.end())
-                .forward(10)
-                .strafeRight(20)
+                .forward(5)
+                .strafeRight(28)
                 .build();
 
         // right
         TrajectorySequence spikeMarkRight = drive.trajectorySequenceBuilder(offset.end())
-                .lineToConstantHeading(new Vector2d(-46, 32))
+                .lineToConstantHeading(new Vector2d(12.7, 34))
                 .turn(Math.toRadians(-90))
-                .lineToConstantHeading(new Vector2d(-37.75, 28))
+                .lineToConstantHeading(new Vector2d(10, 34))
                 .build();
         TrajectorySequence backdropRight = drive.trajectorySequenceBuilder(spikeMarkRight.end())
-                .lineToConstantHeading(new Vector2d(-44, 28))
-                .turn(Math.toRadians(-90))
-                .lineToConstantHeading(new Vector2d(-35,57))
-                .lineToConstantHeading(new Vector2d(15,55))
+                .lineToConstantHeading(new Vector2d(20, 34.5))
+                .turn(Math.toRadians(90))
                 .addDisplacementMarker(() -> {
                     leftLift.setTargetPosition(1100);
                     rightLift.setTargetPosition(1100);
@@ -160,15 +153,15 @@ public class CloseBlue extends LinearOpMode {
                     leftLift.setPower(1);
                     rightLift.setPower(1);
                 })
-                .lineToConstantHeading(new Vector2d(47, 33))
-                .lineToConstantHeading(new Vector2d(50, 33),
+                .lineToConstantHeading(new Vector2d(53, 26))
+                .lineToConstantHeading(new Vector2d(56, 26),
                         SampleMecanumDrive.getVelocityConstraint(32, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .build();
         TrajectorySequence parkRight = drive.trajectorySequenceBuilder(backdropRight.end())
-                .forward(10)
-                .strafeRight(20)
+                .forward(5)
+                .strafeRight(28)
                 .build();
 
         waitForStart();
@@ -178,7 +171,7 @@ public class CloseBlue extends LinearOpMode {
             wrist.setPosition(0.43);
             claw.setPosition(1);
             spikeMarkPosition = CloseBlueVision.getPosition();
-            spikeMarkPosition = 1;
+            spikeMarkPosition = 3;
             if (spikeMarkPosition == 1) {
                 drive.followTrajectorySequence(offset);
 
@@ -200,9 +193,9 @@ public class CloseBlue extends LinearOpMode {
                 rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 sleep(200);
                 wrist.setPosition(0.57);
+                sleep(500);
+                claw.setPosition(0.475);
                 sleep(200);
-                claw.setPosition(0);
-                sleep(100);
 
                 drive.followTrajectorySequence(parkLeft);
             } else if (spikeMarkPosition == 2) {
@@ -226,9 +219,9 @@ public class CloseBlue extends LinearOpMode {
                 rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 sleep(200);
                 wrist.setPosition(0.57);
+                sleep(500);
+                claw.setPosition(0.475);
                 sleep(200);
-                claw.setPosition(0);
-                sleep(100);
 
                 drive.followTrajectorySequence(parkMiddle);
             } else {
@@ -252,9 +245,9 @@ public class CloseBlue extends LinearOpMode {
                 rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 sleep(200);
                 wrist.setPosition(0.57);
+                sleep(500);
+                claw.setPosition(0.475);
                 sleep(200);
-                claw.setPosition(0);
-                sleep(100);
 
                 drive.followTrajectorySequence(parkRight);
             }
