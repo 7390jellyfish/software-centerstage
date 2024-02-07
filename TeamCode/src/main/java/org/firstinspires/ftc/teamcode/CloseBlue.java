@@ -124,8 +124,8 @@ public class CloseBlue extends LinearOpMode {
                     leftLift.setPower(1);
                     rightLift.setPower(1);
                 })
-                .lineToConstantHeading(new Vector2d(53, 34.5))
-                .lineToConstantHeading(new Vector2d(56, 34.5),
+                .lineToConstantHeading(new Vector2d(53, 35))
+                .lineToConstantHeading(new Vector2d(56, 35),
                         SampleMecanumDrive.getVelocityConstraint(32, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
