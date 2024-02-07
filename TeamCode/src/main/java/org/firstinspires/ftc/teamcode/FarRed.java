@@ -186,7 +186,7 @@ public class FarRed extends LinearOpMode {
             wrist.setPosition(0.43);
             claw.setPosition(1);
             spikeMarkPosition = FarRedVision.getPosition();
-            spikeMarkPosition = 1;
+            spikeMarkPosition = 3;
             if (spikeMarkPosition == 1) {
                 drive.followTrajectorySequence(offset);
 
