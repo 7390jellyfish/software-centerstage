@@ -1,13 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Disabled
+@Override
 @TeleOp
 public class ArcadeTeleOp extends LinearOpMode {
     DcMotor frontRightMotor = null;
@@ -85,24 +84,41 @@ public class ArcadeTeleOp extends LinearOpMode {
             backRightMotor.setPower(backRightPower);
 
             // lift
-//            if (gamepad2.dpad_left && !gamepad2.dpad_right) {
-//                leftLift.setTargetPosition(1500);
-//                rightLift.setTargetPosition(1500);
-//                leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                leftLift.setPower(1);
-//                rightLift.setPower(1);
-//                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
-//                leftLift.setPower(0);
-//                rightLift.setPower(0);
-//                leftLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//                rightLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//            }
+            if (gamepad2.dpad_left && !gamepad2.dpad_right) {
+                wrist.setPosition(0.43);
+                claw.setPosition(0.51);
+                leftLift.setTargetPosition(0);
+                rightLift.setTargetPosition(0);
+                leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                leftLift.setPower(-1);
+                rightLift.setPower(-1);
+                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
+                leftLift.setPower(0);
+                rightLift.setPower(0);
+                leftLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                rightLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            }
+            if (gamepad2.dpad_right && !gamepad2.dpad_left) {
+                claw.setPosition(1);
+                leftLift.setTargetPosition(1100);
+                rightLift.setTargetPosition(1100);
+                leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                leftLift.setPower(1);
+                rightLift.setPower(1);
+                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
+                leftLift.setPower(0);
+                rightLift.setPower(0);
+                leftLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                rightLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                wrist.setPosition(0.62);
+            }
             double liftPower = gamepad2.right_trigger - gamepad2.left_trigger;
             if (((liftPower > 0) && (leftLift.getCurrentPosition() <= 2000)) || (liftPower < 0)) {
                 if ((liftPower < 0) && (leftLift.getCurrentPosition() < 1000)) {
-                    leftLift.setPower(liftPower * 0.25);
-                    rightLift.setPower(liftPower * 0.25);
+                    leftLift.setPower(liftPower * 0.3);
+                    rightLift.setPower(liftPower * 0.3);
                 } else {
                     leftLift.setPower(liftPower);
                     rightLift.setPower(liftPower);
@@ -161,19 +177,19 @@ public class ArcadeTeleOp extends LinearOpMode {
             }
 
             // pacifier
-            if (gamepad2.dpad_left && !gamepad2.dpad_right) {
-                pacifier.setPosition(0.1);
+//            if (gamepad2.dpad_left && !gamepad2.dpad_right) {
+//                pacifier.setPosition(0.1);
 //                pacifier.setPosition(pacifier.getPosition() - 0.01);
 //                while (gamepad2.dpad_left) { }
-            }
-            if (gamepad2.dpad_right && !gamepad2.dpad_left) {
-                while (pacifier.getPosition() <= 0.75) {
-                    pacifier.setPosition(pacifier.getPosition() + 0.01);
-                    sleep(9);
-                }
+//            }
+//            if (gamepad2.dpad_right && !gamepad2.dpad_left) {
+//                while (pacifier.getPosition() <= 0.75) {
+//                    pacifier.setPosition(pacifier.getPosition() + 0.01);
+//                    sleep(9);
+//                }
 //                pacifier.setPosition(pacifier.getPosition() - 0.01);
 //                while (gamepad2.dpad_right) { }
-            }
+//            }
 
             telemetry.addData("vertical joystick", y);
             telemetry.addData("horizontal joystick", x);
