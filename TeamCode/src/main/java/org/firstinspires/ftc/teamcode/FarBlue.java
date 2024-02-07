@@ -76,7 +76,7 @@ public class FarBlue extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(-37.5, -61, Math.toRadians(0));
+        Pose2d startPose = new Pose2d(-37.5, 61, Math.toRadians(0));
 
         drive.setPoseEstimate(startPose);
 
@@ -87,13 +87,15 @@ public class FarBlue extends LinearOpMode {
 
         // left
         TrajectorySequence spikeMarkLeft = drive.trajectorySequenceBuilder(offset.end())
-                .lineToConstantHeading(new Vector2d(-52, -46))
+                .lineToConstantHeading(new Vector2d(-46, 32))
+                .turn(Math.toRadians(90))
+                .lineToConstantHeading(new Vector2d(-37.75, 28))
                 .build();
         TrajectorySequence backdropLeft = drive.trajectorySequenceBuilder(spikeMarkLeft.end())
-                .lineToConstantHeading(new Vector2d(-52, -52))
-                .turn(Math.toRadians(180))
-                .lineToConstantHeading(new Vector2d(-35,-57))
-                .lineToConstantHeading(new Vector2d(15,-55))
+                .lineToConstantHeading(new Vector2d(-44, 28))
+                .turn(Math.toRadians(-90))
+                .lineToConstantHeading(new Vector2d(-35,57))
+                .lineToConstantHeading(new Vector2d(15,55))
                 .addDisplacementMarker(() -> {
                     leftLift.setTargetPosition(1100);
                     rightLift.setTargetPosition(1100);
@@ -102,8 +104,8 @@ public class FarBlue extends LinearOpMode {
                     leftLift.setPower(1);
                     rightLift.setPower(1);
                 })
-                .lineToConstantHeading(new Vector2d(47, -23))
-                .lineToConstantHeading(new Vector2d(50, -23),
+                .lineToConstantHeading(new Vector2d(47, 33))
+                .lineToConstantHeading(new Vector2d(50, 33),
                         SampleMecanumDrive.getVelocityConstraint(32, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
@@ -182,7 +184,7 @@ public class FarBlue extends LinearOpMode {
         waitForStart();
 
         if (!isStopRequested()) {
-            pacifier.setPosition(0);
+            pacifier.setPosition(0.1);
             wrist.setPosition(0.43);
             claw.setPosition(1);
             spikeMarkPosition = FarBlueVision.getPosition();
@@ -197,22 +199,22 @@ public class FarBlue extends LinearOpMode {
                     sleep(9);
                 }
                 sleep(300);
-                pacifier.setPosition(0);
+                pacifier.setPosition(0.1);
                 sleep(100);
 
-                drive.followTrajectorySequence(backdropLeft);
-                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
-                leftLift.setPower(0);
-                rightLift.setPower(0);
-                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                sleep(200);
-                wrist.setPosition(0.57);
-                sleep(500);
-                claw.setPosition(0.475);
-                sleep(200);
+//                drive.followTrajectorySequence(backdropLeft);
+//                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
+//                leftLift.setPower(0);
+//                rightLift.setPower(0);
+//                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//                sleep(200);
+//                wrist.setPosition(0.57);
+//                sleep(500);
+//                claw.setPosition(0.475);
+//                sleep(200);
 
-                drive.followTrajectorySequence(parkLeft);
+//                drive.followTrajectorySequence(parkLeft);
             } else if (spikeMarkPosition == 2) {
                 drive.followTrajectorySequence(offset);
 
@@ -223,7 +225,7 @@ public class FarBlue extends LinearOpMode {
                     sleep(9);
                 }
                 sleep(300);
-                pacifier.setPosition(0);
+                pacifier.setPosition(0.1);
                 sleep(100);
 
                 drive.followTrajectorySequence(backdropMiddle);
@@ -249,7 +251,7 @@ public class FarBlue extends LinearOpMode {
                     sleep(9);
                 }
                 sleep(300);
-                pacifier.setPosition(0);
+                pacifier.setPosition(0.1);
                 sleep(100);
 
                 drive.followTrajectorySequence(backdropRight1);

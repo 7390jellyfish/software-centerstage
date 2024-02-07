@@ -97,30 +97,11 @@ public class PushBotTeleOp extends LinearOpMode {
 //                rightLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 //            }
 //            double liftPower = gamepad2.right_trigger - gamepad2.left_trigger;
-//            if (((liftPower > 0) && ((leftLift.getCurrentPosition() < 2000) && (rightLift.getCurrentPosition() < 2000))) || (liftPower < 0)) {
-//                leftLift.setPower(liftPower);
-//                rightLift.setPower(liftPower);
-//                if (liftPower > 0) {
-//                    if ((leftLift.getCurrentPosition() - rightLift.getCurrentPosition()) > 25) {
-//                        leftLift.setPower(0);
-//                        rightLift.setPower(liftPower);
-//                    }
-//                    if ((rightLift.getCurrentPosition() - leftLift.getCurrentPosition()) > 25) {
-//                        leftLift.setPower(liftPower);
-//                        rightLift.setPower(0);
-//                    }
-//                }
-//                if (liftPower < 0) {
-//                    if ((leftLift.getCurrentPosition() - rightLift.getCurrentPosition()) > 25) {
-//                        leftLift.setPower(liftPower);
-//                        rightLift.setPower(0);
-//                    }
-//                    if ((rightLift.getCurrentPosition() - leftLift.getCurrentPosition()) > 25) {
-//                        leftLift.setPower(0);
-//                        rightLift.setPower(liftPower);
-//                    }
-//                }
-//                if (leftLift.getCurrentPosition() == rightLift.getCurrentPosition()) {
+//            if (((liftPower > 0) && (leftLift.getCurrentPosition() <= 2000)) || (liftPower < 0)) {
+//                if ((liftPower < 0) && (leftLift.getCurrentPosition() < 1000)) {
+//                    leftLift.setPower(liftPower * 0.25);
+//                    rightLift.setPower(liftPower * 0.25);
+//                } else {
 //                    leftLift.setPower(liftPower);
 //                    rightLift.setPower(liftPower);
 //                }
@@ -136,9 +117,9 @@ public class PushBotTeleOp extends LinearOpMode {
 //            transit.setPower(transitPower * 0.5);
 
             // wrist
-//            if (leftLift.getCurrentPosition() < 750) {
+//            if (rightLift.getCurrentPosition() < 700) {
 //                wrist.setPosition(0.43);
-//            } else if (leftLift.getCurrentPosition() > 750) {
+//            } else if (rightLift.getCurrentPosition() > 700) {
 //                wrist.setPosition(0.62);
 //            }
 //            if (gamepad2.dpad_up && !gamepad2.dpad_down) {
@@ -153,11 +134,11 @@ public class PushBotTeleOp extends LinearOpMode {
 //            }
 
             // claw
-//            if ((liftPower < 0) && (leftLift.getCurrentPosition() < 750) && (leftLift.getCurrentPosition() > 500)) {
+//            if ((liftPower < 0) && (rightLift.getCurrentPosition() < 700) && (rightLift.getCurrentPosition() > 500)) {
 //                claw.setPosition(0.51);
 //            }
 //            if (gamepad2.a && !gamepad2.b) {
-//                claw.setPosition(0.51);
+//                claw.setPosition(0.475);
 //                claw.setPosition(claw.getPosition() - 0.01);
 //                while (gamepad2.a) { }
 //            }
@@ -178,19 +159,19 @@ public class PushBotTeleOp extends LinearOpMode {
             }
 
             // pacifier
-//            if (gamepad2.dpad_left && !gamepad2.dpad_right) {
-//                pacifier.setPosition(0);
-//                pacifier.setPosition(pacifier.getPosition() + 0.01);
+            if (gamepad2.dpad_left && !gamepad2.dpad_right) {
+                pacifier.setPosition(0.1);
+//                pacifier.setPosition(pacifier.getPosition() - 0.01);
 //                while (gamepad2.dpad_left) { }
-//            }
-//            if (gamepad2.dpad_right && !gamepad2.dpad_left) {
-//                while (pacifier.getPosition() <= 0.75) {
-//                    pacifier.setPosition(pacifier.getPosition() - 0.01);
-//                    sleep(9);
-//                }
+            }
+            if (gamepad2.dpad_right && !gamepad2.dpad_left) {
+                while (pacifier.getPosition() <= 0.75) {
+                    pacifier.setPosition(pacifier.getPosition() + 0.01);
+                    sleep(9);
+                }
 //                pacifier.setPosition(pacifier.getPosition() - 0.01);
 //                while (gamepad2.dpad_right) { }
-//            }
+            }
 
             telemetry.addData("vertical joystick", y);
             telemetry.addData("horizontal joystick", x);

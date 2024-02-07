@@ -160,7 +160,7 @@ public class OnePersonTeleOp extends LinearOpMode {
 
             // pacifier
             if (gamepad1.dpad_left && !gamepad1.dpad_right) {
-                pacifier.setPosition(0);
+                pacifier.setPosition(0.1);
 //                pacifier.setPosition(pacifier.getPosition() - 0.01);
 //                while (gamepad1.dpad_left) { }
             }

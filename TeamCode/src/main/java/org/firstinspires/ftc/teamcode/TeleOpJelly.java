@@ -160,7 +160,7 @@ public class TeleOpJelly extends LinearOpMode {
 
             // pacifier
             if (gamepad2.dpad_left && !gamepad2.dpad_right) {
-                pacifier.setPosition(0);
+                pacifier.setPosition(0.1);
 //                pacifier.setPosition(pacifier.getPosition() - 0.01);
 //                while (gamepad2.dpad_left) { }
             }

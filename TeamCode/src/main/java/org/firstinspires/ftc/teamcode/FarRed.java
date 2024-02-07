@@ -147,34 +147,26 @@ public class FarRed extends LinearOpMode {
                 .turn(Math.toRadians(-90))
                 .lineToConstantHeading(new Vector2d(-37.75, -28))
                 .build();
-        TrajectorySequence backdropRight1 = drive.trajectorySequenceBuilder(spikeMarkRight.end())
+        TrajectorySequence backdropRight = drive.trajectorySequenceBuilder(spikeMarkRight.end())
                 .lineToConstantHeading(new Vector2d(-44, -28))
-                .turn(Math.toRadians(180))
-                .lineToConstantHeading(new Vector2d(-63, -35))
-                .addDisplacementMarker(() -> {
-                    pacifier.setPosition(0.75);
-                })
-                .lineToConstantHeading(new Vector2d(-57, -35))
-                .turn(90)
-                .build();
-        TrajectorySequence backdropRight2 = drive.trajectorySequenceBuilder(backdropRight1.end())
+                .turn(Math.toRadians(-90))
                 .lineToConstantHeading(new Vector2d(-35,-57))
                 .lineToConstantHeading(new Vector2d(15,-55))
                 .addDisplacementMarker(() -> {
-                    leftLift.setTargetPosition(1150);
-                    rightLift.setTargetPosition(1150);
+                    leftLift.setTargetPosition(1100);
+                    rightLift.setTargetPosition(1100);
                     leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     leftLift.setPower(1);
                     rightLift.setPower(1);
                 })
-                .lineToConstantHeading(new Vector2d(47, -37))
-                .lineToConstantHeading(new Vector2d(50, -37),
+                .lineToConstantHeading(new Vector2d(47, -33))
+                .lineToConstantHeading(new Vector2d(50, -33),
                         SampleMecanumDrive.getVelocityConstraint(32, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .build();
-        TrajectorySequence parkRight = drive.trajectorySequenceBuilder(backdropRight2.end())
+        TrajectorySequence parkRight = drive.trajectorySequenceBuilder(backdropRight.end())
                 .forward(5)
                 .strafeLeft(22)
                 .build();
@@ -182,7 +174,7 @@ public class FarRed extends LinearOpMode {
         waitForStart();
 
         if (!isStopRequested()) {
-            pacifier.setPosition(0);
+            pacifier.setPosition(0.1);
             wrist.setPosition(0.43);
             claw.setPosition(1);
             spikeMarkPosition = FarRedVision.getPosition();
@@ -197,7 +189,7 @@ public class FarRed extends LinearOpMode {
                     sleep(9);
                 }
                 sleep(300);
-                pacifier.setPosition(0);
+                pacifier.setPosition(0.1);
                 sleep(100);
 
                 drive.followTrajectorySequence(backdropLeft);
@@ -223,7 +215,7 @@ public class FarRed extends LinearOpMode {
                     sleep(9);
                 }
                 sleep(300);
-                pacifier.setPosition(0);
+                pacifier.setPosition(0.1);
                 sleep(100);
 
                 drive.followTrajectorySequence(backdropMiddle);
@@ -249,14 +241,10 @@ public class FarRed extends LinearOpMode {
                     sleep(9);
                 }
                 sleep(300);
-                pacifier.setPosition(0);
+                pacifier.setPosition(0.1);
                 sleep(100);
 
-                drive.followTrajectorySequence(backdropRight1);
-                intake.setPower(0.25);
-                sleep(2000);
-                intake.setPower(0);
-                drive.followTrajectorySequence(backdropRight2);
+                drive.followTrajectorySequence(backdropRight);
                 while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
                 leftLift.setPower(0);
                 rightLift.setPower(0);

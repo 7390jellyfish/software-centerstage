@@ -168,7 +168,7 @@ public class CloseRed extends LinearOpMode {
         waitForStart();
 
         if (!isStopRequested()) {
-            pacifier.setPosition(0);
+            pacifier.setPosition(0.1);
             wrist.setPosition(0.43);
             claw.setPosition(1);
             spikeMarkPosition = CloseRedVision.getPosition();
@@ -183,7 +183,7 @@ public class CloseRed extends LinearOpMode {
                     sleep(9);
                 }
                 sleep(300);
-                pacifier.setPosition(0);
+                pacifier.setPosition(0.1);
                 sleep(100);
 
                 drive.followTrajectorySequence(backdropLeft);
@@ -209,7 +209,7 @@ public class CloseRed extends LinearOpMode {
                     sleep(9);
                 }
                 sleep(300);
-                pacifier.setPosition(0);
+                pacifier.setPosition(0.1);
                 sleep(100);
 
                 drive.followTrajectorySequence(backdropMiddle);
@@ -235,7 +235,7 @@ public class CloseRed extends LinearOpMode {
                     sleep(9);
                 }
                 sleep(300);
-                pacifier.setPosition(0);
+                pacifier.setPosition(0.1);
                 sleep(100);
 
                 drive.followTrajectorySequence(backdropRight);

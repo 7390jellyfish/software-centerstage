@@ -99,8 +99,8 @@ public class CloseBlue extends LinearOpMode {
                     leftLift.setPower(1);
                     rightLift.setPower(1);
                 })
-                .lineToConstantHeading(new Vector2d(50, 42))
-                .lineToConstantHeading(new Vector2d(53, 42),
+                .lineToConstantHeading(new Vector2d(50, 42.5))
+                .lineToConstantHeading(new Vector2d(53, 42.5),
                         SampleMecanumDrive.getVelocityConstraint(32, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
@@ -137,9 +137,9 @@ public class CloseBlue extends LinearOpMode {
 
         // right
         TrajectorySequence spikeMarkRight = drive.trajectorySequenceBuilder(offset.end())
-                .lineToConstantHeading(new Vector2d(12.7, 34))
+                .lineToConstantHeading(new Vector2d(20, 29))
                 .turn(Math.toRadians(-90))
-                .lineToConstantHeading(new Vector2d(10, 34))
+                .lineToConstantHeading(new Vector2d(12.75, 29))
                 .build();
         TrajectorySequence backdropRight = drive.trajectorySequenceBuilder(spikeMarkRight.end())
                 .lineToConstantHeading(new Vector2d(20, 34.5))
@@ -152,21 +152,21 @@ public class CloseBlue extends LinearOpMode {
                     leftLift.setPower(1);
                     rightLift.setPower(1);
                 })
-                .lineToConstantHeading(new Vector2d(53, 26))
-                .lineToConstantHeading(new Vector2d(56, 26),
+                .lineToConstantHeading(new Vector2d(53, 25.5))
+                .lineToConstantHeading(new Vector2d(56, 25.5),
                         SampleMecanumDrive.getVelocityConstraint(32, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .build();
         TrajectorySequence parkRight = drive.trajectorySequenceBuilder(backdropRight.end())
                 .forward(5)
-                .strafeRight(28)
+                .strafeRight(34)
                 .build();
 
         waitForStart();
 
         if (!isStopRequested()) {
-            pacifier.setPosition(0);
+            pacifier.setPosition(0.1);
             wrist.setPosition(0.43);
             claw.setPosition(1);
             spikeMarkPosition = CloseBlueVision.getPosition();
@@ -181,7 +181,7 @@ public class CloseBlue extends LinearOpMode {
                     sleep(9);
                 }
                 sleep(300);
-                pacifier.setPosition(0);
+                pacifier.setPosition(0.1);
                 sleep(100);
 
                 drive.followTrajectorySequence(backdropLeft);
@@ -207,7 +207,7 @@ public class CloseBlue extends LinearOpMode {
                     sleep(9);
                 }
                 sleep(300);
-                pacifier.setPosition(0);
+                pacifier.setPosition(0.1);
                 sleep(100);
 
                 drive.followTrajectorySequence(backdropMiddle);
@@ -233,7 +233,7 @@ public class CloseBlue extends LinearOpMode {
                     sleep(9);
                 }
                 sleep(300);
-                pacifier.setPosition(0);
+                pacifier.setPosition(0.1);
                 sleep(100);
 
                 drive.followTrajectorySequence(backdropRight);
@@ -248,7 +248,21 @@ public class CloseBlue extends LinearOpMode {
                 claw.setPosition(0.475);
                 sleep(200);
 
+                pacifier.setPosition(0.1);
+                wrist.setPosition(0.43);
+                claw.setPosition(0.51);
                 drive.followTrajectorySequence(parkRight);
+                leftLift.setTargetPosition(0);
+                rightLift.setTargetPosition(0);
+                leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                leftLift.setPower(-1);
+                rightLift.setPower(-1);
+                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
+                leftLift.setPower(0);
+                rightLift.setPower(0);
+                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
             camera.closeCameraDevice();
         }
