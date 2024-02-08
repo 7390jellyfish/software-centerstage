@@ -34,7 +34,7 @@ public class FarRedVision extends OpenCvPipeline {
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
 
         // red
-        Scalar rLow = new Scalar(0, 130, 80);
+        Scalar rLow = new Scalar(1, 180, 100);
         Scalar rHigh = new Scalar(30, 260, 180);
 
         Core.inRange(mat, rLow, rHigh, rMat);

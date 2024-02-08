@@ -34,8 +34,8 @@ public class CloseBlueVision extends OpenCvPipeline {
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
 
         // blue
-        Scalar rLow = new Scalar(80, 100, 30);
-        Scalar rHigh = new Scalar(145, 245, 130);
+        Scalar rLow = new Scalar(100, 100, 0);
+        Scalar rHigh = new Scalar(128, 255, 120);
 
         Core.inRange(mat, rLow, rHigh, rMat);
 
