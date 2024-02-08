@@ -83,22 +83,22 @@ public class TeleOpJelly extends LinearOpMode {
             backRightMotor.setPower(backRightPower);
 
             // lift
+            if (gamepad2.dpad_left && !gamepad2.dpad_right) {
+                wrist.setPosition(0.43);
+                claw.setPosition(0.51);
+                leftLift.setTargetPosition(0);
+                rightLift.setTargetPosition(0);
+                leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                leftLift.setPower(-1);
+                rightLift.setPower(-1);
+                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
+                leftLift.setPower(0);
+                rightLift.setPower(0);
+                leftLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                rightLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            }
 //            if (gamepad2.dpad_right && !gamepad2.dpad_left) {
-//                wrist.setPosition(0.43);
-//                claw.setPosition(0.51);
-//                leftLift.setTargetPosition(0);
-//                rightLift.setTargetPosition(0);
-//                leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                leftLift.setPower(-1);
-//                rightLift.setPower(-1);
-//                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
-//                leftLift.setPower(0);
-//                rightLift.setPower(0);
-//                leftLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//                rightLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//            }
-//            if (gamepad2.dpad_left && !gamepad2.dpad_right) {
 //                claw.setPosition(1);
 //                leftLift.setTargetPosition(1100);
 //                rightLift.setTargetPosition(1100);
