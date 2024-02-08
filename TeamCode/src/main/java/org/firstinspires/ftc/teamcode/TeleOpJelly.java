@@ -83,7 +83,7 @@ public class TeleOpJelly extends LinearOpMode {
             backRightMotor.setPower(backRightPower);
 
             // lift
-//            if (gamepad2.dpad_left && !gamepad2.dpad_right) {
+//            if (gamepad2.dpad_right && !gamepad2.dpad_left) {
 //                wrist.setPosition(0.43);
 //                claw.setPosition(0.51);
 //                leftLift.setTargetPosition(0);
@@ -98,7 +98,7 @@ public class TeleOpJelly extends LinearOpMode {
 //                leftLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 //                rightLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 //            }
-//            if (gamepad2.dpad_right && !gamepad2.dpad_left) {
+//            if (gamepad2.dpad_left && !gamepad2.dpad_right) {
 //                claw.setPosition(1);
 //                leftLift.setTargetPosition(1100);
 //                rightLift.setTargetPosition(1100);
@@ -178,19 +178,19 @@ public class TeleOpJelly extends LinearOpMode {
             }
 
             // pacifier
-            if (gamepad2.dpad_left && !gamepad2.dpad_right) {
-                pacifier.setPosition(0.33);
+//            if (gamepad2.dpad_left && !gamepad2.dpad_right) {
+//                pacifier.setPosition(0.33);
 //                pacifier.setPosition(pacifier.getPosition() - 0.01);
 //                while (gamepad2.dpad_left) { }
-            }
-            if (gamepad2.dpad_right && !gamepad2.dpad_left) {
-                while (pacifier.getPosition() < 1) {
-                    pacifier.setPosition(pacifier.getPosition() + 0.01);
-                    sleep(9);
-                }
+//            }
+//            if (gamepad2.dpad_right && !gamepad2.dpad_left) {
+//                while (pacifier.getPosition() < 1) {
+//                    pacifier.setPosition(pacifier.getPosition() + 0.01);
+//                    sleep(9);
+//                }
 //                pacifier.setPosition(pacifier.getPosition() - 0.01);
 //                while (gamepad2.dpad_right) { }
-            }
+//            }
 
             telemetry.addData("vertical joystick", y);
             telemetry.addData("horizontal joystick", x);
