@@ -168,22 +168,22 @@ public class CloseRed extends LinearOpMode {
         waitForStart();
 
         if (!isStopRequested()) {
-            pacifier.setPosition(0.1);
+            pacifier.setPosition(0.33);
             wrist.setPosition(0.43);
             claw.setPosition(1);
             spikeMarkPosition = CloseRedVision.getPosition();
-            spikeMarkPosition = 3;
+            spikeMarkPosition = 1;
             if (spikeMarkPosition == 1) {
                 drive.followTrajectorySequence(offset);
 
                 drive.followTrajectorySequence(spikeMarkLeft);
                 sleep(500);
-                while (pacifier.getPosition() <= 0.75) {
+                while (pacifier.getPosition() < 1) {
                     pacifier.setPosition(pacifier.getPosition() + 0.01);
                     sleep(9);
                 }
                 sleep(300);
-                pacifier.setPosition(0.1);
+                pacifier.setPosition(0.33);
                 sleep(100);
 
                 drive.followTrajectorySequence(backdropLeft);
@@ -194,22 +194,35 @@ public class CloseRed extends LinearOpMode {
                 rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 sleep(200);
                 wrist.setPosition(0.57);
-                sleep(500);
+                sleep(1000);
                 claw.setPosition(0.475);
                 sleep(200);
 
+                wrist.setPosition(0.43);
+                claw.setPosition(0.51);
                 drive.followTrajectorySequence(parkLeft);
+                leftLift.setTargetPosition(0);
+                rightLift.setTargetPosition(0);
+                leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                leftLift.setPower(-1);
+                rightLift.setPower(-1);
+                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
+                leftLift.setPower(0);
+                rightLift.setPower(0);
+                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             } else if (spikeMarkPosition == 2) {
                 drive.followTrajectorySequence(offset);
 
                 drive.followTrajectorySequence(spikeMarkMiddle);
                 sleep(500);
-                while (pacifier.getPosition() <= 0.75) {
+                while (pacifier.getPosition() < 1) {
                     pacifier.setPosition(pacifier.getPosition() + 0.01);
                     sleep(9);
                 }
                 sleep(300);
-                pacifier.setPosition(0.1);
+                pacifier.setPosition(0.33);
                 sleep(100);
 
                 drive.followTrajectorySequence(backdropMiddle);
@@ -220,22 +233,35 @@ public class CloseRed extends LinearOpMode {
                 rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 sleep(200);
                 wrist.setPosition(0.57);
-                sleep(500);
+                sleep(1000);
                 claw.setPosition(0.475);
                 sleep(200);
 
+                wrist.setPosition(0.43);
+                claw.setPosition(0.51);
                 drive.followTrajectorySequence(parkMiddle);
+                leftLift.setTargetPosition(0);
+                rightLift.setTargetPosition(0);
+                leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                leftLift.setPower(-1);
+                rightLift.setPower(-1);
+                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
+                leftLift.setPower(0);
+                rightLift.setPower(0);
+                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             } else {
                 drive.followTrajectorySequence(offset);
 
                 drive.followTrajectorySequence(spikeMarkRight);
                 sleep(500);
-                while (pacifier.getPosition() <= 0.75) {
+                while (pacifier.getPosition() < 1) {
                     pacifier.setPosition(pacifier.getPosition() + 0.01);
                     sleep(9);
                 }
                 sleep(300);
-                pacifier.setPosition(0.1);
+                pacifier.setPosition(0.33);
                 sleep(100);
 
                 drive.followTrajectorySequence(backdropRight);
@@ -246,11 +272,24 @@ public class CloseRed extends LinearOpMode {
                 rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 sleep(200);
                 wrist.setPosition(0.57);
-                sleep(500);
+                sleep(1000);
                 claw.setPosition(0.475);
                 sleep(200);
 
+                wrist.setPosition(0.43);
+                claw.setPosition(0.51);
                 drive.followTrajectorySequence(parkRight);
+                leftLift.setTargetPosition(0);
+                rightLift.setTargetPosition(0);
+                leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                leftLift.setPower(-1);
+                rightLift.setPower(-1);
+                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
+                leftLift.setPower(0);
+                rightLift.setPower(0);
+                leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
             camera.closeCameraDevice();
         }
