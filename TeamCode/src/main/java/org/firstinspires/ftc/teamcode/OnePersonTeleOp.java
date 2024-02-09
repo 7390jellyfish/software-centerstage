@@ -83,36 +83,37 @@ public class OnePersonTeleOp extends LinearOpMode {
             backRightMotor.setPower(backRightPower);
 
             // lift
-//            if (gamepad1.dpad_left && !gamepad1.dpad_right) {
-//                wrist.setPosition(0.43);
-//                claw.setPosition(0.51);
-//                leftLift.setTargetPosition(0);
-//                rightLift.setTargetPosition(0);
-//                leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                leftLift.setPower(-1);
-//                rightLift.setPower(-1);
-//                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
-//                leftLift.setPower(0);
-//                rightLift.setPower(0);
-//                leftLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//                rightLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//            }
-//            if (gamepad1.dpad_right && !gamepad1.dpad_left) {
-//                claw.setPosition(1);
-//                leftLift.setTargetPosition(1100);
-//                rightLift.setTargetPosition(1100);
-//                leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                leftLift.setPower(1);
-//                rightLift.setPower(1);
-//                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
-//                leftLift.setPower(0);
-//                rightLift.setPower(0);
-//                leftLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//                rightLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//                wrist.setPosition(0.62);
-//            }
+            if (gamepad1.dpad_left && !gamepad1.dpad_right) {
+                wrist.setPosition(0.43);
+                claw.setPosition(0.51);
+                leftLift.setTargetPosition(0);
+                rightLift.setTargetPosition(0);
+                leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                leftLift.setPower(-1);
+                rightLift.setPower(-1);
+                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
+                leftLift.setPower(0);
+                rightLift.setPower(0);
+                leftLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                rightLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            }
+            if (gamepad1.dpad_right && !gamepad1.dpad_left) {
+                claw.setPosition(1);
+                leftLift.setTargetPosition(1100);
+                rightLift.setTargetPosition(1100);
+                leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                leftLift.setPower(1);
+                rightLift.setPower(1);
+                while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
+                leftLift.setPower(0);
+                rightLift.setPower(0);
+                leftLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                rightLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                wrist.setPosition(0.62);
+                claw.setPosition(0.475);
+            }
             double liftPower = gamepad1.right_trigger - gamepad1.left_trigger;
             if (rightLift.getCurrentPosition() - leftLift.getCurrentPosition() >= 400) {
                 if (((liftPower > 0) && (rightLift.getCurrentPosition() <= 2000)) || (liftPower < 0)) {
