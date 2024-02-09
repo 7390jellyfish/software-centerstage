@@ -172,7 +172,6 @@ public class CloseRed extends LinearOpMode {
             wrist.setPosition(0.43);
             claw.setPosition(1);
             spikeMarkPosition = CloseRedVision.getPosition();
-            spikeMarkPosition = 1;
             if (spikeMarkPosition == 1) {
                 drive.followTrajectorySequence(offset);
 

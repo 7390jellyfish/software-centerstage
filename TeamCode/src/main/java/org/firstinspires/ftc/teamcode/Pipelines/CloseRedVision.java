@@ -57,9 +57,9 @@ public class CloseRedVision extends OpenCvPipeline {
         double yMiddleValue = Core.sumElems(rMiddle).val[0] / MIDDLE_ROI.area() / 255;
         double yRightValue = Core.sumElems(rRight).val[0] / RIGHT_ROI.area() / 255;
 
-        if ((Math.round(yMiddleValue * 100) > Math.round(yRightValue * 100)) && (Math.round(yMiddleValue * 100) > 5)) {
+        if ((Math.round(yMiddleValue * 100) > Math.round(yRightValue * 100)) && (Math.round(yMiddleValue * 100) > 8)) {
             position = 2;
-        } else if (Math.round(yRightValue * 100) > 5) {
+        } else if (Math.round(yRightValue * 100) > 8) {
             position = 3;
         } else {
             position = 1;

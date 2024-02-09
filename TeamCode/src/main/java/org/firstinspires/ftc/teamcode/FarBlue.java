@@ -180,7 +180,6 @@ public class FarBlue extends LinearOpMode {
             wrist.setPosition(0.43);
             claw.setPosition(1);
             spikeMarkPosition = FarBlueVision.getPosition();
-            spikeMarkPosition = 1;
             if (spikeMarkPosition == 1) {
                 drive.followTrajectorySequence(offset);
 
