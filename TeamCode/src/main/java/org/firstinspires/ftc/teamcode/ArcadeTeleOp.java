@@ -70,8 +70,8 @@ public class ArcadeTeleOp extends LinearOpMode {
         while (opModeIsActive()) {
             // dt
             double y = -gamepad1.left_stick_y;
-            double x = -gamepad1.left_stick_x * 1.1;
-            double rx = -gamepad1.right_stick_x;
+            double x = -gamepad1.right_stick_x * 1.1;
+            double rx = -gamepad1.left_stick_x;
 
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
             double frontLeftPower = (y - x + rx) / denominator;
@@ -116,19 +116,22 @@ public class ArcadeTeleOp extends LinearOpMode {
 //                wrist.setPosition(0.62);
 //            }
             double liftPower = gamepad2.right_trigger - gamepad2.left_trigger;
-            if (((liftPower > 0) && (leftLift.getCurrentPosition() <= 2000)) || (liftPower < 0)) {
+            if (rightLift.getCurrentPosition() - leftLift.getCurrentPosition() >= 400) {
+                if (((liftPower > 0) && (rightLift.getCurrentPosition() <= 2000)) || (liftPower < 0)) {
+                    if ((liftPower < 0) && (rightLift.getCurrentPosition() < 1000)) {
+                        leftLift.setPower(liftPower * 0.4);
+                        rightLift.setPower(liftPower * 0.4);
+                    } else {
+                        leftLift.setPower(liftPower);
+                        rightLift.setPower(liftPower);
+                    }
+                } else {
+                    leftLift.setPower(0);
+                    rightLift.setPower(0);
+                }
+            } else {
                 leftLift.setPower(liftPower);
                 rightLift.setPower(liftPower);
-//                if ((liftPower < 0) && (leftLift.getCurrentPosition() < 1000)) {
-//                    leftLift.setPower(liftPower * 0.3);
-//                    rightLift.setPower(liftPower * 0.3);
-//                } else {
-//                    leftLift.setPower(liftPower);
-//                    rightLift.setPower(liftPower);
-//                }
-            } else {
-                leftLift.setPower(0);
-                rightLift.setPower(0);
             }
 
             // intake
@@ -180,19 +183,19 @@ public class ArcadeTeleOp extends LinearOpMode {
             }
 
             // pacifier
-            if (gamepad2.dpad_left && !gamepad2.dpad_right) {
-                pacifier.setPosition(0.33);
+//            if (gamepad2.dpad_left && !gamepad2.dpad_right) {
+//                pacifier.setPosition(0.33);
 //                pacifier.setPosition(pacifier.getPosition() - 0.01);
 //                while (gamepad2.dpad_left) { }
-            }
-            if (gamepad2.dpad_right && !gamepad2.dpad_left) {
-                while (pacifier.getPosition() < 1) {
-                    pacifier.setPosition(pacifier.getPosition() + 0.01);
-                    sleep(9);
-                }
+//            }
+//            if (gamepad2.dpad_right && !gamepad2.dpad_left) {
+//                while (pacifier.getPosition() < 1) {
+//                    pacifier.setPosition(pacifier.getPosition() + 0.01);
+//                    sleep(9);
+//                }
 //                pacifier.setPosition(pacifier.getPosition() - 0.01);
 //                while (gamepad2.dpad_right) { }
-            }
+//            }
 
             telemetry.addData("vertical joystick", y);
             telemetry.addData("horizontal joystick", x);
