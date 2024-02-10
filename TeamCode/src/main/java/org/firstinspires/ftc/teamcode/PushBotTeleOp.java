@@ -143,6 +143,11 @@ public class PushBotTeleOp extends LinearOpMode {
 //            transit.setPower(transitPower * 0.5);
 
             // wrist
+//            if (rightLift.getCurrentPosition() < 700) {
+//                wrist.setPosition(0.43);
+//            } else {
+//                wrist.setPosition(0.62);
+//            }
 //            if (gamepad2.dpad_up && !gamepad2.dpad_down) {
 //                wrist.setPosition(0.62);
 //                wrist.setPosition(wrist.getPosition() + 0.01);
@@ -155,6 +160,9 @@ public class PushBotTeleOp extends LinearOpMode {
 //            }
 
             // claw
+//            if ((liftPower < 0) && (rightLift.getCurrentPosition() < 700) && (rightLift.getCurrentPosition() > 500)) {
+//                claw.setPosition(0.51);
+//            }
 //            if (gamepad2.a && !gamepad2.b) {
 //                claw.setPosition(0.475);
 //                claw.setPosition(claw.getPosition() - 0.01);
@@ -165,21 +173,6 @@ public class PushBotTeleOp extends LinearOpMode {
 //                deposit = true;
 //                claw.setPosition(claw.getPosition() + 0.01);
 //                while (gamepad2.b) { }
-//            }
-
-            // macros
-//            if (gamepad1.dpad_right) {
-//                macros = !macros;
-//                while (gamepad1.dpad_right) { }
-//            }
-//            if ((wrist.getPosition() > 0.5 && claw.getPosition() < 0.6) && macros) {
-//                wrist.setPosition(0.43);
-//                sleep(1000);
-//                claw.setPosition(0.51);
-//                deposit = false;
-//            }
-//            if ((rightLift.getCurrentPosition() > 500 && deposit) && macros) {
-//                wrist.setPosition(0.62);
 //            }
 
             // drone
