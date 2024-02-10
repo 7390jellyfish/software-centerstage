@@ -71,6 +71,6 @@ public class CloseRedVision extends OpenCvPipeline {
         telemetry.addData("red right percentage", Math.round(yRightValue * 100));
         telemetry.update();
 
-        return mat;
+        return rMat;
     }
 }

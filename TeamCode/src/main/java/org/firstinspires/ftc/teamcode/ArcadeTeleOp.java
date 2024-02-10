@@ -22,6 +22,7 @@ public class ArcadeTeleOp extends LinearOpMode {
     Servo claw = null;
     Servo drone = null;
     Servo pacifier = null;
+    boolean deposit = true;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -70,8 +71,8 @@ public class ArcadeTeleOp extends LinearOpMode {
         while (opModeIsActive()) {
             // dt
             double y = -gamepad1.left_stick_y;
-            double x = -gamepad1.right_stick_x * 1.1;
-            double rx = -gamepad1.left_stick_x;
+            double x = -gamepad1.left_stick_x * 1.1;
+            double rx = -gamepad1.right_stick_x;
 
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
             double frontLeftPower = (y - x + rx) / denominator;
@@ -141,11 +142,6 @@ public class ArcadeTeleOp extends LinearOpMode {
             transit.setPower(transitPower * 0.5);
 
             // wrist
-            if (rightLift.getCurrentPosition() < 700) {
-                wrist.setPosition(0.43);
-            } else if (rightLift.getCurrentPosition() > 700) {
-                wrist.setPosition(0.62);
-            }
             if (gamepad2.dpad_up && !gamepad2.dpad_down) {
                 wrist.setPosition(0.62);
 //                wrist.setPosition(wrist.getPosition() + 0.01);
@@ -158,9 +154,6 @@ public class ArcadeTeleOp extends LinearOpMode {
             }
 
             // claw
-            if ((liftPower < 0) && (rightLift.getCurrentPosition() < 700) && (rightLift.getCurrentPosition() > 500)) {
-                claw.setPosition(0.51);
-            }
             if (gamepad2.a && !gamepad2.b) {
                 claw.setPosition(0.475);
 //                claw.setPosition(claw.getPosition() - 0.01);
@@ -168,8 +161,19 @@ public class ArcadeTeleOp extends LinearOpMode {
             }
             if (gamepad2.b && !gamepad2.a) {
                 claw.setPosition(1);
+                deposit = true;
 //                claw.setPosition(claw.getPosition() + 0.01);
 //                while (gamepad2.b) { }
+            }
+
+            // macros
+            if (wrist.getPosition() > 0.5 && claw.getPosition() < 0.6) {
+                wrist.setPosition(0.43);
+                claw.setPosition(0.51);
+                deposit = false;
+            }
+            if (rightLift.getCurrentPosition() > 700 && deposit) {
+                wrist.setPosition(0.62);
             }
 
             // drone

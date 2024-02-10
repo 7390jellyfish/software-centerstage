@@ -20,6 +20,7 @@ public class TeleOpJelly extends LinearOpMode {
     Servo claw = null;
     Servo drone = null;
     Servo pacifier = null;
+    boolean deposit = true;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -60,6 +61,8 @@ public class TeleOpJelly extends LinearOpMode {
 
         leftLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        wrist.setPosition(0.43);
 
         waitForStart();
 
@@ -139,11 +142,6 @@ public class TeleOpJelly extends LinearOpMode {
             transit.setPower(transitPower * 0.5);
 
             // wrist
-            if (rightLift.getCurrentPosition() < 700) {
-                wrist.setPosition(0.43);
-            } else if (rightLift.getCurrentPosition() > 700) {
-                wrist.setPosition(0.62);
-            }
             if (gamepad2.dpad_up && !gamepad2.dpad_down) {
                 wrist.setPosition(0.62);
 //                wrist.setPosition(wrist.getPosition() + 0.01);
@@ -156,9 +154,6 @@ public class TeleOpJelly extends LinearOpMode {
             }
 
             // claw
-            if ((liftPower < 0) && (rightLift.getCurrentPosition() < 700) && (rightLift.getCurrentPosition() > 500)) {
-                claw.setPosition(0.51);
-            }
             if (gamepad2.a && !gamepad2.b) {
                 claw.setPosition(0.475);
 //                claw.setPosition(claw.getPosition() - 0.01);
@@ -166,8 +161,19 @@ public class TeleOpJelly extends LinearOpMode {
             }
             if (gamepad2.b && !gamepad2.a) {
                 claw.setPosition(1);
+                deposit = true;
 //                claw.setPosition(claw.getPosition() + 0.01);
 //                while (gamepad2.b) { }
+            }
+
+            // macros
+            if (wrist.getPosition() > 0.5 && claw.getPosition() < 0.6) {
+                wrist.setPosition(0.43);
+                claw.setPosition(0.51);
+                deposit = false;
+            }
+            if (rightLift.getCurrentPosition() > 700 && deposit) {
+                wrist.setPosition(0.62);
             }
 
             // drone

@@ -20,12 +20,12 @@ public class CloseBlueVision extends OpenCvPipeline {
     }
 
     static final Rect LEFT_ROI = new Rect(
-            new Point(125, 250),
-            new Point(500, 550));
+            new Point(0, 275),
+            new Point(375, 575));
 
     static final Rect MIDDLE_ROI = new Rect(
-            new Point(700, 250),
-            new Point(1100, 500));
+            new Point(625, 250),
+            new Point(975, 550));
 
     public CloseBlueVision(Telemetry t) {
         telemetry = t;
