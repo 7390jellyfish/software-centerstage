@@ -106,8 +106,9 @@ public class CloseBlue extends LinearOpMode {
                 )
                 .build();
         TrajectorySequence parkLeft = drive.trajectorySequenceBuilder(backdropLeft.end())
-                .forward(5)
-                .strafeRight(22)
+                .lineToConstantHeading(new Vector2d(40, 42.5))
+                .lineToConstantHeading(new Vector2d(40, 60))
+                .lineToConstantHeading(new Vector2d(53, 60))
                 .build();
 
         // middle
@@ -117,8 +118,8 @@ public class CloseBlue extends LinearOpMode {
         TrajectorySequence backdropMiddle = drive.trajectorySequenceBuilder(spikeMarkMiddle.end())
                 .lineToConstantHeading(new Vector2d(26, 36))
                 .addDisplacementMarker(() -> {
-                    leftLift.setTargetPosition(1100);
-                    rightLift.setTargetPosition(1100);
+                    leftLift.setTargetPosition(1050);
+                    rightLift.setTargetPosition(1050);
                     leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     leftLift.setPower(1);
@@ -131,8 +132,9 @@ public class CloseBlue extends LinearOpMode {
                 )
                 .build();
         TrajectorySequence parkMiddle = drive.trajectorySequenceBuilder(backdropMiddle.end())
-                .forward(5)
-                .strafeRight(28)
+                .lineToConstantHeading(new Vector2d(40, 35))
+                .lineToConstantHeading(new Vector2d(40, 60))
+                .lineToConstantHeading(new Vector2d(53, 60))
                 .build();
 
         // right
@@ -159,8 +161,9 @@ public class CloseBlue extends LinearOpMode {
                 )
                 .build();
         TrajectorySequence parkRight = drive.trajectorySequenceBuilder(backdropRight.end())
-                .forward(5)
-                .strafeRight(34)
+                .lineToConstantHeading(new Vector2d(40, 26.5))
+                .lineToConstantHeading(new Vector2d(40, 60))
+                .lineToConstantHeading(new Vector2d(53, 60))
                 .build();
 
         waitForStart();
@@ -197,7 +200,6 @@ public class CloseBlue extends LinearOpMode {
 
                 wrist.setPosition(0.43);
                 claw.setPosition(0.51);
-                drive.followTrajectorySequence(parkLeft);
                 leftLift.setTargetPosition(0);
                 rightLift.setTargetPosition(0);
                 leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -209,6 +211,7 @@ public class CloseBlue extends LinearOpMode {
                 rightLift.setPower(0);
                 leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                drive.followTrajectorySequence(parkLeft);
             } else if (spikeMarkPosition == 2) {
                 drive.followTrajectorySequence(offset);
 
@@ -236,7 +239,6 @@ public class CloseBlue extends LinearOpMode {
 
                 wrist.setPosition(0.43);
                 claw.setPosition(0.51);
-                drive.followTrajectorySequence(parkMiddle);
                 leftLift.setTargetPosition(0);
                 rightLift.setTargetPosition(0);
                 leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -248,6 +250,7 @@ public class CloseBlue extends LinearOpMode {
                 rightLift.setPower(0);
                 leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                drive.followTrajectorySequence(parkMiddle);
             } else {
                 drive.followTrajectorySequence(offset);
 
@@ -275,7 +278,6 @@ public class CloseBlue extends LinearOpMode {
 
                 wrist.setPosition(0.43);
                 claw.setPosition(0.51);
-                drive.followTrajectorySequence(parkRight);
                 leftLift.setTargetPosition(0);
                 rightLift.setTargetPosition(0);
                 leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -287,6 +289,7 @@ public class CloseBlue extends LinearOpMode {
                 rightLift.setPower(0);
                 leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                drive.followTrajectorySequence(parkRight);
             }
             camera.closeCameraDevice();
         }
