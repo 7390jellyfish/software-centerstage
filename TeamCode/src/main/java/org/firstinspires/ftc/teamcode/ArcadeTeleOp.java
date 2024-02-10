@@ -23,6 +23,7 @@ public class ArcadeTeleOp extends LinearOpMode {
     Servo drone = null;
     Servo pacifier = null;
     boolean deposit = true;
+    boolean macros = true;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -64,6 +65,8 @@ public class ArcadeTeleOp extends LinearOpMode {
         leftLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightLift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        wrist.setPosition(0.43);
+
         waitForStart();
 
         if (isStopRequested()) return;
@@ -71,8 +74,8 @@ public class ArcadeTeleOp extends LinearOpMode {
         while (opModeIsActive()) {
             // dt
             double y = -gamepad1.left_stick_y;
-            double x = -gamepad1.left_stick_x * 1.1;
-            double rx = -gamepad1.right_stick_x;
+            double x = -gamepad1.right_stick_x * 1.1;
+            double rx = -gamepad1.left_stick_x;
 
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
             double frontLeftPower = (y - x + rx) / denominator;
@@ -167,12 +170,17 @@ public class ArcadeTeleOp extends LinearOpMode {
             }
 
             // macros
-            if (wrist.getPosition() > 0.5 && claw.getPosition() < 0.6) {
+            if (gamepad1.dpad_right) {
+                macros = !macros;
+                while (gamepad1.dpad_right) { }
+            }
+            if ((wrist.getPosition() > 0.5 && claw.getPosition() < 0.6) && macros) {
                 wrist.setPosition(0.43);
+                sleep(1000);
                 claw.setPosition(0.51);
                 deposit = false;
             }
-            if (rightLift.getCurrentPosition() > 700 && deposit) {
+            if ((rightLift.getCurrentPosition() > 500 && deposit) && macros) {
                 wrist.setPosition(0.62);
             }
 

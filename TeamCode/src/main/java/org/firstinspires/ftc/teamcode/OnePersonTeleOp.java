@@ -21,6 +21,7 @@ public class OnePersonTeleOp extends LinearOpMode {
     Servo drone = null;
     Servo pacifier = null;
     boolean deposit = true;
+    boolean macros = true;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -167,12 +168,17 @@ public class OnePersonTeleOp extends LinearOpMode {
             }
 
             // macros
-            if (wrist.getPosition() > 0.5 && claw.getPosition() < 0.6) {
+            if (gamepad1.dpad_right) {
+                macros = !macros;
+                while (gamepad1.dpad_right) { }
+            }
+            if ((wrist.getPosition() > 0.5 && claw.getPosition() < 0.6) && macros) {
                 wrist.setPosition(0.43);
+                sleep(1000);
                 claw.setPosition(0.51);
                 deposit = false;
             }
-            if (rightLift.getCurrentPosition() > 700 && deposit) {
+            if ((rightLift.getCurrentPosition() > 500 && deposit) && macros) {
                 wrist.setPosition(0.62);
             }
 
