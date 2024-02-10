@@ -95,13 +95,14 @@ public class FarRed extends LinearOpMode {
                 .lineToConstantHeading(new Vector2d(-35,-57))
                 .lineToConstantHeading(new Vector2d(15,-55))
                 .addDisplacementMarker(() -> {
-                    leftLift.setTargetPosition(1100);
-                    rightLift.setTargetPosition(1100);
+                    leftLift.setTargetPosition(1250);
+                    rightLift.setTargetPosition(1250);
                     leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     leftLift.setPower(1);
                     rightLift.setPower(1);
                 })
+                .lineToConstantHeading(new Vector2d(15,-45))
                 .lineToConstantHeading(new Vector2d(47, -21))
                 .lineToConstantHeading(new Vector2d(50, -21),
                         SampleMecanumDrive.getVelocityConstraint(32, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
@@ -131,6 +132,7 @@ public class FarRed extends LinearOpMode {
                     leftLift.setPower(1);
                     rightLift.setPower(1);
                 })
+                .lineToConstantHeading(new Vector2d(15,-45))
                 .lineToConstantHeading(new Vector2d(47, -32))
                 .lineToConstantHeading(new Vector2d(50, -32),
                         SampleMecanumDrive.getVelocityConstraint(32, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
@@ -155,15 +157,16 @@ public class FarRed extends LinearOpMode {
                 .lineToConstantHeading(new Vector2d(-35,-57))
                 .lineToConstantHeading(new Vector2d(15,-55))
                 .addDisplacementMarker(() -> {
-                    leftLift.setTargetPosition(1100);
-                    rightLift.setTargetPosition(1100);
+                    leftLift.setTargetPosition(1250);
+                    rightLift.setTargetPosition(1250);
                     leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     leftLift.setPower(1);
                     rightLift.setPower(1);
                 })
-                .lineToConstantHeading(new Vector2d(47, -33))
-                .lineToConstantHeading(new Vector2d(50, -33),
+                .lineToConstantHeading(new Vector2d(15,-45))
+                .lineToConstantHeading(new Vector2d(47, -32))
+                .lineToConstantHeading(new Vector2d(50, -32),
                         SampleMecanumDrive.getVelocityConstraint(32, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )

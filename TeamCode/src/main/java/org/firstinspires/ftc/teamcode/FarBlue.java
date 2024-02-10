@@ -97,13 +97,14 @@ public class FarBlue extends LinearOpMode {
                 .lineToConstantHeading(new Vector2d(-35,58))
                 .lineToConstantHeading(new Vector2d(15,56))
                 .addDisplacementMarker(() -> {
-                    leftLift.setTargetPosition(1100);
-                    rightLift.setTargetPosition(1100);
+                    leftLift.setTargetPosition(1250);
+                    rightLift.setTargetPosition(1250);
                     leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     leftLift.setPower(1);
                     rightLift.setPower(1);
                 })
+                .lineToConstantHeading(new Vector2d(15,46))
                 .lineToConstantHeading(new Vector2d(52, 43))
                 .lineToConstantHeading(new Vector2d(55, 43),
                         SampleMecanumDrive.getVelocityConstraint(32, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
@@ -122,8 +123,8 @@ public class FarBlue extends LinearOpMode {
                 .build();
         TrajectorySequence backdropMiddle = drive.trajectorySequenceBuilder(spikeMarkMiddle.end())
                 .lineToConstantHeading(new Vector2d(-50, 40))
-                .lineToConstantHeading(new Vector2d(-35,57))
-                .lineToConstantHeading(new Vector2d(15,55))
+                .lineToConstantHeading(new Vector2d(-35,58))
+                .lineToConstantHeading(new Vector2d(15,56))
                 .addDisplacementMarker(() -> {
                     leftLift.setTargetPosition(1050);
                     rightLift.setTargetPosition(1050);
@@ -132,6 +133,7 @@ public class FarBlue extends LinearOpMode {
                     leftLift.setPower(1);
                     rightLift.setPower(1);
                 })
+                .lineToConstantHeading(new Vector2d(15,46))
                 .lineToConstantHeading(new Vector2d(52, 35.5))
                 .lineToConstantHeading(new Vector2d(55, 35.5),
                         SampleMecanumDrive.getVelocityConstraint(32, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
@@ -150,16 +152,17 @@ public class FarBlue extends LinearOpMode {
                 .build();
         TrajectorySequence backdropRight = drive.trajectorySequenceBuilder(spikeMarkRight.end())
                 .lineToConstantHeading(new Vector2d(-52, 52))
-                .lineToConstantHeading(new Vector2d(-35,57))
-                .lineToConstantHeading(new Vector2d(15,55))
+                .lineToConstantHeading(new Vector2d(-35,58))
+                .lineToConstantHeading(new Vector2d(15,56))
                 .addDisplacementMarker(() -> {
-                    leftLift.setTargetPosition(1100);
-                    rightLift.setTargetPosition(1100);
+                    leftLift.setTargetPosition(1250);
+                    rightLift.setTargetPosition(1250);
                     leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     leftLift.setPower(1);
                     rightLift.setPower(1);
                 })
+                .lineToConstantHeading(new Vector2d(15,46))
                 .lineToConstantHeading(new Vector2d(52, 28.5))
                 .lineToConstantHeading(new Vector2d(55, 28.5),
                         SampleMecanumDrive.getVelocityConstraint(32, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
