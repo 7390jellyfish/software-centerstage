@@ -20,11 +20,11 @@ public class CloseRedVision extends OpenCvPipeline {
     }
 
     static final Rect MIDDLE_ROI = new Rect(
-            new Point(400, 225),
-            new Point(700, 500));
+            new Point(400, 325),
+            new Point(700, 550));
 
     static final Rect RIGHT_ROI = new Rect(
-            new Point(1000, 275),
+            new Point(1000, 325),
             new Point(1280, 575));
 
     public CloseRedVision(Telemetry t) {
@@ -34,8 +34,10 @@ public class CloseRedVision extends OpenCvPipeline {
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
 
         // red
-        Scalar rLow = new Scalar(0, 150, 70);
-        Scalar rHigh = new Scalar(60, 290, 210);
+        Scalar rLow = new Scalar(0, 120, 0);
+        Scalar rHigh = new Scalar(16, 255, 255);
+//        Scalar rLow = new Scalar(0, 150, 70);
+//        Scalar rHigh = new Scalar(60, 290, 210);
 
         Core.inRange(mat, rLow, rHigh, rMat);
 
@@ -45,13 +47,13 @@ public class CloseRedVision extends OpenCvPipeline {
         Scalar color = new Scalar(100, 100, 100);
 
         // middle
-        Point point2a = new Point(400, 275);
-        Point point2b = new Point(700, 600);
+        Point point2a = new Point(400, 325);
+        Point point2b = new Point(700, 550);
         Imgproc.rectangle(mat, point2a, point2b, color, 5);
 
         // right
-        Point point3a = new Point(1000, 275);
-        Point point3b = new Point(1280, 600);
+        Point point3a = new Point(1000, 325);
+        Point point3b = new Point(1280, 575);
         Imgproc.rectangle(mat, point3a, point3b, color, 5);
 
         double yMiddleValue = Core.sumElems(rMiddle).val[0] / MIDDLE_ROI.area() / 255;
@@ -71,6 +73,6 @@ public class CloseRedVision extends OpenCvPipeline {
         telemetry.addData("red right percentage", Math.round(yRightValue * 100));
         telemetry.update();
 
-        return rMat;
+        return mat;
     }
 }

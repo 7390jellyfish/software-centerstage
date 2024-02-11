@@ -20,11 +20,11 @@ public class FarBlueVision extends OpenCvPipeline {
     }
 
     static final Rect MIDDLE_ROI = new Rect(
-            new Point(400, 225),
-            new Point(700, 500));
+            new Point(400, 400),
+            new Point(725, 550));
 
     static final Rect RIGHT_ROI = new Rect(
-            new Point(1000, 275),
+            new Point(1000, 400),
             new Point(1280, 575));
 
     public FarBlueVision(Telemetry t) {
@@ -34,8 +34,10 @@ public class FarBlueVision extends OpenCvPipeline {
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
 
         // blue
-        Scalar rLow = new Scalar(100, 100, 0);
-        Scalar rHigh = new Scalar(128, 255, 120);
+        Scalar rLow = new Scalar(58, 68, 0);
+        Scalar rHigh = new Scalar(140, 255, 178);
+//        Scalar rLow = new Scalar(100, 100, 0);
+//        Scalar rHigh = new Scalar(128, 255, 120);
 
         Core.inRange(mat, rLow, rHigh, rMat);
 
@@ -45,13 +47,13 @@ public class FarBlueVision extends OpenCvPipeline {
         Scalar color = new Scalar(100, 100, 100);
 
         // middle
-        Point point2a = new Point(400, 275);
-        Point point2b = new Point(700, 600);
+        Point point2a = new Point(400, 400);
+        Point point2b = new Point(725, 550);
         Imgproc.rectangle(mat, point2a, point2b, color, 5);
 
         // right
-        Point point3a = new Point(1000, 275);
-        Point point3b = new Point(1280, 600);
+        Point point3a = new Point(1000, 400);
+        Point point3b = new Point(1280, 575);
         Imgproc.rectangle(mat, point3a, point3b, color, 5);
 
         double yMiddleValue = Core.sumElems(rMiddle).val[0] / MIDDLE_ROI.area() / 255;
@@ -67,8 +69,8 @@ public class FarBlueVision extends OpenCvPipeline {
 
         telemetry.addLine("ROBOT IS READY");
         telemetry.addData("spike mark", position);
-        telemetry.addData("red middle percentage", Math.round(yMiddleValue * 100));
-        telemetry.addData("red right percentage", Math.round(yRightValue * 100));
+        telemetry.addData("blue middle percentage", Math.round(yMiddleValue * 100));
+        telemetry.addData("blue right percentage", Math.round(yRightValue * 100));
         telemetry.update();
 
         return mat;

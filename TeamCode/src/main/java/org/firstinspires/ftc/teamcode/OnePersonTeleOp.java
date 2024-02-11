@@ -48,6 +48,7 @@ public class OnePersonTeleOp extends LinearOpMode {
         transit.setDirection(DcMotorSimple.Direction.REVERSE);
         wrist.setDirection(Servo.Direction.FORWARD);
         claw.setDirection(Servo.Direction.FORWARD);
+        drone.setDirection(Servo.Direction.FORWARD);
         pacifier.setDirection(Servo.Direction.FORWARD);
 
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -177,11 +178,9 @@ public class OnePersonTeleOp extends LinearOpMode {
 
             // drone
             if (gamepad1.y && !gamepad1.x) {
-                drone.setDirection(Servo.Direction.REVERSE);
-                drone.setPosition(1);
+                drone.setPosition(0);
             }
             if (gamepad1.x && !gamepad1.y) {
-                drone.setDirection(Servo.Direction.FORWARD);
                 drone.setPosition(1);
             }
 

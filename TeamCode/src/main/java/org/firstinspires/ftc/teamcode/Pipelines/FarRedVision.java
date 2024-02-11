@@ -20,11 +20,11 @@ public class FarRedVision extends OpenCvPipeline {
     }
 
     static final Rect LEFT_ROI = new Rect(
-            new Point(0, 275),
+            new Point(0, 350),
             new Point(375, 575));
 
     static final Rect MIDDLE_ROI = new Rect(
-            new Point(625, 250),
+            new Point(625, 300),
             new Point(975, 550));
 
     public FarRedVision(Telemetry t) {
@@ -34,8 +34,10 @@ public class FarRedVision extends OpenCvPipeline {
         Imgproc.cvtColor(input, mat, Imgproc.COLOR_RGB2HSV);
 
         // red
-        Scalar rLow = new Scalar(0, 150, 70);
-        Scalar rHigh = new Scalar(60, 290, 210);
+        Scalar rLow = new Scalar(0, 120, 0);
+        Scalar rHigh = new Scalar(16, 255, 255);
+//        Scalar rLow = new Scalar(0, 150, 70);
+//        Scalar rHigh = new Scalar(60, 290, 210);
 
         Core.inRange(mat, rLow, rHigh, rMat);
 
@@ -45,12 +47,12 @@ public class FarRedVision extends OpenCvPipeline {
         Scalar color = new Scalar(100, 100, 100);
 
         // left
-        Point point2a = new Point(0, 275);
+        Point point2a = new Point(0, 350);
         Point point2b = new Point(375, 575);
         Imgproc.rectangle(mat, point2a, point2b, color, 5);
 
         // middle
-        Point point3a = new Point(625, 250);
+        Point point3a = new Point(625, 300);
         Point point3b = new Point(975, 550);
         Imgproc.rectangle(mat, point3a, point3b, color, 5);
 
@@ -71,6 +73,6 @@ public class FarRedVision extends OpenCvPipeline {
         telemetry.addData("red middle percentage", Math.round(yMiddleValue * 100));
         telemetry.update();
 
-        return rMat;
+        return mat;
     }
 }

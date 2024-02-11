@@ -50,6 +50,7 @@ public class ArcadeTeleOp extends LinearOpMode {
         transit.setDirection(DcMotorSimple.Direction.REVERSE);
         wrist.setDirection(Servo.Direction.FORWARD);
         claw.setDirection(Servo.Direction.FORWARD);
+        drone.setDirection(Servo.Direction.FORWARD);
         pacifier.setDirection(Servo.Direction.FORWARD);
 
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -179,11 +180,9 @@ public class ArcadeTeleOp extends LinearOpMode {
 
             // drone
             if (gamepad2.y && !gamepad2.x) {
-                drone.setDirection(Servo.Direction.REVERSE);
-                drone.setPosition(1);
+                drone.setPosition(0);
             }
             if (gamepad2.x && !gamepad2.y) {
-                drone.setDirection(Servo.Direction.FORWARD);
                 drone.setPosition(1);
             }
 

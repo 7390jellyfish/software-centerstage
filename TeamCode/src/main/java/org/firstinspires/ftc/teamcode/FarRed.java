@@ -103,16 +103,19 @@ public class FarRed extends LinearOpMode {
                     rightLift.setPower(1);
                 })
                 .lineToConstantHeading(new Vector2d(15,-45))
-                .lineToConstantHeading(new Vector2d(47, -21))
-                .lineToConstantHeading(new Vector2d(50, -21),
+                .lineToConstantHeading(new Vector2d(47, -21.5))
+                .lineToConstantHeading(new Vector2d(50, -21.5),
                         SampleMecanumDrive.getVelocityConstraint(32, DriveConstants.MAX_ANG_VEL, DriveConstants.TRACK_WIDTH),
                         SampleMecanumDrive.getAccelerationConstraint(DriveConstants.MAX_ACCEL)
                 )
                 .build();
         TrajectorySequence parkLeft = drive.trajectorySequenceBuilder(backdropLeft.end())
                 .lineToConstantHeading(new Vector2d(40, -21))
-                .lineToConstantHeading(new Vector2d(40, 0))
-                .lineToConstantHeading(new Vector2d(55, 0))
+                .lineToConstantHeading(new Vector2d(40, -58))
+                .lineToConstantHeading(new Vector2d(53, -58))
+//                .lineToConstantHeading(new Vector2d(40, -21))
+//                .lineToConstantHeading(new Vector2d(40, 0))
+//                .lineToConstantHeading(new Vector2d(55, 0))
                 .build();
 
         // middle
@@ -141,8 +144,11 @@ public class FarRed extends LinearOpMode {
                 .build();
         TrajectorySequence parkMiddle = drive.trajectorySequenceBuilder(backdropMiddle.end())
                 .lineToConstantHeading(new Vector2d(40, -32))
-                .lineToConstantHeading(new Vector2d(40, 0))
-                .lineToConstantHeading(new Vector2d(55, 0))
+                .lineToConstantHeading(new Vector2d(40, -58))
+                .lineToConstantHeading(new Vector2d(53, -58))
+//                .lineToConstantHeading(new Vector2d(40, -32))
+//                .lineToConstantHeading(new Vector2d(40, 0))
+//                .lineToConstantHeading(new Vector2d(55, 0))
                 .build();
 
         // right
@@ -172,9 +178,12 @@ public class FarRed extends LinearOpMode {
                 )
                 .build();
         TrajectorySequence parkRight = drive.trajectorySequenceBuilder(backdropRight.end())
-                .lineToConstantHeading(new Vector2d(40, -33))
-                .lineToConstantHeading(new Vector2d(40, 0))
-                .lineToConstantHeading(new Vector2d(55, 0))
+                .lineToConstantHeading(new Vector2d(40, -32))
+                .lineToConstantHeading(new Vector2d(40, -58))
+                .lineToConstantHeading(new Vector2d(53, -58))
+//                .lineToConstantHeading(new Vector2d(40, -32))
+//                .lineToConstantHeading(new Vector2d(40, 0))
+//                .lineToConstantHeading(new Vector2d(55, 0))
                 .build();
 
         waitForStart();
@@ -196,6 +205,7 @@ public class FarRed extends LinearOpMode {
                 sleep(300);
                 pacifier.setPosition(0.33);
                 sleep(100);
+                sleep(5000);
 
                 drive.followTrajectorySequence(backdropLeft);
                 while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
@@ -207,7 +217,7 @@ public class FarRed extends LinearOpMode {
                 wrist.setPosition(0.57);
                 sleep(1000);
                 claw.setPosition(0.475);
-                sleep(200);
+                sleep(800);
 
                 wrist.setPosition(0.43);
                 claw.setPosition(0.51);
@@ -235,6 +245,7 @@ public class FarRed extends LinearOpMode {
                 sleep(300);
                 pacifier.setPosition(0.33);
                 sleep(100);
+                sleep(5000);
 
                 drive.followTrajectorySequence(backdropMiddle);
                 while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
@@ -246,7 +257,7 @@ public class FarRed extends LinearOpMode {
                 wrist.setPosition(0.57);
                 sleep(1000);
                 claw.setPosition(0.475);
-                sleep(200);
+                sleep(800);
 
                 wrist.setPosition(0.43);
                 claw.setPosition(0.51);
@@ -274,6 +285,7 @@ public class FarRed extends LinearOpMode {
                 sleep(300);
                 pacifier.setPosition(0.33);
                 sleep(100);
+                sleep(5000);
 
                 drive.followTrajectorySequence(backdropRight);
                 while (opModeIsActive() && (leftLift.isBusy() || rightLift.isBusy())) { }
@@ -285,7 +297,7 @@ public class FarRed extends LinearOpMode {
                 wrist.setPosition(0.57);
                 sleep(1000);
                 claw.setPosition(0.475);
-                sleep(200);
+                sleep(800);
 
                 wrist.setPosition(0.43);
                 claw.setPosition(0.51);

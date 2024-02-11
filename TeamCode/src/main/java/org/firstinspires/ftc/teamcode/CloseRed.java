@@ -198,7 +198,7 @@ public class CloseRed extends LinearOpMode {
                 wrist.setPosition(0.57);
                 sleep(1000);
                 claw.setPosition(0.475);
-                sleep(200);
+                sleep(800);
 
                 wrist.setPosition(0.43);
                 claw.setPosition(0.51);
@@ -237,7 +237,7 @@ public class CloseRed extends LinearOpMode {
                 wrist.setPosition(0.57);
                 sleep(1000);
                 claw.setPosition(0.475);
-                sleep(200);
+                sleep(800);
 
                 wrist.setPosition(0.43);
                 claw.setPosition(0.51);
@@ -276,7 +276,7 @@ public class CloseRed extends LinearOpMode {
                 wrist.setPosition(0.57);
                 sleep(1000);
                 claw.setPosition(0.475);
-                sleep(200);
+                sleep(800);
 
                 wrist.setPosition(0.43);
                 claw.setPosition(0.51);
